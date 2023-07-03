@@ -1,8 +1,12 @@
 <template>
   <div class="table-box">
+    <AutoResolve />
     <ProTable
       ref="proTable"
       title="用户列表"
+      ifIndex
+      ifRadio
+      ifSelect
       :columns="columns"
       :request-api="getTableList"
       :init-param="initParam"
@@ -14,14 +18,29 @@
         <el-button type="primary" :icon="Upload" plain @click="batchAdd" v-auth="'batchAdd'">批量添加用户</el-button>
         <el-button type="primary" :icon="Download" plain @click="downloadFile" v-auth="'export'">导出用户数据</el-button>
         <el-button type="primary" plain @click="toDetail">To 子集详情页面</el-button>
-        <el-button type="danger" :icon="Delete" plain @click="batchDelete(scope.selectedListIds)" :disabled="!scope.isSelected">
+        <el-button type="danger" :icon="Delete" plain @click="batchDelete(scope.selectedIds)" :disabled="!scope.isSelected">
           批量删除用户
+        </el-button>
+        <el-button type="danger" :icon="Delete" plain @click="batchDelete1(scope.selectedRows)" :disabled="!scope.isSelected">
+          单选删除用户
+        </el-button>
+        <el-button type="danger" :icon="Delete" plain @click="batchDelete2(scope.selectedIds)" :disabled="!scope.isRadioSelected">
+          单选删除id
+        </el-button>
+        <el-button
+          type="danger"
+          :icon="Delete"
+          plain
+          @click="batchDelete3(scope.selectedRows)"
+          :disabled="!scope.isRadioSelected"
+        >
+          单选所有数据
         </el-button>
       </template>
       <!-- Expand -->
       <template #expand="scope">
         <!--{{ scope.row }}-->
-        <el-input v-model="scope.row.username" placeholder="placeholder"></el-input>
+        <el-input v-model="scope.row.username" placeholder="placeholder" />
       </template>
       <!-- usernameHeader -->
       <template #usernameHeader="scope">
@@ -49,17 +68,11 @@
 </template>
 
 <script setup lang="tsx" name="useProTable">
-import { ref, reactive } from "vue";
-import { useRouter } from "vue-router";
 import { User } from "@/api/interface";
-import { ColumnProps } from "@/components/ProTable/interface";
 import { useHandleData } from "@/hooks/useHandleData";
 import { useDownload } from "@/hooks/useDownload";
 import { useAuthButtons } from "@/hooks/useAuthButtons";
 import { ElMessage, ElMessageBox } from "element-plus";
-import ProTable from "@/components/ProTable/index.vue";
-import ImportExcel from "@/components/ImportExcel/index.vue";
-import UserDrawer from "@/views/proTable/components/UserDrawer.vue";
 import { CirclePlus, Delete, EditPen, Download, Upload, View, Refresh } from "@element-plus/icons-vue";
 import {
   getUserList,
@@ -125,8 +138,8 @@ const headerRender = (row: ColumnProps) => {
 
 // 表格配置项
 const columns: ColumnProps<User.ResUserList>[] = [
-  { type: "selection", fixed: "left", width: 80 },
-  { type: "index", label: "#", width: 80 },
+  /*{ type: "selection", fixed: "left", width: 80 },
+  { type: "index", label: "序号", width: 80 },*/
   { type: "expand", label: "Expand", width: 100 },
   {
     prop: "username",
@@ -207,6 +220,16 @@ const batchDelete = async (id: string[]) => {
   await useHandleData(deleteUser, { id }, "删除所选用户信息");
   proTable.value.clearSelection();
   proTable.value.getTableList();
+};
+
+const batchDelete1 = async (list: string[]) => {
+  console.log(JSON.parse(JSON.stringify(list)), "3232");
+};
+const batchDelete2 = async (list: string[]) => {
+  console.log(JSON.parse(JSON.stringify(list)), "111");
+};
+const batchDelete3 = async (list: string[]) => {
+  console.log(JSON.parse(JSON.stringify(list)), "222");
 };
 
 // 重置用户密码

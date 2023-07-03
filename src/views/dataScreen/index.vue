@@ -139,8 +139,8 @@ onMounted(() => {
   // 初始化时为外层盒子加上缩放属性，防止刷新界面时就已经缩放
   if (dataScreenRef.value) {
     dataScreenRef.value.style.transform = `scale(${getScale()}) translate(-50%, -50%)`;
-    dataScreenRef.value.style.width = `1920px`;
-    dataScreenRef.value.style.height = `1080px`;
+    dataScreenRef.value.style.width = "1920px";
+    dataScreenRef.value.style.height = "1080px";
   }
   // 初始化 echarts
   initCharts();

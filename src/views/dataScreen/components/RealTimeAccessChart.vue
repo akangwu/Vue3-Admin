@@ -9,7 +9,7 @@
       <div class="actual-item">人</div>
     </div>
   </div>
-  <div class="echarts" id="RealTimeAccessChart"></div>
+  <div class="echarts" id="RealTimeAccessChart" />
 </template>
 
 <script setup lang="ts">

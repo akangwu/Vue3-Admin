@@ -1,6 +1,6 @@
 <template>
   <div :style="style" v-show="isShow">
-    <slot></slot>
+    <slot />
   </div>
 </template>
 <script setup lang="ts" name="GridItem">

@@ -1,5 +1,5 @@
 <template>
-  <div ref="echartsRef" class="card content-box"></div>
+  <div ref="echartsRef" class="card content-box" />
 </template>
 
 <script setup lang="ts" name="pieChart">

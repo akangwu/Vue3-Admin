@@ -103,13 +103,13 @@
             </UploadImgs>
           </el-form-item>
           <el-form-item label="用户姓名" prop="username">
-            <el-input v-model="fromModel.username" placeholder="请填写用户姓名" clearable></el-input>
+            <el-input v-model="fromModel.username" placeholder="请填写用户姓名" clearable />
           </el-form-item>
           <el-form-item label="身份证号" prop="idCard">
-            <el-input v-model="fromModel.idCard" placeholder="请填写身份证号" clearable></el-input>
+            <el-input v-model="fromModel.idCard" placeholder="请填写身份证号" clearable />
           </el-form-item>
           <el-form-item label="邮箱" prop="email">
-            <el-input v-model="fromModel.email" placeholder="请填写邮箱" clearable></el-input>
+            <el-input v-model="fromModel.email" placeholder="请填写邮箱" clearable />
           </el-form-item>
           <el-form-item>
             <el-button> 取消 </el-button>
@@ -145,13 +145,13 @@
             </UploadImgs>
           </el-form-item>
           <el-form-item label="用户姓名" prop="username">
-            <el-input v-model="fromModel1.username" placeholder="请填写用户姓名" clearable></el-input>
+            <el-input v-model="fromModel1.username" placeholder="请填写用户姓名" clearable />
           </el-form-item>
           <el-form-item label="身份证号" prop="idCard">
-            <el-input v-model="fromModel1.idCard" placeholder="请填写身份证号" clearable></el-input>
+            <el-input v-model="fromModel1.idCard" placeholder="请填写身份证号" clearable />
           </el-form-item>
           <el-form-item label="邮箱" prop="email">
-            <el-input v-model="fromModel1.email" placeholder="请填写邮箱" clearable></el-input>
+            <el-input v-model="fromModel1.email" placeholder="请填写邮箱" clearable />
           </el-form-item>
           <el-form-item>
             <el-button> 取消 </el-button>

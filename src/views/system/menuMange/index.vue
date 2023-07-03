@@ -16,7 +16,7 @@
       <!-- 菜单图标 -->
       <template #icon="scope">
         <el-icon :size="18">
-          <component :is="scope.row.meta.icon"></component>
+          <component :is="scope.row.meta.icon" />
         </el-icon>
       </template>
       <!-- 菜单操作 -->

@@ -5,7 +5,7 @@
     <span>景区</span>
     <span>预约数量</span>
   </div>
-  <div class="echarts" id="HotPlateChart"></div>
+  <div class="echarts" id="HotPlateChart" />
 </template>
 
 <script setup lang="ts">

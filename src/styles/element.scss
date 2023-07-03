@@ -133,19 +133,23 @@
     table {
       width: 100%;
     }
-    .el-table__header th {
-      height: 45px;
+    th {
+      height: 30px;
       font-size: 15px;
       font-weight: bold;
+      padding: 0;
       color: var(--el-text-color-primary);
       background: var(--el-fill-color-light);
     }
-    .el-table__row {
-      height: 45px;
-      font-size: 14px;
-      .el-table__placeholder {
-        display: inline;
-      }
+    th > .cell {
+      font-weight: normal;
+      height: 36px;
+      line-height: 36px;
+    }
+    td {
+      padding: 0 !important;
+      height: 36px;
+      line-height: 36px;
     }
 
     // 设置 el-table 中 header 文字不换行，并省略

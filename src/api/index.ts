@@ -36,10 +36,18 @@ class RequestHttp {
       (config: CustomAxiosRequestConfig) => {
         const userStore = useUserStore();
         // 当前请求不需要显示 loading，在 api 服务中通过指定的第三个参数: { noLoading: true } 来控制
+        /*if (config.isLogin) {
+          config.headers["Content-Type"] = "application/x-www-form-urlencoded";
+          console.log(config, "config");
+          config.data = qs.stringify(config.data, { allowDots: true });
+          console.log(config.data);
+          config.headers["Authorization"] = "Basic ZWRvYzplZG9j"; // 让每个请求携带自定义token 请根据实际情况自行修改
+        }*/
         config.noLoading || showFullScreenLoading();
         if (config.headers && typeof config.headers.set === "function") {
           config.headers.set("x-access-token", userStore.token);
         }
+        config.headers["Accept"] = "*/*";
         return config;
       },
       (error: AxiosError) => {

@@ -6,6 +6,10 @@ import { createVitePlugins } from "./build/plugins";
 import pkg from "./package.json";
 import dayjs from "dayjs";
 
+import AutoImport from "unplugin-auto-import/vite";
+import Components from "unplugin-vue-components/vite";
+import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
+
 const { dependencies, devDependencies, name, version } = pkg;
 const __APP_INFO__ = {
   pkg: { dependencies, devDependencies, name, version },
@@ -45,7 +49,18 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       // Load proxy configuration from .env.development
       proxy: createProxy(viteEnv.VITE_PROXY)
     },
-    plugins: createVitePlugins(viteEnv),
+    plugins: [
+      createVitePlugins(viteEnv),
+      AutoImport({
+        imports: ["vue", "vue-router"],
+        resolvers: [ElementPlusResolver()],
+        dts: "src/auto-import.d.ts" // 路径下自动生成文件夹存放全局指令
+      }),
+      Components({
+        dirs: ["src"], // 配置需要默认导入的自定义组件文件夹，该文件夹下的所有组件都会自动 import
+        resolvers: [ElementPlusResolver({ importStyle: false, resolveIcons: true })]
+      })
+    ],
     esbuild: {
       pure: viteEnv.VITE_DROP_CONSOLE ? ["console.log", "debugger"] : []
     },

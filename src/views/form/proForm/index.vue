@@ -12,7 +12,7 @@
         </component>
       </template>
       <el-form-item>
-        <slot name="operation"></slot>
+        <slot name="operation" />
       </el-form-item>
     </component>
   </div>

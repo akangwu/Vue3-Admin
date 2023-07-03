@@ -1,6 +1,6 @@
 <template>
   <!-- 平台来源 -->
-  <div class="echarts" id="PlatformSourceChart"></div>
+  <div class="echarts" id="PlatformSourceChart" />
 </template>
 
 <script setup lang="ts">

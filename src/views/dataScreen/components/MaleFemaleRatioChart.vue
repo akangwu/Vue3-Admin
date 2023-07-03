@@ -12,7 +12,7 @@
       </div>
     </div>
     <!-- echarts -->
-    <div class="echarts" id="MaleFemaleRatioChart"></div>
+    <div class="echarts" id="MaleFemaleRatioChart" />
   </div>
 </template>
 

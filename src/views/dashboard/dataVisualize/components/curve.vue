@@ -1,6 +1,6 @@
 <template>
   <!-- 数据来源 -->
-  <div class="echarts" ref="echartsRef"></div>
+  <div class="echarts" ref="echartsRef" />
 </template>
 <script setup lang="ts" name="cure">
 import { ref } from "vue";

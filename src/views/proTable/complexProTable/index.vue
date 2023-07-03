@@ -16,7 +16,7 @@
       <template #tableHeader="scope">
         <el-button type="primary" :icon="CirclePlus" @click="proTable.element.toggleAllSelection()">全选 / 全不选</el-button>
         <el-button type="primary" :icon="Pointer" plain @click="setCurrent">选中第五行</el-button>
-        <el-button type="danger" :icon="Delete" plain @click="batchDelete(scope.selectedListIds)" :disabled="!scope.isSelected">
+        <el-button type="danger" :icon="Delete" plain @click="batchDelete(scope.selectedIds)" :disabled="!scope.isSelected">
           批量删除用户
         </el-button>
       </template>

@@ -1,6 +1,6 @@
 <template>
   <div class="menu-search-dialog">
-    <i @click="handleOpen" :class="'iconfont icon-sousuo'" class="toolBar-icon"></i>
+    <i @click="handleOpen" :class="'iconfont icon-sousuo'" class="toolBar-icon" />
     <el-dialog v-model="isShowSearch" destroy-on-close :modal="false" :show-close="false" fullscreen @click="closeSearch">
       <el-autocomplete
         v-model="searchMenu"
@@ -18,7 +18,7 @@
         </template>
         <template #default="{ item }">
           <el-icon>
-            <component :is="item.meta.icon"></component>
+            <component :is="item.meta.icon" />
           </el-icon>
           <span> {{ item.meta.title }} </span>
         </template>

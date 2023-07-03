@@ -16,7 +16,7 @@
     <!-- 表格头部 操作按钮 -->
     <div class="table-header">
       <div class="header-button-lf">
-        <slot name="tableHeader" :selectedListIds="selectedListIds" :selectedList="selectedList" :isSelected="isSelected" />
+        <slot name="tableHeader" :selectedIds="selectedIds" :selectedRows="selectedRows" :isSelected="isSelected" />
       </div>
       <div class="header-button-ri" v-if="toolButton">
         <slot name="toolButton">
@@ -34,34 +34,42 @@
       :data="tableData"
       :border="border"
       :row-key="rowKey"
+      stripe
       @selection-change="selectionChange"
     >
       <!-- 默认插槽 -->
-      <slot></slot>
+      <slot />
+      <!--序号-->
+      <el-table-column align="center" v-if="ifIndex" label="序号" width="100">
+        <template #default="scope">
+          {{ scope.$index + 1 }}
+        </template>
+      </el-table-column>
+      <!--多选-->
+      <el-table-column align="center" type="selection" v-if="ifSelect" />
+      <!--单选-->
+      <el-table-column label="" align="center" width="50" v-if="ifRadio" fixed="left">
+        <template #default="scope">
+          <el-radio label="" v-model="templateRadio" @change="getCurrentRow(scope.row)"> </el-radio>
+        </template>
+      </el-table-column>
+
       <template v-for="item in tableColumns" :key="item">
-        <!-- selection || index -->
-        <el-table-column
-          v-bind="item"
-          :align="item.align ?? 'center'"
-          :reserve-selection="item.type == 'selection'"
-          v-if="item.type == 'selection' || item.type == 'index'"
-        >
-        </el-table-column>
         <!-- expand 支持 tsx 语法 && 作用域插槽 (tsx > slot) -->
         <el-table-column v-bind="item" :align="item.align ?? 'center'" v-if="item.type == 'expand'" v-slot="scope">
-          <component :is="item.render" v-bind="scope" v-if="item.render"> </component>
-          <slot :name="item.type" v-bind="scope" v-else></slot>
+          <component :is="item.render" v-bind="scope" v-if="item.render" />
+          <slot :name="item.type" v-bind="scope" v-else />
         </el-table-column>
         <!-- other 循环递归 -->
         <TableColumn v-if="!item.type && item.prop && item.isShow" :column="item">
           <template v-for="slot in Object.keys($slots)" #[slot]="scope">
-            <slot :name="slot" v-bind="scope"></slot>
+            <slot :name="slot" v-bind="scope" />
           </template>
         </TableColumn>
       </template>
       <!-- 插入表格最后一行之后的插槽 -->
       <template #append>
-        <slot name="append"> </slot>
+        <slot name="append" />
       </template>
       <!-- 表格无数据情况 -->
       <template #empty>
@@ -103,6 +111,9 @@ import TableColumn from "./components/TableColumn.vue";
 import printJS from "print-js";
 
 interface ProTableProps extends Partial<Omit<TableProps<any>, "data">> {
+  ifIndex?: boolean; // 是否显示序号列 ==> 非必传（默认为false）
+  ifSelect?: boolean; // 是否显示多选框 ==> 非必传（默认为false）
+  ifRadio?: boolean; // 是否显示单选框 ==> 非必传（默认为false）
   columns: ColumnProps[]; // 列配置项
   requestApi: (params: any) => Promise<any> | any; // 请求表格数据的 api ==> 非必传
   requestAuto?: boolean; // 是否自动执行请求 api ==> 非必传（默认为true）
@@ -120,6 +131,9 @@ interface ProTableProps extends Partial<Omit<TableProps<any>, "data">> {
 // 接受父组件参数，配置默认值
 const props = withDefaults(defineProps<ProTableProps>(), {
   requestAuto: true,
+  ifIndex: false,
+  ifSelect: false,
+  ifRadio: false,
   columns: () => [],
   pagination: true,
   initParam: {},
@@ -132,11 +146,14 @@ const props = withDefaults(defineProps<ProTableProps>(), {
 // 是否显示搜索模块
 const isShowSearch = ref(true);
 
+// 单选
+const templateRadio = ref(false);
+
 // 表格 DOM 元素
 const tableRef = ref<InstanceType<typeof ElTable>>();
 
 // 表格多选 Hooks
-const { selectionChange, selectedList, selectedListIds, isSelected } = useSelection(props.rowKey);
+const { selectionChange, selectedRows, selectedIds, isSelected } = useSelection(props.rowKey);
 
 // 表格操作 Hooks
 const { tableData, pageable, searchParam, searchInitParam, getTableList, search, reset, handleSizeChange, handleCurrentChange } =
@@ -197,6 +214,13 @@ searchColumns.forEach((column, index) => {
   }
 });
 
+const getCurrentRow = row => {
+  console.log(JSON.parse(JSON.stringify(row)), "1111");
+  //单选事件
+  //this.selectionData = [row.row];
+  this.$emit("singleSelect", row.row, row.$index);
+};
+
 // 排序搜索表单项
 searchColumns.sort((a, b) => a.search!.order! - b.search!.order!);
 
@@ -210,7 +234,7 @@ const openColSetting = () => colRef.value.openColSetting();
 // 🙅‍♀️ 不需要打印可以把以下方法删除，打印功能目前存在很多 bug（目前数据处理比较复杂 209-246 行）
 // 处理打印数据（把后台返回的值根据 enum 做转换）
 const printData = computed(() => {
-  const printDataList = JSON.parse(JSON.stringify(selectedList.value.length ? selectedList.value : tableData.value));
+  const printDataList = JSON.parse(JSON.stringify(selectedRows.value.length ? selectedRows.value : tableData.value));
   // 找出需要转换数据的列（有 enum || 多级 prop && 需要根据 enum 格式化）
   const needTransformCol = flatColumns.value!.filter(
     item => (item.enum || (item.prop && item.prop.split(".").length > 1)) && item.isFilterEnum
@@ -257,7 +281,14 @@ defineExpose({
   clearSelection,
   enumMap,
   isSelected,
-  selectedList,
-  selectedListIds
+  selectedRows,
+  selectedIds
 });
 </script>
+<style lang="scss" scoped>
+:deep(.el-table) {
+  .el-radio__label {
+    padding: 0;
+  }
+}
+</style>

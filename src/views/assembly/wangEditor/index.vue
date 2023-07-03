@@ -19,7 +19,7 @@
       <el-descriptions-item label="disabled"> 禁用富文本编辑器，默认为 false </el-descriptions-item>
     </el-descriptions>
     <el-dialog v-model="dialogVisible" title="富文本内容预览" width="1300px" top="50px">
-      <div class="view" v-html="content"></div>
+      <div class="view" v-html="content" />
     </el-dialog>
   </div>
 </template>
