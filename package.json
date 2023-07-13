@@ -60,6 +60,7 @@
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
+    "@arco-design/web-vue": "^2.48.0",
     "@commitlint/cli": "^17.4.4",
     "@commitlint/config-conventional": "^17.4.4",
     "@types/js-md5": "^0.7.0",

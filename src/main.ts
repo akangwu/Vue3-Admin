@@ -22,6 +22,10 @@ import "virtual:svg-icons-register";
 import ElementPlus from "element-plus";
 // element icons
 import * as Icons from "@element-plus/icons-vue";
+
+import ArcoVue from "@arco-design/web-vue";
+import "@arco-design/web-vue/dist/arco.css";
+
 // custom directives
 import directives from "@/directives/index";
 // vue Router
@@ -42,4 +46,4 @@ Object.keys(Icons).forEach(key => {
   app.component(key, Icons[key as keyof typeof Icons]);
 });
 
-app.use(ElementPlus).use(directives).use(router).use(I18n).use(pinia).mount("#app");
+app.use(ElementPlus).use(ArcoVue).use(directives).use(router).use(I18n).use(pinia).mount("#app");
