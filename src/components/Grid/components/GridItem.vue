@@ -50,9 +50,9 @@ const cols = inject<Ref<number>>("cols", ref(4));
 const style = computed(() => {
   let span = props[breakPoint.value]?.span ?? props.span;
   let offset = props[breakPoint.value]?.offset ?? props.offset;
-  if (props.suffix) { //查询/重置的样式
+  if (props.suffix) {
     return {
-      gridColumnStart: cols.value - span - offset + 2, // +1(展示两个搜索栏) +2(+2展示三个搜索栏)
+      gridColumnStart: cols.value - span - offset + 1,
       gridColumnEnd: `span ${span + offset}`,
       marginLeft: offset !== 0 ? `calc(((100% + ${gap}px) / ${span + offset}) * ${offset})` : "unset"
     };
