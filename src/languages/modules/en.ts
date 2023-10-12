@@ -6,6 +6,8 @@ export default {
     more: "More",
     refresh: "Refresh",
     maximize: "Maximize",
+    closeLeft: "Close left",
+    closeRight: "Close right",
     closeCurrent: "Close current",
     closeOther: "Close other",
     closeAll: "Close All"

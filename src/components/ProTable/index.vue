@@ -1,5 +1,3 @@
-<!-- 📚📚📚 Pro-Table 文档: https://juejin.cn/post/7166068828202336263 -->
-
 <template>
   <!-- 查询表单 card -->
   <SearchForm
@@ -18,14 +16,6 @@
       <div class="header-button-lf">
         <slot name="tableHeader" :selectedIds="selectedIds" :selectedRows="selectedRows" :isSelected="isSelected" />
       </div>
-      <div class="header-button-ri" v-if="toolButton">
-        <slot name="toolButton">
-          <el-button :icon="Refresh" circle @click="getTableList" />
-          <el-button :icon="Printer" circle v-if="columns.length" @click="handlePrint" />
-          <el-button :icon="Operation" circle v-if="columns.length" @click="openColSetting" />
-          <el-button :icon="Search" circle v-if="searchColumns.length" @click="isShowSearch = !isShowSearch" />
-        </slot>
-      </div>
     </div>
     <!-- 表格主体 -->
     <el-table
@@ -39,12 +29,6 @@
     >
       <!-- 默认插槽 -->
       <slot />
-      <!--序号-->
-      <el-table-column align="center" v-if="ifIndex" label="序号" width="100">
-        <template #default="scope">
-          {{ scope.$index + 1 }}
-        </template>
-      </el-table-column>
       <!--多选-->
       <el-table-column align="center" type="selection" v-if="ifSelect" />
       <!--单选-->
@@ -53,12 +37,23 @@
           <el-radio label="" v-model="templateRadio" @change="getCurrentRow(scope.row)"> </el-radio>
         </template>
       </el-table-column>
+      <!--序号-->
+      <el-table-column align="center" v-if="ifIndex" :label="indexName" :width="indexWidth">
+        <template #default="scope">
+          {{ scope.$index + 1 }}
+        </template>
+      </el-table-column>
 
       <template v-for="item in tableColumns" :key="item">
         <!-- expand 支持 tsx 语法 && 作用域插槽 (tsx > slot) -->
-        <el-table-column v-bind="item" :align="item.align ?? 'center'" v-if="item.type == 'expand'" v-slot="scope">
-          <component :is="item.render" v-bind="scope" v-if="item.render" />
-          <slot :name="item.type" v-bind="scope" v-else />
+        <el-table-column v-bind="item" :align="item.align ?? 'center'" v-if="item.type === 'expand'">
+          <template #default="scope">
+            <!-- expand -->
+            <template v-if="item.type === 'expand'">
+              <component :is="item.render" v-bind="scope" v-if="item.render" />
+              <slot v-else :name="item.type" v-bind="scope" />
+            </template>
+          </template>
         </el-table-column>
         <!-- other 循环递归 -->
         <TableColumn v-if="!item.type && item.prop && item.isShow" :column="item">
@@ -83,12 +78,22 @@
     </el-table>
     <!-- 分页组件 -->
     <slot name="pagination">
-      <Pagination
-        v-if="pagination"
-        :pageable="pageable"
-        :handle-size-change="handleSizeChange"
-        :handle-current-change="handleCurrentChange"
-      />
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px">
+        <div v-if="toolButton">
+          <slot name="toolButton">
+            <el-button :icon="Refresh" circle @click="getTableList" />
+            <el-button :icon="Printer" circle v-if="columns.length" @click="handlePrint" />
+            <el-button :icon="Operation" circle v-if="columns.length" @click="openColSetting" />
+            <el-button :icon="Search" circle v-if="searchColumns.length" @click="isShowSearch = !isShowSearch" />
+          </slot>
+        </div>
+        <Pagination
+          v-if="pagination"
+          :pageable="pageable"
+          :handle-size-change="handleSizeChange"
+          :handle-current-change="handleCurrentChange"
+        />
+      </div>
     </slot>
   </div>
   <!-- 列设置 -->
@@ -112,6 +117,8 @@ import printJS from "print-js";
 
 interface ProTableProps extends Partial<Omit<TableProps<any>, "data">> {
   ifIndex?: boolean; // 是否显示序号列 ==> 非必传（默认为false）
+  indexName?: string; // 默认是序号 ==> 非必传（默认为'序号'）
+  indexWidth?: string; // 序号宽度 ==> 非必传（默认为'80'）
   ifSelect?: boolean; // 是否显示多选框 ==> 非必传（默认为false）
   ifRadio?: boolean; // 是否显示单选框 ==> 非必传（默认为false）
   columns: ColumnProps[]; // 列配置项
@@ -132,6 +139,8 @@ interface ProTableProps extends Partial<Omit<TableProps<any>, "data">> {
 const props = withDefaults(defineProps<ProTableProps>(), {
   requestAuto: true,
   ifIndex: false,
+  indexName: "序号",
+  indexWidth: "80",
   ifSelect: false,
   ifRadio: false,
   columns: () => [],

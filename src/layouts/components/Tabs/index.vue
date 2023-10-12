@@ -2,30 +2,99 @@
   <div class="tabs-box">
     <div class="tabs-menu">
       <el-tabs v-model="tabsMenuValue" type="card" @tab-click="tabClick" @tab-remove="tabRemove">
-        <el-tab-pane v-for="item in tabsMenuList" :key="item.path" :label="item.title" :name="item.path" :closable="item.close">
+        <el-tab-pane
+          v-for="(item, index) in tabsMenuList"
+          :key="item.path"
+          :label="item.title"
+          :name="item.path"
+          :closable="item.close"
+        >
           <template #label>
-            <el-icon class="tabs-icon" v-show="item.icon && tabsIcon">
-              <component :is="item.icon" />
-            </el-icon>
-            {{ item.title }}
+            <el-dropdown trigger="contextmenu" :id="item.name" @visible-change="handleChange($event, item)" ref="dropdownRef">
+              <div style="display: flex; align-items: center">
+                <el-icon class="tabs-icon" v-if="item.icon && tabsIcon">
+                  <component :is="item.icon" />
+                </el-icon>
+                <span>{{ item.title }}</span>
+              </div>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item @click="refresh" v-if="item.name === route.name">
+                    <el-icon>
+                      <Refresh />
+                    </el-icon>
+                    {{ $t("tabs.refresh") }}
+                  </el-dropdown-item>
+                  <el-dropdown-item @click="maximize" v-if="item.name === route.name">
+                    <el-icon>
+                      <FullScreen />
+                    </el-icon>
+                    {{ $t("tabs.maximize") }}
+                  </el-dropdown-item>
+                  <el-dropdown-item
+                    :divided="item.name === route.name"
+                    @click="closeOnSide('left')"
+                    v-if="tabsMenuList.length > 1 && item.close && index !== 1"
+                  >
+                    <el-icon>
+                      <DArrowLeft />
+                    </el-icon>
+                    {{ $t("tabs.closeLeft") }}
+                  </el-dropdown-item>
+                  <el-dropdown-item
+                    @click="closeOnSide('right')"
+                    v-if="tabsMenuList.length > 1 && item.close && tabsMenuList.length - 1 !== index"
+                  >
+                    <el-icon>
+                      <DArrowRight />
+                    </el-icon>
+                    {{ $t("tabs.closeRight") }}
+                  </el-dropdown-item>
+                  <el-dropdown-item
+                    divided
+                    @click="closeCurrentTab"
+                    v-if="tabsMenuList.length > 1 && item.name === route.name && item.close"
+                  >
+                    <el-icon>
+                      <Remove />
+                    </el-icon>
+                    {{ $t("tabs.closeCurrent") }}
+                  </el-dropdown-item>
+                  <el-dropdown-item
+                    @click="closeOtherTab"
+                    v-if="(tabsMenuList.length > 1 && index !== 0) || (tabsMenuList.length > 1 && index === 0)"
+                  >
+                    <el-icon>
+                      <CircleClose />
+                    </el-icon>
+                    {{ $t("tabs.closeOther") }}
+                  </el-dropdown-item>
+                  <el-dropdown-item @click="closeAllTab" v-if="tabsMenuList.length > 1 && item.close">
+                    <el-icon>
+                      <FolderDelete />
+                    </el-icon>
+                    {{ $t("tabs.closeAll") }}
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
           </template>
         </el-tab-pane>
       </el-tabs>
-      <MoreButton />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import Sortable from "sortablejs";
-import { ref, computed, watch, onMounted } from "vue";
+import { HOME_URL } from "@/config";
+import { ref, computed, watch, onMounted, inject, nextTick } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useGlobalStore } from "@/stores/modules/global";
 import { useTabsStore } from "@/stores/modules/tabs";
 import { useAuthStore } from "@/stores/modules/auth";
 import { useKeepAliveStore } from "@/stores/modules/keepAlive";
 import { TabsPaneContext, TabPaneName } from "element-plus";
-import MoreButton from "./components/MoreButton.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -103,6 +172,63 @@ const tabRemove = (fullPath: TabPaneName) => {
   const name = tabStore.tabsMenuList.filter(item => item.path == fullPath)[0].name || "";
   keepAliveStore.removeKeepAliveName(name);
   tabStore.removeTabs(fullPath as string, fullPath == route.fullPath);
+};
+
+/*tab 右键下拉*/
+
+const dropdownRef = ref();
+const currentClickTag = ref();
+const handleChange = (visible: boolean, tag: Object) => {
+  if (!visible) return;
+  currentClickTag.value = tag;
+  console.log(currentClickTag.value, "555", tag.name);
+  dropdownRef.value.forEach((item: { id: string; handleClose: () => void }) => {
+    if (item.id === tag.name) return;
+    item.handleClose();
+  });
+};
+
+//刷新
+const refreshCurrentPage: Function = inject("refresh") as Function;
+const refresh = () => {
+  setTimeout(() => {
+    keepAliveStore.removeKeepAliveName(route.name as string);
+    refreshCurrentPage(false);
+    nextTick(() => {
+      keepAliveStore.addKeepAliveName(route.name as string);
+      refreshCurrentPage(true);
+    });
+  }, 0);
+};
+
+//最大化当前页
+const maximize = () => {
+  globalStore.setGlobalState("maximize", true);
+};
+
+//关闭两侧
+const closeOnSide = (direction: "left" | "right") => {
+  tabStore.closeTabsOnSide(currentClickTag.value.path, direction);
+};
+//关闭当前
+const closeCurrentTab = () => {
+  if (route.meta.isAffix) return;
+  tabStore.removeTabs(route.fullPath);
+  keepAliveStore.removeKeepAliveName(route.name as string);
+};
+
+//关闭其他
+const closeOtherTab = () => {
+  router.push(currentClickTag.value.path);
+  tabStore.closeMultipleTab(currentClickTag.value.path);
+  keepAliveStore.setKeepAliveName([currentClickTag.value.name] as string[]);
+};
+
+//关闭所有
+const closeAllTab = () => {
+  tabStore.closeMultipleTab();
+  keepAliveStore.setKeepAliveName();
+  router.push(HOME_URL);
 };
 </script>
 

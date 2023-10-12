@@ -8,6 +8,7 @@
       :columns="columns"
       :request-api="getAuthMenuListApi"
       :pagination="false"
+      if-index
     >
       <!-- 表格 header 按钮 -->
       <template #tableHeader>

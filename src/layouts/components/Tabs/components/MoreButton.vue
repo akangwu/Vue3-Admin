@@ -58,20 +58,20 @@ const maximize = () => {
   globalStore.setGlobalState("maximize", true);
 };
 
-// Close Current
+//关闭当前
 const closeCurrentTab = () => {
   if (route.meta.isAffix) return;
   tabStore.removeTabs(route.fullPath);
   keepAliveStore.removeKeepAliveName(route.name as string);
 };
 
-// Close Other
+//关闭其他
 const closeOtherTab = () => {
   tabStore.closeMultipleTab(route.fullPath);
   keepAliveStore.setKeepAliveName([route.name] as string[]);
 };
 
-// Close All
+//关闭所有
 const closeAllTab = () => {
   tabStore.closeMultipleTab();
   keepAliveStore.setKeepAliveName();

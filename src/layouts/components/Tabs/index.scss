@@ -3,11 +3,6 @@
   .tabs-menu {
     position: relative;
     width: 100%;
-    .el-dropdown {
-      position: absolute;
-      top: 8px;
-      right: 13px;
-    }
     :deep(.el-tabs) {
       .el-tabs__header {
         box-sizing: border-box;
@@ -27,14 +22,19 @@
               color: #afafaf;
               border: none;
               .tabs-icon {
-                margin: 1.5px 4px 0 0;
+                margin-right: 4px;
                 font-size: 15px;
               }
               .is-icon-close {
                 margin-top: 1px;
               }
               &.is-active {
-                color: var(--el-color-primary);
+                .el-dropdown {
+                  span,
+                  i {
+                    color: var(--el-color-primary);
+                  }
+                }
                 &::before {
                   position: absolute;
                   bottom: 0;
@@ -42,6 +42,12 @@
                   height: 0;
                   content: "";
                   border-bottom: 2px solid var(--el-color-primary) !important;
+                }
+              }
+              &:not(.is-active):hover {
+                span,
+                i {
+                  color: var(--el-color-primary); //鼠标移到标签页高亮
                 }
               }
             }

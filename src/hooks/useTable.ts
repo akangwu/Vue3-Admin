@@ -7,6 +7,7 @@ import { reactive, computed, toRefs } from "vue";
  * @param {Object} initParam 获取数据初始化参数 (非必传，默认为{})
  * @param {Boolean} isPageable 是否有分页 (非必传，默认为true)
  * @param {Function} dataCallBack 对后台返回的数据进行处理的方法 (非必传)
+ * @param requestError
  * */
 export const useTable = (
   api: (params: any) => Promise<any> | any,
@@ -23,7 +24,7 @@ export const useTable = (
       // 当前页数
       pageNum: 1,
       // 每页显示条数
-      pageSize: 10,
+      pageSize: 25,
       // 总条数
       total: 0
     },
@@ -82,6 +83,8 @@ export const useTable = (
       // * 某些情况下参数为 false/0 也应该携带参数
       if (state.searchParam[key] || state.searchParam[key] === false || state.searchParam[key] === 0) {
         nowSearchParam[key] = state.searchParam[key];
+      } else {
+        nowSearchParam[key] = "";
       }
     }
     Object.assign(state.totalParam, nowSearchParam, isPageable ? pageParam.value : {});

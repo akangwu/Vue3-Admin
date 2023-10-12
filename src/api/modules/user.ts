@@ -7,6 +7,7 @@ import http from "@/api";
  */
 // 获取用户列表
 export const getUserList = (params: User.ReqUserParams) => {
+  console.log(params, "00000");
   return http.post<ResPage<User.ResUserList>>(PORT1 + "/user/list", params);
 };
 

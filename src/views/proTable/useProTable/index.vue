@@ -1,11 +1,9 @@
 <template>
   <div class="table-box">
-    <AutoResolve />
     <ProTable
       ref="proTable"
       title="用户列表"
       ifIndex
-      ifRadio
       ifSelect
       :columns="columns"
       :request-api="getTableList"
@@ -138,12 +136,11 @@ const headerRender = (row: ColumnProps) => {
 
 // 表格配置项
 const columns: ColumnProps<User.ResUserList>[] = [
-  /*{ type: "selection", fixed: "left", width: 80 },
-  { type: "index", label: "序号", width: 80 },*/
-  { type: "expand", label: "Expand", width: 100 },
+  { type: "expand", label: "Expand3", width: 100 },
   {
     prop: "username",
     label: "用户姓名",
+    width: 200,
     search: { el: "input" },
     render: scope => {
       return (
@@ -156,6 +153,7 @@ const columns: ColumnProps<User.ResUserList>[] = [
   {
     prop: "gender",
     label: "性别",
+    width: 100,
     // 字典数据
     // enum: genderType,
     // 字典请求不带参数
@@ -166,14 +164,15 @@ const columns: ColumnProps<User.ResUserList>[] = [
     fieldNames: { label: "genderLabel", value: "genderValue" }
   },
   // 多级 prop
-  { prop: "user.detail.age", label: "年龄", search: { el: "input" } },
-  { prop: "idCard", label: "身份证号", search: { el: "input" } },
-  { prop: "email", label: "邮箱" },
-  { prop: "address", label: "居住地址" },
+  { prop: "user.detail.age", label: "年龄", width: 100, headerAlign: "right", search: { el: "input" } },
+  { prop: "idCard", label: "身份证号", width: 200, search: { el: "input" } },
+  { prop: "email", label: "邮箱", width: 200 },
+  { prop: "address", label: "居住地址", width: 200 },
   {
     prop: "status",
     label: "用户状态",
     enum: getUserStatus,
+    width: 200,
     search: { el: "tree-select", props: { filterable: true } },
     fieldNames: { label: "userLabel", value: "userStatus" },
     render: scope => {

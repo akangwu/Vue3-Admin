@@ -1,5 +1,5 @@
 <template>
-  <el-drawer v-model="drawerVisible" title="布局设置6" size="300px">
+  <el-drawer v-model="drawerVisible" title="布局设置" size="300px">
     <!-- 布局切换 -->
     <el-divider class="divider" content-position="center">
       <el-icon><Notification /></el-icon>
@@ -99,10 +99,6 @@
       <span>标签栏图标</span>
       <el-switch v-model="tabsIcon" />
     </div>
-    <div class="theme-item">
-      <span>页脚</span>
-      <el-switch v-model="footer" />
-    </div>
   </el-drawer>
 </template>
 
@@ -119,13 +115,13 @@ import SwitchDark from "@/components/SwitchDark/index.vue";
 const { changePrimary, changeGreyOrWeak, setAsideTheme } = useTheme();
 
 const globalStore = useGlobalStore();
-const { layout, primary, isGrey, isWeak, asideInverted, isCollapse, breadcrumb, breadcrumbIcon, tabs, tabsIcon, footer } =
+const { layout, primary, isGrey, isWeak, asideInverted, isCollapse, breadcrumb, breadcrumbIcon, tabs, tabsIcon } =
   storeToRefs(globalStore);
 
 // 预定义主题颜色
 const colorList = [
   DEFAULT_PRIMARY,
-  "#0066ff",
+  "#009688",
   "#ee2223",
   "#409eff",
   "#27ae60",

@@ -51,6 +51,7 @@ const style = computed(() => {
   let span = props[breakPoint.value]?.span ?? props.span;
   let offset = props[breakPoint.value]?.offset ?? props.offset;
   if (props.suffix) {
+    //查询/重置的样式
     return {
       gridColumnStart: cols.value - span - offset + 1,
       gridColumnEnd: `span ${span + offset}`,
