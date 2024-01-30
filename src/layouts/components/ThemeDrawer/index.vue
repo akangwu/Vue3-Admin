@@ -103,14 +103,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { storeToRefs } from "pinia";
-import { useTheme } from "@/hooks/useTheme";
-import { useGlobalStore } from "@/stores/modules/global";
-import { LayoutType } from "@/stores/interface";
-import { DEFAULT_PRIMARY } from "@/config";
-import mittBus from "@/utils/mittBus";
 import SwitchDark from "@/components/SwitchDark/index.vue";
+import { DEFAULT_PRIMARY } from "@/config";
+import { useTheme } from "@/hooks/useTheme";
+import { LayoutType } from "@/stores/interface";
+import { useGlobalStore } from "@/stores/modules/global";
+import mittBus from "@/utils/mittBus";
+import { storeToRefs } from "pinia";
+import { ref } from "vue";
 
 const { changePrimary, changeGreyOrWeak, setAsideTheme } = useTheme();
 
@@ -121,15 +121,16 @@ const { layout, primary, isGrey, isWeak, asideInverted, isCollapse, breadcrumb, 
 // 预定义主题颜色
 const colorList = [
   DEFAULT_PRIMARY,
-  "#009688",
+  "#e1251b",
+  "#e63e44",
+  "#ea3224",
   "#ee2223",
-  "#409eff",
-  "#27ae60",
-  "#ff5c93",
-  "#e74c3c",
-  "#fd726d",
-  "#f39c12",
-  "#9b59b6"
+  "#f73131",
+  "#a30030",
+  "#ee722e",
+  "#18ae66",
+  "#0028aa",
+  "#1b55d1"
 ];
 
 // 设置布局方式
