@@ -1,36 +1,36 @@
 // font css
-import '@/assets/fonts/font.scss'
+import "@/assets/fonts/font.scss";
 // iconfont css
-import '@/assets/iconfont/iconfont.scss'
+import "@/assets/iconfont/iconfont.scss";
 
 // custom directives
-import directives from '@/directives/index'
+import directives from "@/directives/index";
 // vue i18n
-import I18n from '@/languages/index'
+import I18n from "@/languages/index";
 // vue Router
-import router from '@/routers'
+import router from "@/routers";
 // pinia store
-import pinia from '@/stores'
+import pinia from "@/stores";
 // CSS common style sheet
-import '@/styles/common.scss'
+import "@/styles/common.scss";
 // custom element css
-import '@/styles/element.scss'
+import "@/styles/element.scss";
 // reset style sheet
-import '@/styles/reset.scss'
+import "@/styles/reset.scss";
 // custom element dark css
-import '@/styles/theme/element-dark.scss'
+import "@/styles/theme/element-dark.scss";
 // element icons
-import * as Icons from '@element-plus/icons-vue'
+import * as Icons from "@element-plus/icons-vue";
 // element plus
-import ElementPlus from 'element-plus'
+import ElementPlus from "element-plus";
 // element css
-import 'element-plus/dist/index.css'
+import "element-plus/dist/index.css";
 // element dark css
-import 'element-plus/theme-chalk/dark/css-vars.css'
+import "element-plus/theme-chalk/dark/css-vars.css";
 // svg icons
-import 'virtual:svg-icons-register'
-import {createApp} from 'vue'
-import App from './App.vue'
+import "virtual:svg-icons-register";
+import { createApp } from "vue";
+import App from "./App.vue";
 
 const app = createApp(App);
 
