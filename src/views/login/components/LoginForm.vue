@@ -24,6 +24,7 @@
 </template>
 
 <script setup lang="ts">
+import { HOME_URL } from "@/config";
 import { Login } from "@/api/interface";
 import { loginApi } from "@/api/modules/login";
 import { initDynamicRouter } from "@/routers/modules/dynamicRouter";
@@ -75,7 +76,7 @@ const login = (formEl: FormInstance | undefined) => {
       await keepAliveStore.setKeepAliveName();
 
       // 4.跳转到首页
-      await router.push(HOME_UR);
+      await router.push(HOME_URL);
       ElNotification({
         title: getTimeState(),
         message: "欢迎登录 Geeker-Admin",

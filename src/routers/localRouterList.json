@@ -16,6 +16,67 @@
       }
     },
     {
+      "path": "/smifc",
+      "name": "smifc",
+      "meta": {
+        "icon": "List",
+        "title": "医保",
+        "isLink": "",
+        "isHide": false,
+        "isFull": false,
+        "isAffix": false,
+        "isKeepAlive": true
+      },
+      "children": [
+        {
+          "path": "/smifc/HNYB",
+          "name": "HNYB",
+          "redirect": "/smifc/HNYB/smrts",
+          "meta": {
+            "icon": "Menu",
+            "title": "河南医保",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true
+          },
+          "children": [
+            {
+              "path": "/smifc/HNYB/smrts",
+              "name": "smrts",
+              "redirect": "/smifc/HNYB/smrts/directSettlement/medicalSettleApply",
+              "meta": {
+                "icon": "Menu",
+                "title": "smrts",
+                "isLink": "",
+                "isHide": false,
+                "isFull": false,
+                "isAffix": false,
+                "isKeepAlive": true
+              },
+              "children": [
+                {
+                  "path": "/smifc/HNYB/smrts/directSettlement/medicalSettleApply",
+                  "name": "medicalSettleApply",
+                  "component": "/smifc/HNYB/smrts/directSettlement/medicalSettleApply",
+                  "meta": {
+                    "icon": "Menu",
+                    "title": "药采结算申请",
+                    "isLink": "",
+                    "isHide": false,
+                    "isFull": false,
+                    "isAffix": false,
+                    "isKeepAlive": true
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "path": "/proTable",
       "name": "proTable",
       "redirect": "/proTable/useProTable",
