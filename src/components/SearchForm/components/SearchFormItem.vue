@@ -79,13 +79,14 @@ const placeholder = computed(() => {
   if (["datetimerange", "daterange", "monthrange"].includes(search?.props?.type) || search?.props?.isRange) {
     return { rangeSeparator: "至", startPlaceholder: "开始时间", endPlaceholder: "结束时间" };
   }
-  const placeholder = search?.props?.placeholder ?? (search?.el.includes("input") ? "请输入" : "请选择");
+  const placeholder =
+    search?.props?.placeholder ?? (search?.el.includes("input") ? `请输入${props.column.label}` : `请选择${props.column.label}`);
   return { placeholder };
 });
 
 // 是否有清除按钮 (当搜索项有默认值时，清除按钮不显示)
 const clearable = computed(() => {
   const search = props.column.search;
-  return search?.props?.clearable ?? (search?.defaultValue == null || search?.defaultValue == undefined);
+  return search?.props?.clearable ?? !search?.defaultValue;
 });
 </script>
