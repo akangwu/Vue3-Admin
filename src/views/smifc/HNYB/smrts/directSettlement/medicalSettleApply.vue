@@ -1,11 +1,15 @@
 <template>
   <div class="table-box">
+    <!-- 查询表单 card -->
+    <SearchForm @get-data="getData" @reset-change="reset" v-show="isShowSearch" :form-items="formItems" :formData="formData" />
     <ProTable ref="proTable" title="药采结算申请" ifIndex :columns="columns" :requestApi="getTableList"> </ProTable>
   </div>
 </template>
 
 <script setup lang="ts" name="medicalSettleApply">
+import { computed, ref, reactive } from "vue";
 import { getUserList } from "@/api/modules/user";
+import SearchForm from "@/components/SearchForm/index.vue";
 import { MedicalSettleApply } from "../medicalSettleApply";
 const columns: ColumnProps<MedicalSettleApply.ResList>[] = [
   { label: "结算批次号", prop: "statementId", width: 200 },
@@ -86,6 +90,14 @@ const columns: ColumnProps<MedicalSettleApply.ResList>[] = [
   },
   { label: "操作", prop: "operation", width: 180, align: "center" }
 ];
+// 是否显示搜索模块
+const isShowSearch = ref(true);
+
+const getData = () => {
+  console.log(formData, "4444888888");
+};
+const reset = () => {};
+
 const getTableList = (params: any) => {
   const params1 = {
     p4: "",
@@ -130,4 +142,149 @@ const getTableList = (params: any) => {
   };
   return res;*/
 };
+
+const formData = reactive({
+  aaz617: "5",
+  year: "",
+  month: "",
+  dealDate: "2024-03-18",
+  dates: "",
+  dataRangeDay: ["", ""],
+  dataRangeMonth: ["", ""],
+  dataRangeTime: "",
+  recOrPayType: "",
+  vouStatus: "",
+  debitAmt: ["", ""]
+});
+
+const formItems = computed(() => {
+  return [
+    {
+      htmlType: "input",
+      label: "业务批次号	",
+      ruleId: "aaz617",
+      search: {
+        disabled: false
+      }
+    },
+    {
+      htmlType: "date",
+      label: "年",
+      ruleId: "year",
+      type: "year",
+      format: "YYYY",
+      valueFormat: "YYYY",
+      search: {
+        clear: false
+      }
+    },
+    {
+      htmlType: "date",
+      label: "月",
+      ruleId: "month",
+      type: "month",
+      format: "YYYY-MM",
+      valueFormat: "YYYY-MM",
+      search: {
+        clear: true
+      }
+    },
+    {
+      htmlType: "date",
+      label: "审核日期",
+      ruleId: "dealDate",
+      type: "date",
+      format: "YYYY-MM-DD",
+      valueFormat: "YYYY-MM-DD"
+    },
+    {
+      htmlType: "date",
+      label: "多个日期",
+      ruleId: "dates",
+      type: "dates",
+      format: "YYYY-MM-DD",
+      valueFormat: "YYYY-MM-DD"
+    },
+    {
+      htmlType: "dateRange",
+      label: "日期范围",
+      ruleId: "dataRangeDay",
+      type: "daterange",
+      format: "YYYY-MM-DD",
+      valueFormat: "YYYY-MM-DD"
+    },
+    {
+      htmlType: "dateRange",
+      label: "月份范围",
+      ruleId: "dataRangeMonth",
+      type: "monthrange",
+      format: "YYYY-MM",
+      valueFormat: "YYYY-MM"
+    },
+    {
+      htmlType: "dateRange",
+      label: "日期时间范围",
+      ruleId: "dataRangeTime",
+      type: "datetimerange",
+      format: "YYYY-MM-DD HH:mm:ss",
+      valueFormat: "YYYY-MM-DD HH:mm:ss"
+    },
+    {
+      htmlType: "select",
+      label: "收支类型",
+      ruleId: "recOrPayType",
+      list: [
+        { label: "收入", code: "0" },
+        { label: "支出", code: "1", disabled: true }
+      ],
+      search: {
+        clear: true,
+        filter: true
+      }
+    },
+    {
+      htmlType: "radioGroup",
+      label: "入账状态",
+      ruleId: "vouStatus",
+      list: [
+        {
+          code: "",
+          name: "全部"
+        },
+        {
+          code: "0",
+          name: "未入账",
+          search: {
+            disabled: true
+          }
+        },
+        {
+          code: "1",
+          name: "已入账"
+        },
+        {
+          code: "-12",
+          name: "3标记不处理"
+        },
+        {
+          code: "12",
+          name: "3已入账"
+        },
+        {
+          code: "-10",
+          name: "5标记不处理"
+        }
+      ],
+      search: {
+        span: 2,
+        disabled: false
+      }
+    },
+    {
+      htmlType: "moneyRange",
+      label: "借方金额",
+      ruleId: "debitAmt"
+    }
+  ];
+});
 </script>

@@ -1,14 +1,4 @@
 <template>
-  <!-- 查询表单 card -->
-  <SearchForm
-    :search="search"
-    :reset="reset"
-    :search-param="searchParam"
-    :columns="searchColumns"
-    :search-col="searchCol"
-    v-show="isShowSearch"
-  />
-
   <!-- 表格内容 card -->
   <div class="card table-main">
     <!-- 表格头部 操作按钮 -->
@@ -84,7 +74,6 @@
             <el-button :icon="Refresh" circle @click="getTableList" />
             <el-button :icon="Printer" circle v-if="columns.length" @click="handlePrint" />
             <el-button :icon="Operation" circle v-if="columns.length" @click="openColSetting" />
-            <el-button :icon="Search" circle v-if="searchColumns.length" @click="isShowSearch = !isShowSearch" />
           </slot>
         </div>
         <Pagination
@@ -104,12 +93,10 @@
 import { ref, watch, computed, provide, onMounted } from "vue";
 import { useTable } from "@/hooks/useTable";
 import { useSelection } from "@/hooks/useSelection";
-import { BreakPoint } from "@/components/Grid/interface";
 import { ColumnProps } from "@/components/ProTable/interface";
 import { ElTable, TableProps } from "element-plus";
-import { Refresh, Printer, Operation, Search } from "@element-plus/icons-vue";
+import { Refresh, Printer, Operation } from "@element-plus/icons-vue";
 import { filterEnum, formatValue, handleProp, handleRowAccordingToProp } from "@/utils";
-import SearchForm from "@/components/SearchForm/index.vue";
 import Pagination from "./components/Pagination.vue";
 import ColSetting from "./components/ColSetting.vue";
 import TableColumn from "./components/TableColumn.vue";
@@ -132,7 +119,6 @@ interface ProTableProps extends Partial<Omit<TableProps<any>, "data">> {
   border?: boolean; // 是否带有纵向边框 ==> 非必传（默认为true）
   toolButton?: boolean; // 是否显示表格功能按钮 ==> 非必传（默认为true）
   rowKey?: string; // 行数据的 Key，用来优化 Table 的渲染，当表格数据多选时，所指定的 id ==> 非必传（默认为 id）
-  searchCol?: number | Record<BreakPoint, number>; // 表格搜索项 每列占比配置 ==> 非必传 { xs: 1, sm: 2, md: 2, lg: 3, xl: 4 }
 }
 
 // 接受父组件参数，配置默认值
@@ -148,12 +134,8 @@ const props = withDefaults(defineProps<ProTableProps>(), {
   initParam: {},
   border: true,
   toolButton: true,
-  rowKey: "id",
-  searchCol: () => ({ xs: 1, sm: 2, md: 2, lg: 3, xl: 4 })
+  rowKey: "id"
 });
-
-// 是否显示搜索模块
-const isShowSearch = ref(true);
 
 // 单选
 const templateRadio = ref(false);
@@ -165,8 +147,13 @@ const tableRef = ref<InstanceType<typeof ElTable>>();
 const { selectionChange, selectedRows, selectedIds, isSelected } = useSelection(props.rowKey);
 
 // 表格操作 Hooks
-const { tableData, pageable, searchParam, searchInitParam, getTableList, search, reset, handleSizeChange, handleCurrentChange } =
-  useTable(props.requestApi, props.initParam, props.pagination, props.dataCallback, props.requestError);
+const { tableData, pageable, searchParam, getTableList, handleSizeChange, handleCurrentChange } = useTable(
+  props.requestApi,
+  props.initParam,
+  props.pagination,
+  props.dataCallback,
+  props.requestError
+);
 
 // 清空选中数据列表
 const clearSelection = () => tableRef.value!.clearSelection();
@@ -211,27 +198,12 @@ const flatColumnsFunc = (columns: ColumnProps[], flatArr: ColumnProps[] = []) =>
 const flatColumns = ref<ColumnProps[]>();
 flatColumns.value = flatColumnsFunc(tableColumns.value);
 
-// 过滤需要搜索的配置项
-const searchColumns = flatColumns.value.filter(item => item.search?.el);
-
-// 设置搜索表单排序默认值 && 设置搜索表单项的默认值
-searchColumns.forEach((column, index) => {
-  column.search!.order = column.search!.order ?? index + 2;
-  if (column.search?.defaultValue !== undefined && column.search?.defaultValue !== null) {
-    searchInitParam.value[column.search.key ?? handleProp(column.prop!)] = column.search?.defaultValue;
-    searchParam.value[column.search.key ?? handleProp(column.prop!)] = column.search?.defaultValue;
-  }
-});
-
 const getCurrentRow = row => {
   console.log(JSON.parse(JSON.stringify(row)), "1111");
   //单选事件
   //this.selectionData = [row.row];
   this.$emit("singleSelect", row.row, row.$index);
 };
-
-// 排序搜索表单项
-searchColumns.sort((a, b) => a.search!.order! - b.search!.order!);
 
 // 列设置 ==> 过滤掉不需要设置的列
 const colRef = ref();
@@ -286,7 +258,6 @@ defineExpose({
   searchParam,
   pageable,
   getTableList,
-  reset,
   clearSelection,
   enumMap,
   isSelected,
