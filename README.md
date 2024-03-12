@@ -2,20 +2,9 @@
 
 ### 介绍 📖
 
-Geeker-Admin 一款基于 Vue3.2、TypeScript、Vite4、Pinia、Element-Plus 开源的后台管理框架，使用目前最新技术栈开发。项目提供强大的 [ProTable](https://juejin.cn/post/7166068828202336263) 组件，在一定程度上节省您的开发效率。另外本项目还封装了一些常用组件、Hooks、指令、动态路由、按钮级别权限控制等功能。
-
-### 在线预览 👀
-
-- Link：https://admin.spicyboy.cn
-
-### 代码仓库 ⭐
-
-- Gitee：https://gitee.com/HalseySpicy/Geeker-Admin
-- GitHub：https://github.com/HalseySpicy/Geeker-Admin
+基于 Vue3.2、TypeScript、Vite4、Pinia、Element-Plus 的后台管理框架，使用目前最新技术栈开发。项目提供强大的 [ProTable](https://juejin.cn/post/7166068828202336263) 组件，在一定程度上节省您的开发效率。另外本项目还封装了一些常用组件、Hooks、指令、动态路由、按钮级别权限控制等功能。
 
 ### 项目文档 📚
-
-- 项目更新日志：[CHANGELOG.md](./CHANGELOG.md)
 
 - 项目文档地址：https://docs.spicyboy.cn
 
@@ -26,7 +15,7 @@ Geeker-Admin 一款基于 Vue3.2、TypeScript、Vite4、Pinia、Element-Plus 开
 - 使用 Pinia 替代 Vuex，轻量、简单、易用，集成 Pinia 持久化插件
 - 使用 TypeScript 对 Axios 整个二次封装（请求拦截、取消、常用请求封装…）
 - 基于 Element 二次封装 [ProTable](https://juejin.cn/post/7166068828202336263) 组件，表格页面全部为配置项 columns
-- 支持 Element 组件大小切换、暗黑模式、i18n 国际化
+- 支持 Element 组件大小切换
 - 使用 VueRouter 进行路由权限拦截、页面按钮权限配置、路由懒加载
 - 使用 KeepAlive 对页面进行缓存，支持多级嵌套页面缓存
 - 常用自定义指令开发（权限、复制、水印、拖拽、节流、防抖、长按…）
@@ -90,34 +79,6 @@ pnpm lint:stylelint
 pnpm commit
 ```
 
-### 项目截图 📷
-
-- 登录页：
-
-![login_light](https://i.imgtg.com/2023/04/13/8tknp.png)
-
-![login_dark](https://i.imgtg.com/2023/04/13/8tmpP.png)
-
-- 首页：
-
-![home_light](https://i.imgtg.com/2023/04/13/8tl1j.png)
-
-![home_dark](https://i.imgtg.com/2023/04/13/8tpfb.png)
-
-- 表格页：
-
-![table_light](https://i.imgtg.com/2023/04/13/8tfMx.png)
-
-![table_dark](https://i.imgtg.com/2023/04/13/8tv8F.png)
-
-- 数据可视化
-
-![dashboard](https://i.imgtg.com/2023/04/14/82Grx.png)
-
-- 数据大屏：
-
-![dataScreen](https://i.imgtg.com/2023/01/16/QP8HF.png)
-
 ### 文件资源目录 📚
 
 ```text
@@ -134,7 +95,6 @@ Geeker-Admin
 │  ├─ directives          # 全局指令文件
 │  ├─ enums               # 项目常用枚举
 │  ├─ hooks               # 常用 Hooks 封装
-│  ├─ languages           # 语言国际化 i18n
 │  ├─ layouts             # 框架布局模块
 │  ├─ routers             # 路由管理
 │  ├─ stores              # pinia store
@@ -157,7 +117,6 @@ Geeker-Admin
 ├─ .prettierrc.cjs        # Prettier 格式化配置
 ├─ .stylelintignore       # 忽略 stylelint 格式化
 ├─ .stylelintrc.cjs       # stylelint 样式格式化配置
-├─ CHANGELOG.md           # 项目更新日志
 ├─ commitlint.config.cjs  # git 提交规范配置
 ├─ index.html             # 入口 html
 ├─ LICENSE                # 开源协议文件
@@ -185,4 +144,3 @@ Geeker-Admin
 
 - FastMock： https://www.fastmock.site
 - EasyMock：https://mock.mengxuegu.com
-

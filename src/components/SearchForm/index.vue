@@ -92,8 +92,8 @@
                 placeholder="最小值"
                 @focus="setMinMoney(item, 'focus', 'min')"
                 @blur="setMinMoney(item, 'blur', 'min')"
-              ></el-input
-              >-
+              ></el-input>
+              <span style="padding: 0 5px">-</span>
               <el-input
                 v-model="formData[item.ruleId][1]"
                 :clearable="item?.search?.clear"

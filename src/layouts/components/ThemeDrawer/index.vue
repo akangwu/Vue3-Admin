@@ -43,45 +43,13 @@
       </el-tooltip>
     </div>
 
-    <!-- 全局主题 -->
     <el-divider class="divider" content-position="center">
       <el-icon><ColdDrink /></el-icon>
-      全局主题
+      全局设置
     </el-divider>
     <div class="theme-item">
       <span>主题颜色</span>
       <el-color-picker v-model="primary" :predefine="colorList" @change="changePrimary" />
-    </div>
-    <div class="theme-item">
-      <span>暗黑模式</span>
-      <SwitchDark />
-    </div>
-    <div class="theme-item">
-      <span>灰色模式</span>
-      <el-switch v-model="isGrey" @change="changeGreyOrWeak('grey', !!$event)" />
-    </div>
-    <div class="theme-item">
-      <span>色弱模式</span>
-      <el-switch v-model="isWeak" @change="changeGreyOrWeak('weak', !!$event)" />
-    </div>
-    <div class="theme-item mb40">
-      <span>
-        侧边栏反转色
-        <el-tooltip effect="dark" content="该属性目前只在纵向布局模式下生效" placement="top">
-          <el-icon><QuestionFilled /></el-icon>
-        </el-tooltip>
-      </span>
-      <el-switch v-model="asideInverted" :disabled="layout !== 'vertical'" @change="setAsideTheme" />
-    </div>
-
-    <!-- 界面设置 -->
-    <el-divider class="divider" content-position="center">
-      <el-icon><Setting /></el-icon>
-      界面设置
-    </el-divider>
-    <div class="theme-item">
-      <span>折叠菜单</span>
-      <el-switch v-model="isCollapse" />
     </div>
     <div class="theme-item">
       <span>面包屑</span>
@@ -103,7 +71,6 @@
 </template>
 
 <script setup lang="ts">
-import SwitchDark from "@/components/SwitchDark/index.vue";
 import { DEFAULT_PRIMARY } from "@/config";
 import { useTheme } from "@/hooks/useTheme";
 import { LayoutType } from "@/stores/interface";
@@ -112,11 +79,10 @@ import mittBus from "@/utils/mittBus";
 import { storeToRefs } from "pinia";
 import { ref } from "vue";
 
-const { changePrimary, changeGreyOrWeak, setAsideTheme } = useTheme();
+const { changePrimary, setAsideTheme } = useTheme();
 
 const globalStore = useGlobalStore();
-const { layout, primary, isGrey, isWeak, asideInverted, isCollapse, breadcrumb, breadcrumbIcon, tabs, tabsIcon } =
-  storeToRefs(globalStore);
+const { layout, primary, breadcrumb, breadcrumbIcon, tabs, tabsIcon } = storeToRefs(globalStore);
 
 // 预定义主题颜色
 const colorList = [

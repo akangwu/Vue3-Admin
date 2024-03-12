@@ -1,23 +1,10 @@
 {
-  "name": "geeker-admin",
+  "name": "akangwu",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "geeker-admin open source management system",
-  "author": {
-    "name": "Geeker",
-    "email": "848130454@qq.com",
-    "url": "https://github.com/HalseySpicy"
-  },
+  "description": "后台管理系统",
   "license": "MIT",
-  "homepage": "https://github.com/HalseySpicy/Geeker-Admin",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:HalseySpicy/Geeker-Admin.git"
-  },
-  "bugs": {
-    "url": "https://github.com/HalseySpicy/Geeker-Admin/issues"
-  },
   "scripts": {
     "dev": "vite",
     "serve": "vite",
@@ -51,7 +38,6 @@
     "nprogress": "^0.2.0",
     "pinia": "^2.0.35",
     "pinia-plugin-persistedstate": "^3.1.0",
-    "print-js": "^1.6.0",
     "qs": "^6.11.1",
     "sortablejs": "^1.15.0",
     "vue": "^3.2.47",

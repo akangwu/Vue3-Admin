@@ -68,14 +68,7 @@
     </el-table>
     <!-- 分页组件 -->
     <slot name="pagination">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px">
-        <div v-if="toolButton">
-          <slot name="toolButton">
-            <el-button :icon="Refresh" circle @click="getTableList" />
-            <el-button :icon="Printer" circle v-if="columns.length" @click="handlePrint" />
-            <el-button :icon="Operation" circle v-if="columns.length" @click="openColSetting" />
-          </slot>
-        </div>
+      <div style="display: flex; justify-content: flex-end; align-items: center; margin-top: 10px">
         <Pagination
           v-if="pagination"
           :pageable="pageable"
@@ -85,22 +78,16 @@
       </div>
     </slot>
   </div>
-  <!-- 列设置 -->
-  <ColSetting v-if="toolButton" ref="colRef" v-model:col-setting="colSetting" />
 </template>
 
 <script setup lang="ts" name="ProTable">
-import { ref, watch, computed, provide, onMounted } from "vue";
+import { ref, watch, provide, onMounted } from "vue";
 import { useTable } from "@/hooks/useTable";
 import { useSelection } from "@/hooks/useSelection";
 import { ColumnProps } from "@/components/ProTable/interface";
 import { ElTable, TableProps } from "element-plus";
-import { Refresh, Printer, Operation } from "@element-plus/icons-vue";
-import { filterEnum, formatValue, handleProp, handleRowAccordingToProp } from "@/utils";
 import Pagination from "./components/Pagination.vue";
-import ColSetting from "./components/ColSetting.vue";
 import TableColumn from "./components/TableColumn.vue";
-import printJS from "print-js";
 
 interface ProTableProps extends Partial<Omit<TableProps<any>, "data">> {
   ifIndex?: boolean; // 是否显示序号列 ==> 非必传（默认为false）
@@ -117,7 +104,6 @@ interface ProTableProps extends Partial<Omit<TableProps<any>, "data">> {
   pagination?: boolean; // 是否需要分页组件 ==> 非必传（默认为true）
   initParam?: any; // 初始化请求参数 ==> 非必传（默认为{}）
   border?: boolean; // 是否带有纵向边框 ==> 非必传（默认为true）
-  toolButton?: boolean; // 是否显示表格功能按钮 ==> 非必传（默认为true）
   rowKey?: string; // 行数据的 Key，用来优化 Table 的渲染，当表格数据多选时，所指定的 id ==> 非必传（默认为 id）
 }
 
@@ -133,7 +119,6 @@ const props = withDefaults(defineProps<ProTableProps>(), {
   pagination: true,
   initParam: {},
   border: true,
-  toolButton: true,
   rowKey: "id"
 });
 
@@ -203,52 +188,6 @@ const getCurrentRow = row => {
   //单选事件
   //this.selectionData = [row.row];
   this.$emit("singleSelect", row.row, row.$index);
-};
-
-// 列设置 ==> 过滤掉不需要设置的列
-const colRef = ref();
-const colSetting = tableColumns.value!.filter(
-  item => !["selection", "index", "expand"].includes(item.type!) && item.prop !== "operation" && item.isShow
-);
-const openColSetting = () => colRef.value.openColSetting();
-
-// 🙅‍♀️ 不需要打印可以把以下方法删除，打印功能目前存在很多 bug（目前数据处理比较复杂 209-246 行）
-// 处理打印数据（把后台返回的值根据 enum 做转换）
-const printData = computed(() => {
-  const printDataList = JSON.parse(JSON.stringify(selectedRows.value.length ? selectedRows.value : tableData.value));
-  // 找出需要转换数据的列（有 enum || 多级 prop && 需要根据 enum 格式化）
-  const needTransformCol = flatColumns.value!.filter(
-    item => (item.enum || (item.prop && item.prop.split(".").length > 1)) && item.isFilterEnum
-  );
-  needTransformCol.forEach(colItem => {
-    printDataList.forEach((tableItem: { [key: string]: any }) => {
-      tableItem[handleProp(colItem.prop!)] =
-        colItem.prop!.split(".").length > 1 && !colItem.enum
-          ? formatValue(handleRowAccordingToProp(tableItem, colItem.prop!))
-          : filterEnum(handleRowAccordingToProp(tableItem, colItem.prop!), enumMap.value.get(colItem.prop!), colItem.fieldNames);
-      for (const key in tableItem) {
-        if (tableItem[key] === null) tableItem[key] = formatValue(tableItem[key]);
-      }
-    });
-  });
-  return printDataList;
-});
-
-// 打印表格数据（💥 多级表头数据打印时，只能扁平化成一维数组，printJs 不支持多级表头打印）
-const handlePrint = () => {
-  const header = `<div style="text-align: center"><h2>${props.title}</h2></div>`;
-  const gridHeaderStyle = "border: 1px solid #ebeef5;height: 45px;color: #232425;text-align: center;background-color: #fafafa;";
-  const gridStyle = "border: 1px solid #ebeef5;height: 40px;color: #494b4e;text-align: center";
-  printJS({
-    printable: printData.value,
-    header: props.title && header,
-    properties: flatColumns
-      .value!.filter(item => !["selection", "index", "expand"].includes(item.type!) && item.isShow && item.prop !== "operation")
-      .map((item: ColumnProps) => ({ field: handleProp(item.prop!), displayName: item.label })),
-    type: "json",
-    gridHeaderStyle,
-    gridStyle
-  });
 };
 
 // 暴露给父组件的参数和方法(外部需要什么，都可以从这里暴露出去)
