@@ -147,13 +147,16 @@
       background: var(--el-fill-color-light);
     }
     .el-table__row {
-      height: 45px;
+      height: 32px;
       font-size: 14px;
       .move {
         cursor: move;
         .el-icon {
           cursor: move;
         }
+      }
+      .el-table__cell {
+        padding: 6px 0;
       }
     }
 

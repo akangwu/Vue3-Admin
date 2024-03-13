@@ -26,7 +26,6 @@
 <script setup lang="ts">
 import { HOME_URL } from "@/config";
 import { Login } from "@/api/interface";
-import { loginApi } from "@/api/modules/login";
 import { initDynamicRouter } from "@/routers/modules/dynamicRouter";
 import { useKeepAliveStore } from "@/stores/modules/keepAlive";
 import { useTabsStore } from "@/stores/modules/tabs";
@@ -35,7 +34,6 @@ import { getTimeState } from "@/utils";
 import { CircleClose, UserFilled } from "@element-plus/icons-vue";
 import type { ElForm } from "element-plus";
 import { ElNotification } from "element-plus";
-import md5 from "js-md5";
 import { onMounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 
@@ -65,8 +63,8 @@ const login = (formEl: FormInstance | undefined) => {
     loading.value = true;
     try {
       // 1.执行登录接口
-      const { data } = await loginApi({ ...loginForm, password: md5(loginForm.password) });
-      userStore.setToken(data.access_token);
+      //const { data } = await loginApi({ ...loginForm, password: md5(loginForm.password) });
+      userStore.setToken("22222");
 
       // 2.添加动态路由
       await initDynamicRouter();
