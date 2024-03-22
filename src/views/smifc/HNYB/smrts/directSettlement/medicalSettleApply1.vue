@@ -8,7 +8,7 @@
 
 <script setup lang="ts" name="medicalSettleApply">
 import { computed, ref, reactive } from "vue";
-import { getUserList } from "@/api/modules/user";
+import { getUserList } from "@/axios/modules/user";
 import SearchForm from "@/components/SearchForm/index.vue";
 import { MedicalSettleApply } from "../medicalSettleApply";
 const columns: ColumnProps<MedicalSettleApply.ResList>[] = [

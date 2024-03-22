@@ -32,7 +32,7 @@
 <script setup lang="ts" name="menuMange">
 import { ref } from "vue";
 import { ColumnProps } from "@/components/ProTable/interface";
-import { getAuthMenuListApi } from "@/api/modules/login";
+import { getAuthMenuListApi } from "@/axios/modules/login";
 import { Delete, EditPen, CirclePlus } from "@element-plus/icons-vue";
 import { useHandleData } from "@/hooks/useHandleData";
 import ProTable from "@/components/ProTable/index.vue";

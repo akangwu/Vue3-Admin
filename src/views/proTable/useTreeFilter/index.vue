@@ -38,7 +38,7 @@
 </template>
 <script setup lang="ts" name="useTreeFilter">
 import { ref, reactive } from "vue";
-import { User } from "@/api/interface";
+import { User } from "@/axios/interface";
 import { useRouter } from "vue-router";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { ColumnProps } from "@/components/ProTable/interface";
@@ -60,7 +60,7 @@ import {
   getUserStatus,
   getUserGender,
   getUserDepartment
-} from "@/api/modules/user";
+} from "@/axios/modules/user";
 
 const router = useRouter();
 

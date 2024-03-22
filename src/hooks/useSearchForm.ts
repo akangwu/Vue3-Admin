@@ -2,7 +2,7 @@ import { reactive, computed, toRefs } from "vue";
 
 /**
  * @description 搜索条件参数 页面操作方法封装
- * @param {Function} api 获取表格数据 api 方法 (必传)
+ * @param {Function} api 获取表格数据 axios 方法 (必传)
  * @param {Object} initParam 获取数据初始化参数 (非必传，默认为{})
  * @param requestError
  * */

@@ -2,7 +2,7 @@ import axios, { AxiosInstance, AxiosError, AxiosRequestConfig, InternalAxiosRequ
 import { showFullScreenLoading, tryHideFullScreenLoading } from "@/config/serviceLoading";
 import { LOGIN_URL } from "@/config";
 import { ElMessage } from "element-plus";
-import { ResultData } from "@/api/interface";
+import { ResultData } from "@/axios/interface";
 import { ResultEnum } from "@/enums/httpEnum";
 import { checkStatus } from "./helper/checkStatus";
 import { useUserStore } from "@/stores/modules/user";
@@ -35,7 +35,7 @@ class RequestHttp {
     this.service.interceptors.request.use(
       (config: CustomAxiosRequestConfig) => {
         const userStore = useUserStore();
-        // 当前请求不需要显示 loading，在 api 服务中通过指定的第三个参数: { noLoading: true } 来控制
+        // 当前请求不需要显示 loading，在 axios 服务中通过指定的第三个参数: { noLoading: true } 来控制
         /*if (config.isLogin) {
           config.headers["Content-Type"] = "application/x-www-form-urlencoded";
           console.log(config, "config");

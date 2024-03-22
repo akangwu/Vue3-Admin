@@ -30,7 +30,7 @@ import "element-plus/theme-chalk/dark/css-vars.css";
 import "virtual:svg-icons-register";
 
 import funcs from "@/utils/funcs";
-import http from "@/api";
+import http from "@/axios";
 import { createApp } from "vue";
 import App from "./App.vue";
 

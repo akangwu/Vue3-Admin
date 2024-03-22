@@ -15,6 +15,7 @@
       :border="border"
       :row-key="rowKey"
       stripe
+      fit
       @selection-change="selectionChange"
     >
       <!-- 默认插槽 -->
@@ -84,8 +85,8 @@ interface ProTableProps extends Partial<Omit<TableProps<any>, "data">> {
   ifRadio?: boolean; // 是否显示单选框 ==> 非必传（默认为false）
   column: ColumnProps[]; // 列配置项
   data: any[]; // 列表数据
-  requestAuto?: boolean; // 是否自动执行请求 api ==> 非必传（默认为true）
-  requestError?: (params: any) => void; // 表格 api 请求错误监听 ==> 非必传
+  requestAuto?: boolean; // 是否自动执行请求 axios ==> 非必传（默认为true）
+  requestError?: (params: any) => void; // 表格 axios 请求错误监听 ==> 非必传
   dataCallback?: (data: any) => any; // 返回数据的回调函数，可以对数据进行处理 ==> 非必传
   title?: string; // 表格标题，目前只在打印的时候用到 ==> 非必传
   initParam?: any; // 初始化请求参数 ==> 非必传（默认为{}）

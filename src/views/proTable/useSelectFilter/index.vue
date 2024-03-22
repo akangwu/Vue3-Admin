@@ -40,7 +40,7 @@
 </template>
 <script setup lang="ts" name="useSelectFilter">
 import { ref, reactive, onMounted } from "vue";
-import { User } from "@/api/interface";
+import { User } from "@/axios/interface";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { ColumnProps } from "@/components/ProTable/interface";
 import { useHandleData } from "@/hooks/useHandleData";
@@ -62,7 +62,7 @@ import {
   BatchAddUser,
   getUserDepartment,
   getUserRole
-} from "@/api/modules/user";
+} from "@/axios/modules/user";
 
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref();

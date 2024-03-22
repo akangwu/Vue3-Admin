@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 import { HOME_URL } from "@/config";
-import { Login } from "@/api/interface";
+import { Login } from "@/axios/interface";
 import { initDynamicRouter } from "@/routers/modules/dynamicRouter";
 import { useKeepAliveStore } from "@/stores/modules/keepAlive";
 import { useTabsStore } from "@/stores/modules/tabs";

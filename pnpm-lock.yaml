@@ -1584,7 +1584,7 @@ packages:
       '@vueuse/shared': 10.1.0(vue@3.2.47)
       vue-demi: 0.14.0(vue@3.2.47)
     transitivePeerDependencies:
-      - '@vue/composition-api'
+      - '@vue/composition-axios'
       - vue
 
   /@vueuse/core@9.13.0(vue@3.2.47):
@@ -1595,7 +1595,7 @@ packages:
       '@vueuse/shared': 9.13.0(vue@3.2.47)
       vue-demi: 0.14.0(vue@3.2.47)
     transitivePeerDependencies:
-      - '@vue/composition-api'
+      - '@vue/composition-axios'
       - vue
     dev: false
 
@@ -1611,7 +1611,7 @@ packages:
     dependencies:
       vue-demi: 0.14.0(vue@3.2.47)
     transitivePeerDependencies:
-      - '@vue/composition-api'
+      - '@vue/composition-axios'
       - vue
 
   /@vueuse/shared@9.13.0(vue@3.2.47):
@@ -1619,7 +1619,7 @@ packages:
     dependencies:
       vue-demi: 0.14.0(vue@3.2.47)
     transitivePeerDependencies:
-      - '@vue/composition-api'
+      - '@vue/composition-axios'
       - vue
     dev: false
 
@@ -2977,7 +2977,7 @@ packages:
       normalize-wheel-es: 1.2.0
       vue: 3.2.47
     transitivePeerDependencies:
-      - '@vue/composition-api'
+      - '@vue/composition-axios'
     dev: false
 
   /emoji-regex@8.0.0:
