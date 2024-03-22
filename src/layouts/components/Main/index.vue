@@ -1,6 +1,5 @@
 <template>
   <Maximize v-if="maximize" />
-  <Tabs v-if="tabs" />
   <el-main>
     <router-view v-slot="{ Component, route }">
       <transition appear name="fade-transform" mode="out-in">
@@ -19,10 +18,9 @@ import { useDebounceFn } from "@vueuse/core";
 import { useGlobalStore } from "@/stores/modules/global";
 import { useKeepAliveStore } from "@/stores/modules/keepAlive";
 import Maximize from "./components/Maximize.vue";
-import Tabs from "@/layouts/components/Tabs/index.vue";
 
 const globalStore = useGlobalStore();
-const { maximize, isCollapse, layout, tabs } = storeToRefs(globalStore);
+const { maximize, isCollapse, layout } = storeToRefs(globalStore);
 
 const keepAliveStore = useKeepAliveStore();
 const { keepAliveName } = storeToRefs(keepAliveStore);

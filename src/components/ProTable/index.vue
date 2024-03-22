@@ -11,7 +11,7 @@
     <el-table
       ref="tableRef"
       v-bind="$attrs"
-      :data="tableData"
+      :data="data"
       :border="border"
       :row-key="rowKey"
       stripe
@@ -66,27 +66,14 @@
         </div>
       </template>
     </el-table>
-    <!-- 分页组件 -->
-    <slot name="pagination">
-      <div style="display: flex; justify-content: flex-end; align-items: center; margin-top: 10px">
-        <Pagination
-          v-if="pagination"
-          :pageable="pageable"
-          :handle-size-change="handleSizeChange"
-          :handle-current-change="handleCurrentChange"
-        />
-      </div>
-    </slot>
   </div>
 </template>
 
 <script setup lang="ts" name="ProTable">
-import { ref, watch, provide, onMounted } from "vue";
-import { useTable } from "@/hooks/useTable";
+import { ref, provide } from "vue";
 import { useSelection } from "@/hooks/useSelection";
 import { ColumnProps } from "@/components/ProTable/interface";
 import { ElTable, TableProps } from "element-plus";
-import Pagination from "./components/Pagination.vue";
 import TableColumn from "./components/TableColumn.vue";
 
 interface ProTableProps extends Partial<Omit<TableProps<any>, "data">> {
@@ -95,13 +82,12 @@ interface ProTableProps extends Partial<Omit<TableProps<any>, "data">> {
   indexWidth?: string; // 序号宽度 ==> 非必传（默认为'80'）
   ifSelect?: boolean; // 是否显示多选框 ==> 非必传（默认为false）
   ifRadio?: boolean; // 是否显示单选框 ==> 非必传（默认为false）
-  columns: ColumnProps[]; // 列配置项
-  requestApi: (params: any) => Promise<any> | any; // 请求表格数据的 api ==> 非必传
+  column: ColumnProps[]; // 列配置项
+  data: any[]; // 列表数据
   requestAuto?: boolean; // 是否自动执行请求 api ==> 非必传（默认为true）
   requestError?: (params: any) => void; // 表格 api 请求错误监听 ==> 非必传
   dataCallback?: (data: any) => any; // 返回数据的回调函数，可以对数据进行处理 ==> 非必传
   title?: string; // 表格标题，目前只在打印的时候用到 ==> 非必传
-  pagination?: boolean; // 是否需要分页组件 ==> 非必传（默认为true）
   initParam?: any; // 初始化请求参数 ==> 非必传（默认为{}）
   border?: boolean; // 是否带有纵向边框 ==> 非必传（默认为true）
   rowKey?: string; // 行数据的 Key，用来优化 Table 的渲染，当表格数据多选时，所指定的 id ==> 非必传（默认为 id）
@@ -115,8 +101,8 @@ const props = withDefaults(defineProps<ProTableProps>(), {
   indexWidth: "80",
   ifSelect: false,
   ifRadio: false,
-  columns: () => [],
-  pagination: true,
+  column: () => [],
+  data: () => [],
   initParam: {},
   border: true,
   rowKey: "id"
@@ -131,26 +117,11 @@ const tableRef = ref<InstanceType<typeof ElTable>>();
 // 表格多选 Hooks
 const { selectionChange, selectedRows, selectedIds, isSelected } = useSelection(props.rowKey);
 
-// 表格操作 Hooks
-const { tableData, pageable, searchParam, getTableList, handleSizeChange, handleCurrentChange } = useTable(
-  props.requestApi,
-  props.initParam,
-  props.pagination,
-  props.dataCallback,
-  props.requestError
-);
-
 // 清空选中数据列表
 const clearSelection = () => tableRef.value!.clearSelection();
 
-// 初始化请求
-onMounted(() => props.requestAuto && getTableList());
-
-// 监听页面 initParam 改化，重新获取表格数据
-watch(() => props.initParam, getTableList, { deep: true });
-
-// 接收 columns 并设置为响应式
-const tableColumns = ref<ColumnProps[]>(props.columns);
+// 接收 column 并设置为响应式
+const tableColumns = ref<ColumnProps[]>(props.column);
 
 // 定义 enumMap 存储 enum 值（避免异步请求无法格式化单元格内容 || 无法填充搜索下拉选择）
 const enumMap = ref(new Map<string, { [key: string]: any }[]>());
@@ -163,9 +134,9 @@ const setEnumMap = async (col: ColumnProps) => {
   enumMap.value.set(col.prop!, data);
 };
 
-// 扁平化 columns
-const flatColumnsFunc = (columns: ColumnProps[], flatArr: ColumnProps[] = []) => {
-  columns.forEach(async col => {
+// 扁平化 column
+const flatColumnsFunc = (column: ColumnProps[], flatArr: ColumnProps[] = []) => {
+  column.forEach(async col => {
     if (col._children?.length) flatArr.push(...flatColumnsFunc(col._children));
     flatArr.push(col);
 
@@ -174,7 +145,7 @@ const flatColumnsFunc = (columns: ColumnProps[], flatArr: ColumnProps[] = []) =>
     col.isFilterEnum = col.isFilterEnum ?? true;
 
     // 设置 enumMap
-    setEnumMap(col);
+    await setEnumMap(col);
   });
   return flatArr.filter(item => !item._children?.length);
 };
@@ -193,10 +164,6 @@ const getCurrentRow = row => {
 // 暴露给父组件的参数和方法(外部需要什么，都可以从这里暴露出去)
 defineExpose({
   element: tableRef,
-  tableData,
-  searchParam,
-  pageable,
-  getTableList,
   clearSelection,
   enumMap,
   isSelected,

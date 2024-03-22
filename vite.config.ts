@@ -1,7 +1,7 @@
 import { defineConfig, loadEnv, ConfigEnv, UserConfig } from "vite";
 import { resolve } from "path";
 import { wrapperEnv } from "./build/getEnv";
-import { createProxy } from "./build/proxy";
+//import { createProxy } from "./build/proxy";
 import { createVitePlugins } from "./build/plugins";
 import pkg from "./package.json";
 import dayjs from "dayjs";
@@ -47,7 +47,15 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       open: viteEnv.VITE_OPEN,
       cors: true,
       // Load proxy configuration from .env.development
-      proxy: createProxy(viteEnv.VITE_PROXY)
+      proxy: {
+        "/apis": {
+          target: "http://10.16.23.71:9089/",
+          //target: "http://10.16.23.10:9085",
+          changeOrigin: true,
+          ws: true,
+          rewrite: path => path.replace(/^\/apis/, "")
+        }
+      }
     },
     plugins: [
       createVitePlugins(viteEnv),

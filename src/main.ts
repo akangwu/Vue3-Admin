@@ -17,24 +17,29 @@ import "@/styles/common.scss";
 import "@/styles/element.scss";
 // reset style sheet
 import "@/styles/reset.scss";
-// custom element dark css
-import "@/styles/theme/element-dark.scss";
 // element icons
 import * as Icons from "@element-plus/icons-vue";
 // element plus
 import ElementPlus from "element-plus";
+import { ElMessage, ElMessageBox } from "element-plus";
 // element css
 import "element-plus/dist/index.css";
 // element dark css
 import "element-plus/theme-chalk/dark/css-vars.css";
 // svg icons
 import "virtual:svg-icons-register";
+
 import funcs from "@/utils/funcs";
+import http from "@/api";
 import { createApp } from "vue";
 import App from "./App.vue";
 
 const app = createApp(App);
 app.config.globalProperties.$funcs = funcs;
+app.config.globalProperties.$axios = http;
+app.config.globalProperties.$ElMessage = ElMessage;
+app.config.globalProperties.$ElMessageBox = ElMessageBox;
+
 // register the element Icons component
 Object.keys(Icons).forEach(key => {
   app.component(key, Icons[key as keyof typeof Icons]);

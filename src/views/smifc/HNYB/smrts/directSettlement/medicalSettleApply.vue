@@ -1,16 +1,33 @@
 <template>
   <div class="table-box">
     <!-- 查询表单 card -->
-    <SearchForm @get-data="getData" @reset-change="reset" v-show="isShowSearch" :form-items="formItems" :formData="formData" />
-    <ProTable ref="proTable" title="药采结算申请" ifIndex :columns="columns" :requestApi="getTableList"> </ProTable>
+    <SearchForm @get-data="getData" @reset-change="reset" :form-items="formItems" :formData="formData" />
+    <el-tabs v-model="activeKey" @tab-click="tabClick">
+      <el-tab-pane :label="item.label" :name="item.value" v-for="(item, index) in tabs" :key="index"> </el-tab-pane>
+    </el-tabs>
+    <ProTable ref="proTable" title="药采结算申请" ifIndex :column="columns" :data="tableData">
+      <template #tableHeader>
+        <el-button v-if="activeKey === '0'" type="primary">新增用户</el-button>
+        <el-button v-if="activeKey === '1'" type="primary">退回</el-button>
+      </template>
+    </ProTable>
+    <VPages
+      ref="pages"
+      @get-data="getData"
+      :total="paginationData.total"
+      v-model:pageNum="paginationData.pageNum"
+      v-model:pageSize="paginationData.pageSize"
+    />
   </div>
 </template>
 
 <script setup lang="ts" name="medicalSettleApply">
-import { computed, ref, reactive } from "vue";
-import { getUserList } from "@/api/modules/user";
+import { computed, getCurrentInstance, onMounted, reactive, ref, toRaw } from "vue";
+import { useRoute } from "vue-router";
 import SearchForm from "@/components/SearchForm/index.vue";
 import { MedicalSettleApply } from "../medicalSettleApply";
+const { proxy } = getCurrentInstance();
+const route = useRoute();
 const columns: ColumnProps<MedicalSettleApply.ResList>[] = [
   { label: "结算批次号", prop: "statementId", width: 200 },
   {
@@ -90,201 +107,148 @@ const columns: ColumnProps<MedicalSettleApply.ResList>[] = [
   },
   { label: "操作", prop: "operation", width: 180, align: "center" }
 ];
-// 是否显示搜索模块
-const isShowSearch = ref(true);
-
-const getData = () => {
-  console.log(formData, "4444888888");
+let tableData = ref([]);
+const activeKey = ref("0");
+const tabs = [
+  { label: "待办", value: "0" },
+  { label: "已办", value: "1" },
+  { label: "驳回", value: "2" },
+  { label: "退回", value: "3" }
+];
+const paginationData = reactive({
+  total: 0,
+  pageSize: 50,
+  pageNum: 1
+});
+const getData = async () => {
+  const params = JSON.parse(JSON.stringify(toRaw(formData)));
+  params.pageSize = paginationData.pageSize;
+  params.pageNum = paginationData.pageNum;
+  if (params.p10s == "") {
+    params.p10s = route.query.businessType ? route.query.businessType.split(",") : "";
+  }
+  if (activeKey.value === "0") {
+    params.operateState = ["0"];
+    params.rollbackStatusList = ["0", "1"];
+  }
+  if (activeKey.value === "1") {
+    params.menuFlag = "handled";
+    params.rollbackStatusList = ["0", "1"];
+  }
+  if (activeKey.value === "2") {
+    params.menuFlag = "reject";
+    params.rollbackStatusList = ["0", "1"];
+  }
+  if (activeKey.value === "3") {
+    params.rollbackStatusList = ["1", "2"];
+  }
+  params.startDate = params.dealDate[0];
+  params.endDate = params.dealDate[1];
+  delete params.dealDate;
+  if (activeKey.value !== "0" && activeKey.value !== "3") {
+    params.bizTypeCode = route.query.bizTypeCode ? route.query.bizTypeCode : null;
+  }
+  params.cancelPayIs = activeKey.value === "3";
+  let url = `/henan/smrts/api/deductPlan/${activeKey.value === "0" || activeKey.value === "3" ? "pageList" : "taskPageList"}`;
+  const { code, data, msg } = await proxy.$axios.post(url, params);
+  if (code === 0) {
+    tableData.value = data.rows;
+    paginationData.total = data.total;
+    proxy.$ElMessage.success(msg);
+  } else {
+    tableData.value = [];
+    paginationData.total = 0;
+    proxy.$ElMessage.error(msg);
+  }
+};
+const tabClick = val => {
+  activeKey.value = val.paneName;
+  getData();
 };
 const reset = () => {};
 
-const getTableList = (params: any) => {
-  const params1 = {
-    p4: "",
-    p1: "",
-    insuranceName: "",
-    p11: "",
-    operateState: "",
-    operateTime: ""
-  };
-  let newParams = Object.assign(params, params1);
-  Object.assign(params, params1);
-  console.log(Object.assign(params, params1), "33343434343");
-  return getUserList(newParams);
-  /*const res = {
-    code: 0,
-    data: {
-      list: [
-        {
-          statementId: "2",
-          p4: "2",
-          p5: "2",
-          createDate: "2",
-          p1: "2",
-          p7: "2",
-          insuranceName: "2",
-          agencyName: "2",
-          p11: "2",
-          p12: "2",
-          p13: "2",
-          totalOriginalCount: "2",
-          vouNo: "2",
-          vouDate: "2",
-          submitName: "2",
-          submitTime: "2",
-          operateState: "2",
-          operateTime: "2"
-        }
-      ],
-      total: 2000
-    },
-    msg: "成功"
-  };
-  return res;*/
+const getInsuranceList = async () => {
+  let insuranceLint = [];
+  const { data } = await proxy.$axios.get("/api/smc/platFormBasicData/list?eleCode=XZ");
+  insuranceLint = data;
+  console.log(insuranceLint, "323223");
 };
 
 const formData = reactive({
-  aaz617: "5",
-  year: "",
-  month: "",
-  dealDate: "2024-03-18",
-  dates: "",
-  dataRangeDay: ["", ""],
-  dataRangeMonth: ["", ""],
-  dataRangeTime: "",
-  recOrPayType: "",
-  vouStatus: "",
-  debitAmt: ["", ""]
+  p1: "",
+  p10s: "",
+  p4Like: "",
+  insuranceCode: "",
+  dealDate: ["", ""],
+  operateParam: "",
+  statementId: ""
 });
 
 const formItems = computed(() => {
   return [
     {
-      htmlType: "input",
-      label: "业务批次号	",
-      ruleId: "aaz617",
-      search: {
-        disabled: false
-      }
-    },
-    {
       htmlType: "date",
-      label: "年",
-      ruleId: "year",
-      type: "year",
-      format: "YYYY",
-      valueFormat: "YYYY",
-      search: {
-        clear: false
-      }
-    },
-    {
-      htmlType: "date",
-      label: "月",
-      ruleId: "month",
+      label: "费款所属期",
+      ruleId: "p1",
       type: "month",
       format: "YYYY-MM",
-      valueFormat: "YYYY-MM",
-      search: {
-        clear: true
-      }
+      valueFormat: "YYYY-MM"
     },
     {
-      htmlType: "date",
-      label: "审核日期",
-      ruleId: "dealDate",
-      type: "date",
-      format: "YYYY-MM-DD",
-      valueFormat: "YYYY-MM-DD"
+      htmlType: "select",
+      label: "业务类型",
+      ruleId: "p10s",
+      list: [
+        { label: "收入", code: "0" },
+        { label: "支出", code: "1" }
+      ],
+      clear: true,
+      filter: true
     },
     {
-      htmlType: "date",
-      label: "多个日期",
-      ruleId: "dates",
-      type: "dates",
-      format: "YYYY-MM-DD",
-      valueFormat: "YYYY-MM-DD"
+      htmlType: "input",
+      label: "业务批次号	",
+      ruleId: "p4Like"
+    },
+    {
+      htmlType: "select",
+      label: "险种",
+      ruleId: "insuranceCode",
+      list: [
+        { label: "收入", code: "0" },
+        { label: "支出", code: "1" }
+      ],
+      clear: true,
+      filter: true
     },
     {
       htmlType: "dateRange",
-      label: "日期范围",
-      ruleId: "dataRangeDay",
+      label: "审核时间",
+      ruleId: "dealDate",
       type: "daterange",
       format: "YYYY-MM-DD",
       valueFormat: "YYYY-MM-DD"
     },
     {
-      htmlType: "dateRange",
-      label: "月份范围",
-      ruleId: "dataRangeMonth",
-      type: "monthrange",
-      format: "YYYY-MM",
-      valueFormat: "YYYY-MM"
-    },
-    {
-      htmlType: "dateRange",
-      label: "日期时间范围",
-      ruleId: "dataRangeTime",
-      type: "datetimerange",
-      format: "YYYY-MM-DD HH:mm:ss",
-      valueFormat: "YYYY-MM-DD HH:mm:ss"
-    },
-    {
       htmlType: "select",
-      label: "收支类型",
-      ruleId: "recOrPayType",
+      label: "审核状态",
+      ruleId: "operateParam",
       list: [
         { label: "收入", code: "0" },
-        { label: "支出", code: "1", disabled: true }
+        { label: "支出", code: "1" }
       ],
-      search: {
-        clear: true,
-        filter: true
-      }
+      clear: true,
+      filter: true
     },
     {
-      htmlType: "radioGroup",
-      label: "入账状态",
-      ruleId: "vouStatus",
-      list: [
-        {
-          code: "",
-          name: "全部"
-        },
-        {
-          code: "0",
-          name: "未入账",
-          search: {
-            disabled: true
-          }
-        },
-        {
-          code: "1",
-          name: "已入账"
-        },
-        {
-          code: "-12",
-          name: "3标记不处理"
-        },
-        {
-          code: "12",
-          name: "3已入账"
-        },
-        {
-          code: "-10",
-          name: "5标记不处理"
-        }
-      ],
-      search: {
-        span: 2,
-        disabled: false
-      }
-    },
-    {
-      htmlType: "moneyRange",
-      label: "借方金额",
-      ruleId: "debitAmt"
+      htmlType: "input",
+      label: "结算批次号	",
+      ruleId: "statementId"
     }
   ];
+});
+onMounted(() => {
+  getInsuranceList();
+  getData();
 });
 </script>

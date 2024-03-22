@@ -174,10 +174,9 @@ setCollapsed();
 const gridRef = ref();
 
 // 查询方法
-const emit = defineEmits(["formData", "get-data", "reset-change"]);
+const emit = defineEmits(["formData", "getData", "resetChange"]);
 const search = () => {
-  console.log(props.formData, "3444");
-  emit("get-data", props.formData);
+  emit("getData", props.formData);
 };
 
 const formRef = ref<FormInstance>();
@@ -187,7 +186,7 @@ const reset = (formEl: FormInstance | undefined) => {
   nextTick(() => {
     formEl.resetFields();
   });
-  emit("reset-change", props.formData);
+  emit("resetChange", props.formData);
 };
 
 //对formData数据进行监听，当数据是日期的参数，element-plus的clearable清空数据后日期参数会变成null，这里判断一下，给""

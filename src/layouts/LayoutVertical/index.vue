@@ -21,18 +21,18 @@
       </div>
     </el-aside>
     <el-container>
-      <el-header>
+      <!--<el-header>
         <ToolBarLeft />
         <ToolBarRight />
-      </el-header>
+      </el-header>-->
       <Main />
     </el-container>
   </el-container>
 </template>
 
 <script setup lang="ts" name="layoutVertical">
-import ToolBarLeft from "@/layouts/components/Header/ToolBarLeft.vue";
-import ToolBarRight from "@/layouts/components/Header/ToolBarRight.vue";
+//import ToolBarLeft from "@/layouts/components/Header/ToolBarLeft.vue";
+//import ToolBarRight from "@/layouts/components/Header/ToolBarRight.vue";
 import Main from "@/layouts/components/Main/index.vue";
 import SubMenu from "@/layouts/components/Menu/SubMenu.vue";
 import { useAuthStore } from "@/stores/modules/auth";
