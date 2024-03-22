@@ -24,3 +24,6 @@ stats.html
 *.njsproj
 *.sln
 *.sw?
+/src/auto-import.d.ts
+/components.d.ts
+/yarn.lock
