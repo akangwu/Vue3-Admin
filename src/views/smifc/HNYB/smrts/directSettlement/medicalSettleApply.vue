@@ -1,7 +1,7 @@
 <template>
   <div class="table-box">
     <!-- 查询表单 card -->
-    <SearchForm @get-data="getData" @reset-change="reset" :form-items="formItems" :formData="formData" />
+    <SearchForm @get-data="getData" :form-items="formItems" :formData="formData" />
     <el-tabs v-model="activeKey" @tab-click="tabClick">
       <el-tab-pane :label="item.label" :name="item.value" v-for="(item, index) in tabs" :key="index"> </el-tab-pane>
     </el-tabs>
@@ -9,6 +9,12 @@
       <template #tableHeader>
         <el-button v-if="activeKey === '0'" type="primary">新增用户</el-button>
         <el-button v-if="activeKey === '1'" type="primary">退回</el-button>
+      </template>
+      <template #p7="scope">
+        {{ `[${scope.row.p6}]${scope.row.p7}` }}
+      </template>
+      <template #operation>
+        <el-button>查看</el-button>
       </template>
     </ProTable>
     <VPages
@@ -33,10 +39,7 @@ const columns: ColumnProps<MedicalSettleApply.ResList>[] = [
   {
     label: "业务批次号",
     prop: "p4",
-    width: 200,
-    search: {
-      el: "input"
-    }
+    width: 200
   },
   { label: "财务批次号", prop: "p5", width: 200 },
   { label: "创建时间", prop: "createDate", width: 200, align: "center" },
@@ -44,35 +47,23 @@ const columns: ColumnProps<MedicalSettleApply.ResList>[] = [
     label: "费款所属期",
     prop: "p1",
     width: 150,
-    align: "center",
-    search: {
-      el: "date-picker",
-      props: {
-        type: "monthrange",
-        valueFormat: "YYYY-MM",
-        clearable: true
-      }
-    }
+    align: "center"
   },
-  { label: "统筹区", prop: "p7", width: 200 },
+  {
+    label: "统筹区",
+    prop: "p7",
+    width: 200
+  },
   {
     label: "险种",
     prop: "insuranceName",
-    width: 200,
-    search: {
-      el: "tree-select",
-      props: { filterable: true }
-    }
+    width: 200
   },
   { label: "医保经办机构", prop: "agencyName", width: 200 },
   {
     label: "业务类型",
     prop: "p11",
-    width: 250,
-    search: {
-      el: "tree-select",
-      props: { filterable: true }
-    }
+    width: 250
   },
   { label: "实付单位数", prop: "p12", width: 150 },
   { label: "实付总金额（元）", prop: "p13", width: 150, align: "right" },
@@ -85,25 +76,13 @@ const columns: ColumnProps<MedicalSettleApply.ResList>[] = [
   {
     label: "审核状态",
     prop: "operateState",
-    width: 150,
-    search: {
-      el: "tree-select",
-      props: { filterable: true }
-    }
+    width: 150
   },
   {
     label: "审核时间",
     prop: "operateTime",
     width: 150,
-    align: "center",
-    search: {
-      el: "date-picker",
-      props: {
-        type: "datetimerange",
-        valueFormat: "YYYY-MM-DD HH:mm:ss",
-        clearable: true
-      }
-    }
+    align: "center"
   },
   { label: "操作", prop: "operation", width: 180, align: "center" }
 ];
@@ -165,8 +144,6 @@ const tabClick = val => {
   activeKey.value = val.paneName;
   getData();
 };
-const reset = () => {};
-
 const getInsuranceList = async () => {
   let insuranceLint = [];
   const { data } = await proxy.$axios.get("/api/smc/platFormBasicData/list?eleCode=XZ");
