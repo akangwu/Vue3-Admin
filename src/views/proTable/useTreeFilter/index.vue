@@ -8,7 +8,7 @@
       @change="changeTreeFilter"
     />
     <div class="table-box">
-      <ProTable
+      <VTable
         ref="proTable"
         title="用户列表"
         :columns="columns"
@@ -30,7 +30,7 @@
           <el-button type="primary" link :icon="Refresh" @click="resetPass(scope.row)">重置密码</el-button>
           <el-button type="primary" link :icon="Delete" @click="deleteAccount(scope.row)">删除</el-button>
         </template>
-      </ProTable>
+      </VTable>
       <UserDrawer ref="drawerRef" />
       <ImportExcel ref="dialogRef" />
     </div>
@@ -41,10 +41,10 @@ import { ref, reactive } from "vue";
 import { User } from "@/axios/interface";
 import { useRouter } from "vue-router";
 import { ElMessage, ElMessageBox } from "element-plus";
-import { ColumnProps } from "@/components/ProTable/interface";
+import { ColumnProps } from "@/components/VTable/interface";
 import { useHandleData } from "@/hooks/useHandleData";
 import { useDownload } from "@/hooks/useDownload";
-import ProTable from "@/components/ProTable/index.vue";
+import VTable from "@/components/VTable/index.vue";
 import TreeFilter from "@/components/TreeFilter/index.vue";
 import ImportExcel from "@/components/ImportExcel/index.vue";
 import UserDrawer from "@/views/proTable/components/UserDrawer.vue";
@@ -69,10 +69,10 @@ const toDetail = () => {
   router.push(`/proTable/useTreeFilter/detail/123456?params=detail-page`);
 };
 
-// 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
+// 获取 VTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref();
 
-// 如果表格需要初始化请求参数，直接定义传给 ProTable(之后每次请求都会自动带上该参数，此参数更改之后也会一直带上，改变此参数会自动刷新表格数据)
+// 如果表格需要初始化请求参数，直接定义传给 VTable(之后每次请求都会自动带上该参数，此参数更改之后也会一直带上，改变此参数会自动刷新表格数据)
 const initParam = reactive({ departmentId: "1" });
 
 // 树形筛选切换

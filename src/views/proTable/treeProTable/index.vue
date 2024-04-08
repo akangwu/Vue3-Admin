@@ -8,7 +8,7 @@
       @change="changeTreeFilter"
     />
     <div class="table-box">
-      <ProTable
+      <VTable
         ref="proTable"
         title="用户列表"
         row-key="id"
@@ -29,7 +29,7 @@
           <el-button type="primary" link :icon="EditPen" @click="openDrawer('编辑', scope.row)">编辑</el-button>
           <el-button type="primary" link :icon="Delete" @click="deleteAccount(scope.row)">删除</el-button>
         </template>
-      </ProTable>
+      </VTable>
       <UserDrawer ref="drawerRef" />
       <ImportExcel ref="dialogRef" />
     </div>
@@ -40,10 +40,10 @@
 import { onMounted, reactive, ref } from "vue";
 import { ElMessage, ElNotification } from "element-plus";
 import { User } from "@/axios/interface";
-import { ColumnProps } from "@/components/ProTable/interface";
+import { ColumnProps } from "@/components/VTable/interface";
 import { useHandleData } from "@/hooks/useHandleData";
 import { genderType } from "@/utils/serviceDict";
-import ProTable from "@/components/ProTable/index.vue";
+import VTable from "@/components/VTable/index.vue";
 import TreeFilter from "@/components/TreeFilter/index.vue";
 import ImportExcel from "@/components/ImportExcel/index.vue";
 import UserDrawer from "@/views/proTable/components/UserDrawer.vue";
@@ -54,24 +54,24 @@ onMounted(() => {
   getTreeFilter();
   ElNotification({
     title: "温馨提示",
-    message: "该页面 ProTable 数据不会自动请求，需等待 treeFilter 数据请求完成之后，才会触发表格请求。",
+    message: "该页面 VTable 数据不会自动请求，需等待 treeFilter 数据请求完成之后，才会触发表格请求。",
     type: "info",
     duration: 10000
   });
   setTimeout(() => {
     ElNotification({
       title: "温馨提示",
-      message: "该页面 ProTable 性别搜索框为远程数据搜索，详情可查看代码。",
+      message: "该页面 VTable 性别搜索框为远程数据搜索，详情可查看代码。",
       type: "info",
       duration: 10000
     });
   }, 0);
 });
 
-// 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
+// 获取 VTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref();
 
-// 如果表格需要初始化请求参数，直接定义传给 ProTable(之后每次请求都会自动带上该参数，此参数更改之后也会一直带上，改变此参数会自动刷新表格数据)
+// 如果表格需要初始化请求参数，直接定义传给 VTable(之后每次请求都会自动带上该参数，此参数更改之后也会一直带上，改变此参数会自动刷新表格数据)
 const initParam = reactive({ departmentId: "" });
 
 // 获取 treeFilter 数据

@@ -1,11 +1,11 @@
 <template>
   <div class="table-box">
     <!-- 查询表单 card -->
-    <SearchForm @get-data="getData" :form-items="formItems" :formData="formData" />
+    <VSearch @get-data="getData" :form-items="formItems" :formData="formData" />
     <el-tabs v-model="activeKey" @tab-click="tabClick">
       <el-tab-pane :label="item.label" :name="item.value" v-for="(item, index) in tabs" :key="index"> </el-tab-pane>
     </el-tabs>
-    <ProTable ref="proTable" title="药采结算申请" ifIndex :column="columns" :data="tableData">
+    <VTable ref="proTable" title="药采结算申请" ifIndex :column="columns" :data="tableData">
       <template #tableHeader>
         <el-button v-if="activeKey === '0'" type="primary">新增用户</el-button>
         <el-button v-if="activeKey === '1'" type="primary">退回</el-button>
@@ -16,7 +16,7 @@
       <template #operation>
         <el-button>查看</el-button>
       </template>
-    </ProTable>
+    </VTable>
     <VPages
       ref="pages"
       @get-data="getData"
@@ -30,7 +30,7 @@
 <script setup lang="ts" name="medicalSettleApply">
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRaw } from "vue";
 import { useRoute } from "vue-router";
-import SearchForm from "@/components/SearchForm/index.vue";
+import VSearch from "@/components/VSearch/index.vue";
 import { MedicalSettleApply } from "../medicalSettleApply";
 const { proxy } = getCurrentInstance();
 const route = useRoute();
@@ -133,7 +133,7 @@ const getData = async () => {
   if (code === 0) {
     tableData.value = data.rows;
     paginationData.total = data.total;
-    proxy.$ElMessage.success(msg);
+    //proxy.$ElMessage.success(msg);
   } else {
     tableData.value = [];
     paginationData.total = 0;
@@ -184,7 +184,7 @@ const formItems = computed(() => {
     },
     {
       htmlType: "input",
-      label: "业务批次号	",
+      label: "业务批次号",
       ruleId: "p4Like"
     },
     {

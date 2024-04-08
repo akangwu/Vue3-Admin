@@ -34,7 +34,7 @@ export const errorRouter = [
   {
     path: "/403",
     name: "403",
-    component: () => import("@/components/ErrorMessage/403.vue"),
+    component: () => import("@/components/ErrorPage/403.vue"),
     meta: {
       title: "403页面"
     }
@@ -42,7 +42,7 @@ export const errorRouter = [
   {
     path: "/404",
     name: "404",
-    component: () => import("@/components/ErrorMessage/404.vue"),
+    component: () => import("@/components/ErrorPage/404.vue"),
     meta: {
       title: "404页面"
     }
@@ -50,7 +50,7 @@ export const errorRouter = [
   {
     path: "/500",
     name: "500",
-    component: () => import("@/components/ErrorMessage/500.vue"),
+    component: () => import("@/components/ErrorPage/500.vue"),
     meta: {
       title: "500页面"
     }
@@ -58,6 +58,6 @@ export const errorRouter = [
   // Resolve refresh page, route warnings
   {
     path: "/:pathMatch(.*)*",
-    component: () => import("@/components/ErrorMessage/404.vue")
+    component: () => import("@/components/ErrorPage/404.vue")
   }
 ];

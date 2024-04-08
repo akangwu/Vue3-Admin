@@ -1,6 +1,6 @@
 const funcs = {
   /*金额转换为千分位带两位小数点函数*/
-  thousandPoint(num: string) {
+  thousandPoint(num: string): string {
     if (num && num !== 0 && !isNaN(num)) {
       let older = true; //是否大于0
       num = funcs.moneyTransferNum(num);
@@ -25,7 +25,7 @@ const funcs = {
           return "Not a Number ! ";
         }
       }
-      for (let i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++) {
+      for (let i: number = 0; i < Math.floor((num.length - (1 + i)) / 3); i++) {
         num = num.substring(0, num.length - (4 * i + 3)) + "," + num.substring(num.length - (4 * i + 3));
       }
       return (!older ? "-" : "") + sign + num + cents;
@@ -42,8 +42,20 @@ const funcs = {
   },
 
   /* 金额带千分位保存时转换为数字 */
-  moneyTransferNum(num: number) {
+  moneyTransferNum(num: number): number {
     return !num ? 0 : Number((num + "").replace(/,/g, ""));
+  },
+
+  formatOperateState(row, column, status): string {
+    return status === "0" || status === ""
+      ? "未提交"
+      : status === "5"
+      ? "驳回"
+      : status === "6"
+      ? "审批完成"
+      : status === "7"
+      ? "退回"
+      : "审批中";
   }
 };
 export default funcs;

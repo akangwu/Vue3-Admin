@@ -4,7 +4,7 @@
 
 <script lang="tsx" setup name="TableColumn">
 import { inject, ref, useSlots } from "vue";
-import { ColumnProps } from "@/components/ProTable/interface";
+import { ColumnProps } from "@/components/VTable/interface";
 import { filterEnum, formatValue, handleProp, handleRowAccordingToProp } from "@/utils";
 
 defineProps<{ column: ColumnProps }>();
@@ -41,6 +41,7 @@ const RenderTableColumn = (item: ColumnProps) => {
               if (item.render) return item.render(scope);
               if (slots[handleProp(item.prop!)]) return slots[handleProp(item.prop!)]!(scope);
               if (item.tag) return <el-tag type={getTagType(item, scope)}>{renderCellData(item, scope)}</el-tag>;
+              if (item.formatter) return item.render;
               return renderCellData(item, scope);
             },
             header: () => {

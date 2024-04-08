@@ -1,15 +1,15 @@
 <template>
   <div class="table-box">
     <!-- 查询表单 card -->
-    <SearchForm @get-data="getData" @reset-change="reset" v-show="isShowSearch" :form-items="formItems" :formData="formData" />
-    <ProTable ref="proTable" title="药采结算申请" ifIndex :columns="columns" :requestApi="getTableList"> </ProTable>
+    <VSearch @get-data="getData" @reset-change="reset" v-show="isShowSearch" :form-items="formItems" :formData="formData" />
+    <VTable ref="proTable" title="药采结算申请" ifIndex :columns="columns" :requestApi="getTableList"> </VTable>
   </div>
 </template>
 
 <script setup lang="ts" name="medicalSettleApply">
 import { computed, ref, reactive } from "vue";
 import { getUserList } from "@/axios/modules/user";
-import SearchForm from "@/components/SearchForm/index.vue";
+import VSearch from "@/components/VSearch/index.vue";
 import { MedicalSettleApply } from "../medicalSettleApply";
 const columns: ColumnProps<MedicalSettleApply.ResList>[] = [
   { label: "结算批次号", prop: "statementId", width: 200 },

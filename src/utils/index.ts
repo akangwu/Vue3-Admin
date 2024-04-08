@@ -1,5 +1,5 @@
 import { isArray } from "@/utils/is";
-import { FieldNamesProps } from "@/components/ProTable/interface";
+import { FieldNamesProps } from "@/components/VTable/interface";
 
 /**
  * @description 获取localStorage

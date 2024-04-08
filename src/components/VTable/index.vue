@@ -70,14 +70,14 @@
   </div>
 </template>
 
-<script setup lang="ts" name="ProTable">
+<script setup lang="ts" name="VTable">
 import { ref, provide } from "vue";
 import { useSelection } from "@/hooks/useSelection";
-import { ColumnProps } from "@/components/ProTable/interface";
+import { ColumnProps } from "@/components/VTable/interface";
 import { ElTable, TableProps } from "element-plus";
 import TableColumn from "./components/TableColumn.vue";
 
-interface ProTableProps extends Partial<Omit<TableProps<any>, "data">> {
+interface VTableProps extends Partial<Omit<TableProps<any>, "data">> {
   ifIndex?: boolean; // 是否显示序号列 ==> 非必传（默认为false）
   indexName?: string; // 默认是序号 ==> 非必传（默认为'序号'）
   indexWidth?: string; // 序号宽度 ==> 非必传（默认为'80'）
@@ -88,6 +88,7 @@ interface ProTableProps extends Partial<Omit<TableProps<any>, "data">> {
   requestAuto?: boolean; // 是否自动执行请求 axios ==> 非必传（默认为true）
   requestError?: (params: any) => void; // 表格 axios 请求错误监听 ==> 非必传
   dataCallback?: (data: any) => any; // 返回数据的回调函数，可以对数据进行处理 ==> 非必传
+  formatter?: (data: any) => any; //列formatter函数
   title?: string; // 表格标题，目前只在打印的时候用到 ==> 非必传
   initParam?: any; // 初始化请求参数 ==> 非必传（默认为{}）
   border?: boolean; // 是否带有纵向边框 ==> 非必传（默认为true）
@@ -95,7 +96,7 @@ interface ProTableProps extends Partial<Omit<TableProps<any>, "data">> {
 }
 
 // 接受父组件参数，配置默认值
-const props = withDefaults(defineProps<ProTableProps>(), {
+const props = withDefaults(defineProps<VTableProps>(), {
   requestAuto: true,
   ifIndex: false,
   indexName: "序号",
@@ -106,7 +107,8 @@ const props = withDefaults(defineProps<ProTableProps>(), {
   data: () => [],
   initParam: {},
   border: true,
-  rowKey: "id"
+  rowKey: "id",
+  formatter: () => {} //列formatter函数
 });
 
 // 单选

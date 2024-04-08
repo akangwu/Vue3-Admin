@@ -12,7 +12,7 @@
       <div class="card mb10 pt0 pb0">
         <SelectFilter :data="selectFilterData" :default-values="selectFilterValues" @change="changeSelectFilter" />
       </div>
-      <ProTable
+      <VTable
         ref="proTable"
         title="用户列表"
         :columns="columns"
@@ -32,7 +32,7 @@
           <el-button type="primary" link :icon="Refresh" @click="resetPass(scope.row)">重置密码</el-button>
           <el-button type="primary" link :icon="Delete" @click="deleteAccount(scope.row)">删除</el-button>
         </template>
-      </ProTable>
+      </VTable>
       <UserDrawer ref="drawerRef" />
       <ImportExcel ref="dialogRef" />
     </div>
@@ -42,11 +42,11 @@
 import { ref, reactive, onMounted } from "vue";
 import { User } from "@/axios/interface";
 import { ElMessage, ElMessageBox } from "element-plus";
-import { ColumnProps } from "@/components/ProTable/interface";
+import { ColumnProps } from "@/components/VTable/interface";
 import { useHandleData } from "@/hooks/useHandleData";
 import { useDownload } from "@/hooks/useDownload";
 import { genderType, userStatus } from "@/utils/serviceDict";
-import ProTable from "@/components/ProTable/index.vue";
+import VTable from "@/components/VTable/index.vue";
 import TreeFilter from "@/components/TreeFilter/index.vue";
 import ImportExcel from "@/components/ImportExcel/index.vue";
 import UserDrawer from "@/views/proTable/components/UserDrawer.vue";
@@ -64,7 +64,7 @@ import {
   getUserRole
 } from "@/axios/modules/user";
 
-// 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
+// 获取 VTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref();
 
 // 表格配置项

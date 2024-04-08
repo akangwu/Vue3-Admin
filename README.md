@@ -2,7 +2,7 @@
 
 ### 介绍 📖
 
-基于 Vue3.2、TypeScript、Vite4、Pinia、Element-Plus 的后台管理框架，使用目前最新技术栈开发。项目提供强大的 [ProTable](https://juejin.cn/post/7166068828202336263) 组件，在一定程度上节省您的开发效率。另外本项目还封装了一些常用组件、Hooks、指令、动态路由、按钮级别权限控制等功能。
+基于 Vue3.2、TypeScript、Vite4、Pinia、Element-Plus 的后台管理框架，使用目前最新技术栈开发。项目提供强大的 [VTable](https://juejin.cn/post/7166068828202336263) 组件，在一定程度上节省您的开发效率。另外本项目还封装了一些常用组件、Hooks、指令、动态路由、按钮级别权限控制等功能。
 
 ### 项目文档 📚
 
@@ -14,7 +14,7 @@
 - 采用 Vite4 作为项目开发、打包工具（配置 Gzip 打包、TSX 语法、跨域代理…）
 - 使用 Pinia 替代 Vuex，轻量、简单、易用，集成 Pinia 持久化插件
 - 使用 TypeScript 对 Axios 整个二次封装（请求拦截、取消、常用请求封装…）
-- 基于 Element 二次封装 [ProTable](https://juejin.cn/post/7166068828202336263) 组件，表格页面全部为配置项 columns
+- 基于 Element 二次封装 [VTable](https://juejin.cn/post/7166068828202336263) 组件，表格页面全部为配置项 columns
 - 支持 Element 组件大小切换
 - 使用 VueRouter 进行路由权限拦截、页面按钮权限配置、路由懒加载
 - 使用 KeepAlive 对页面进行缓存，支持多级嵌套页面缓存

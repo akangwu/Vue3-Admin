@@ -121,10 +121,10 @@
     </el-form>
   </div>
 </template>
-<script setup lang="ts" name="SearchForm">
+<script setup lang="ts" name="VSearch">
 import { getCurrentInstance, ref, watch } from "vue";
 
-import { SearchColumnProps } from "@/components/SearchForm/interface";
+import { SearchColumnProps } from "@/components/VSearch/interface";
 import { BreakPoint } from "@/components/Grid/interface";
 import { ArrowDown, ArrowUp } from "@element-plus/icons-vue";
 import type { FormInstance } from "element-plus";

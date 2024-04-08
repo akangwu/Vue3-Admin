@@ -1,6 +1,6 @@
 <template>
   <div class="table-box">
-    <ProTable
+    <VTable
       ref="proTable"
       title="用户列表"
       highlight-current-row
@@ -32,7 +32,7 @@
       <template #append>
         <span style="color: var(--el-color-primary)">我是插入在表格最后的内容。若表格有合计行，该内容会位于合计行之上。</span>
       </template>
-    </ProTable>
+    </VTable>
   </div>
 </template>
 
@@ -40,14 +40,14 @@
 import { ref } from "vue";
 import { ElMessage } from "element-plus";
 import { User } from "@/axios/interface";
-import { ColumnProps } from "@/components/ProTable/interface";
+import { ColumnProps } from "@/components/VTable/interface";
 import { useHandleData } from "@/hooks/useHandleData";
-import ProTable from "@/components/ProTable/index.vue";
+import VTable from "@/components/VTable/index.vue";
 import type { TableColumnCtx } from "element-plus/es/components/table/src/table-column/defaults";
 import { CirclePlus, Pointer, Delete, Refresh } from "@element-plus/icons-vue";
 import { getUserList, deleteUser, resetUserPassWord, getUserStatus, getUserGender } from "@/axios/modules/user";
 
-// 获取 ProTable DOM
+// 获取 VTable DOM
 const proTable = ref();
 
 // 自定义渲染表头（使用tsx语法）
