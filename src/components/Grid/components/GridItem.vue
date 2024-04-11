@@ -11,6 +11,7 @@ type Props = {
   offset?: number;
   span?: number;
   suffix?: boolean;
+  hide?: boolean;
   xs?: Responsive;
   sm?: Responsive;
   md?: Responsive;
@@ -22,6 +23,7 @@ const props = withDefaults(defineProps<Props>(), {
   offset: 0,
   span: 1,
   suffix: false,
+  hide: false,
   xs: undefined,
   sm: undefined,
   md: undefined,
@@ -39,6 +41,7 @@ watch(
   () => [shouldHiddenIndex.value, breakPoint.value],
   n => {
     if (!!attrs.index) {
+      //log("shouldHiddenIndex", n);
       isShow.value = !(n[0] !== -1 && parseInt(attrs.index) >= Number(n[0]));
     }
   },
@@ -62,6 +65,9 @@ const style = computed(() => {
       gridColumn: `span ${span + offset > cols.value ? cols.value : span + offset}/span ${
         span + offset > cols.value ? cols.value : span + offset
       }`,
+      gridTemplateRows: "auto",
+      gridTemplateColumns: "auto",
+      display: !props.hide ? "" : "none",
       marginLeft: offset !== 0 ? `calc(((100% + ${gap}px) / ${span + offset}) * ${offset})` : "unset"
     };
   }

@@ -2,11 +2,17 @@
   <div class="card table-search">
     <el-form ref="formRef" :model="formData">
       <Grid ref="gridRef" :collapsed="collapsed" :gap="[20, 0]" :cols="searchCol">
-        <GridItem v-for="(item, index) in formItems" :key="item.prop" v-bind="getResponsive(item)" :index="index">
-          <el-form-item :label="`${item.label} :`" :prop="item.ruleId">
+        <GridItem
+          v-for="(item, index) in formItems"
+          :key="item.prop"
+          v-bind="getResponsive(item)"
+          :index="index"
+          :hide="item.hide"
+        >
+          <el-form-item :label="`${item.label} :`" :prop="item.ruleId" v-if="!item.hide">
             <!--输入框-->
             <el-input
-              v-if="item.htmlType === 'input'"
+              v-if="item.htmlType === 'input' && !item.hide"
               v-model="formData[item.ruleId]"
               :clearable="item?.search?.clear"
               :disabled="item?.search?.disabled"
@@ -14,7 +20,7 @@
             />
             <!--年、月、日、多个日期的选择-->
             <el-date-picker
-              v-if="item.htmlType === 'date'"
+              v-if="item.htmlType === 'date' && !item.hide"
               v-model="formData[item.ruleId]"
               :clearable="item?.search?.clear"
               :disabled="item?.search?.disabled"
@@ -25,7 +31,7 @@
             />
             <!--日期范围-->
             <el-date-picker
-              v-if="item.htmlType === 'dateRange'"
+              v-if="item.htmlType === 'dateRange' && !item.hide"
               v-model="formData[item.ruleId]"
               :clearable="item?.search?.clear"
               :disabled="item?.search?.disabled"
@@ -55,7 +61,7 @@
 
             <!--下拉列表-->
             <el-select
-              v-if="item.htmlType === 'select'"
+              v-if="item.htmlType === 'select' && !item.hide"
               v-model="formData[item.ruleId]"
               :placeholder="`请选择${item.label}`"
               :clearable="item?.search?.clear"
@@ -67,24 +73,24 @@
                 v-for="(item1, index1) in item.list"
                 :key="index1"
                 :label="item1.label"
-                :value="item1.code"
+                :value="item1.value"
                 :disabled="item1?.disabled"
               ></el-option>
             </el-select>
 
             <!--单选框-->
             <el-radio-group
-              v-if="item.htmlType === 'radioGroup'"
+              v-if="item.htmlType === 'radioGroup' && !item.hide"
               v-model="formData[item.ruleId]"
               :disabled="item?.search?.disabled"
             >
-              <el-radio-button v-for="(val, i) in item.list" :value="val.code" :key="i" :disabled="val?.disabled">{{
-                val.name
+              <el-radio-button v-for="(val, i) in item.list" :value="val.value" :key="i" :disabled="val?.disabled">{{
+                val.label
               }}</el-radio-button>
             </el-radio-group>
 
             <!--金额范围-->
-            <span v-if="item.htmlType === 'moneyRange'" style="display: flex">
+            <span v-if="item.htmlType === 'moneyRange' && !item.hide" style="display: flex">
               <el-input
                 v-model="formData[item.ruleId][0]"
                 :clearable="item?.search?.clear"
@@ -136,6 +142,7 @@ interface SearchFormProps {
   formData: { [key: string]: any }; // 搜索参数
   searchCol?: number | Record<BreakPoint, number>; // 表格搜索项 每列占比配置 ==> 非必传 { xs: 1, sm: 2, md: 2, lg: 3, xl: 4 }
   showMore?: boolean; //是否隐藏展开 收起按钮
+  hide?: boolean; //是否隐藏
 }
 
 // 默认值
@@ -143,7 +150,8 @@ const props = withDefaults(defineProps<SearchFormProps>(), {
   formItems: () => [],
   formData: () => ({}),
   searchCol: 3,
-  showMore: true
+  showMore: true,
+  hide: true
 });
 
 // 获取响应式设置

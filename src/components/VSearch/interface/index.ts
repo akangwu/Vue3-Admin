@@ -7,7 +7,8 @@ export interface SearchColumnProps {
   type?: string; // 搜索项参数:日期参数
   format?: string; // 日期格式化
   valueFormat?: string; // 日期格式化
-  list?: [name: string, code: string, disabled?: false]; // 下拉列表数据
+  hide?: false; // 日期格式化
+  list?: [label: string, value: string, disabled?: false]; // 下拉列表数据
   search: {
     clear?: boolean; //是否有清空按钮
     filter?: boolean; //是否可以过滤数据
