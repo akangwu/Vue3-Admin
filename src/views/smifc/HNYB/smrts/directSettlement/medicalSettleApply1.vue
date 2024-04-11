@@ -234,8 +234,8 @@ const formItems = computed(() => {
       label: "收支类型",
       ruleId: "recOrPayType",
       list: [
-        { label: "收入", code: "0" },
-        { label: "支出", code: "1", disabled: true }
+        { label: "收入", value: "0" },
+        { label: "支出", value: "1", disabled: true }
       ],
       search: {
         clear: true,
@@ -248,31 +248,31 @@ const formItems = computed(() => {
       ruleId: "vouStatus",
       list: [
         {
-          code: "",
-          name: "全部"
+          value: "",
+          label: "全部"
         },
         {
-          code: "0",
-          name: "未入账",
+          value: "0",
+          label: "未入账",
           search: {
             disabled: true
           }
         },
         {
-          code: "1",
-          name: "已入账"
+          value: "1",
+          label: "已入账"
         },
         {
-          code: "-12",
-          name: "3标记不处理"
+          value: "-12",
+          label: "3标记不处理"
         },
         {
-          code: "12",
-          name: "3已入账"
+          value: "12",
+          label: "3已入账"
         },
         {
-          code: "-10",
-          name: "5标记不处理"
+          value: "-10",
+          label: "5标记不处理"
         }
       ],
       search: {

@@ -176,8 +176,8 @@ const formItems = computed(() => {
       label: "业务类型",
       ruleId: "p10s",
       list: [
-        { label: "收入", code: "0" },
-        { label: "支出", code: "1" }
+        { label: "收入", value: "0" },
+        { label: "支出", value: "1" }
       ],
       clear: true,
       filter: true
@@ -192,8 +192,8 @@ const formItems = computed(() => {
       label: "险种",
       ruleId: "insuranceCode",
       list: [
-        { label: "收入", code: "0" },
-        { label: "支出", code: "1" }
+        { label: "收入", value: "0" },
+        { label: "支出", value: "1" }
       ],
       clear: true,
       filter: true
@@ -211,8 +211,8 @@ const formItems = computed(() => {
       label: "审核状态",
       ruleId: "operateParam",
       list: [
-        { label: "收入", code: "0" },
-        { label: "支出", code: "1" }
+        { label: "收入", value: "0" },
+        { label: "支出", value: "1" }
       ],
       clear: true,
       filter: true

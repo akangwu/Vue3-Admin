@@ -51,7 +51,7 @@ const formItems = computed(() => {
       list: businessTypeList.value.map(item => {
         return {
           label: item.typeName,
-          code: item.typeCode
+          value: item.typeCode
         };
       }),
       search: {
@@ -71,7 +71,7 @@ const formItems = computed(() => {
       list: insuranceList.value.map(item => {
         return {
           label: item.chrName,
-          code: item.chrCode
+          value: item.chrCode
         };
       }),
       search: {
@@ -86,7 +86,7 @@ const formItems = computed(() => {
       list: agencyList.value.map(item => {
         return {
           label: item.title,
-          code: item.code
+          value: item.code
         };
       }),
       search: {
