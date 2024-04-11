@@ -96,7 +96,8 @@
   height: 100%;
 
   // table-search 表格搜索样式
-  .table-search {
+  .table-search,
+  .dialog-form {
     padding: 18px 18px 0;
     margin-bottom: 10px;
     border-radius: 6px;
@@ -116,6 +117,9 @@
       justify-content: flex-end;
       margin-bottom: 18px;
     }
+  }
+  .dialog-form {
+    padding: 0 16px 16px;
   }
 
   // 表格 header 样式
@@ -257,11 +261,12 @@
 /* el-dialog */
 .el-dialog {
   .el-dialog__header {
-    padding: 15px 20px;
-    margin: 0;
+    padding: 14px 10px;
+    margin-bottom: 10px;
     border-bottom: 1px solid var(--el-border-color-lighter);
     .el-dialog__title {
-      font-size: 17px;
+      font-size: 16px;
+      font-weight: 700;
     }
   }
 }

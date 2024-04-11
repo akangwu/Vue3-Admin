@@ -1,6 +1,6 @@
 <template>
   <!-- 表格内容 card -->
-  <div class="card table-main">
+  <div class="card table-main" :style="{ height: isDialogTable ? height : '' }">
     <!-- 表格头部 操作按钮 -->
     <div class="table-header">
       <div class="header-button-lf">
@@ -81,6 +81,8 @@ interface VTableProps extends Partial<Omit<TableProps<any>, "data">> {
   ifIndex?: boolean; // 是否显示序号列 ==> 非必传（默认为false）
   indexName?: string; // 默认是序号 ==> 非必传（默认为'序号'）
   indexWidth?: string; // 序号宽度 ==> 非必传（默认为'80'）
+  isDialogTable?: boolean; // 是否表格高度
+  height?: string; // dialog 表格高度 ==> 非必传（默认为'400'）
   ifSelect?: boolean; // 是否显示多选框 ==> 非必传（默认为false）
   ifRadio?: boolean; // 是否显示单选框 ==> 非必传（默认为false）
   column: ColumnProps[]; // 列配置项
@@ -101,6 +103,8 @@ const props = withDefaults(defineProps<VTableProps>(), {
   ifIndex: false,
   indexName: "序号",
   indexWidth: "80",
+  isDialogTable: false, // 是否表格高度
+  height: "400px", // dialog 表格高度 ==> 非必传（默认为'400'）
   ifSelect: false,
   ifRadio: false,
   column: () => [],
