@@ -1,6 +1,6 @@
 <template>
   <div class="table-box">
-    <VTable
+    <v-table
       ref="proTable"
       title="用户列表"
       ifIndex
@@ -59,7 +59,7 @@
         <el-button type="primary" link :icon="Refresh" @click="resetPass(scope.row)">重置密码</el-button>
         <el-button type="primary" link :icon="Delete" @click="deleteAccount(scope.row)">删除</el-button>
       </template>
-    </VTable>
+    </v-table>
     <UserDrawer ref="drawerRef" />
     <ImportExcel ref="dialogRef" />
   </div>

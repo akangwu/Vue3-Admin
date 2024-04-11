@@ -8,7 +8,7 @@
       @change="changeTreeFilter"
     />
     <div class="table-box">
-      <VTable
+      <v-table
         ref="proTable"
         title="用户列表"
         :columns="columns"
@@ -30,7 +30,7 @@
           <el-button type="primary" link :icon="Refresh" @click="resetPass(scope.row)">重置密码</el-button>
           <el-button type="primary" link :icon="Delete" @click="deleteAccount(scope.row)">删除</el-button>
         </template>
-      </VTable>
+      </v-table>
       <UserDrawer ref="drawerRef" />
       <ImportExcel ref="dialogRef" />
     </div>
@@ -44,7 +44,6 @@ import { ElMessage, ElMessageBox } from "element-plus";
 import { ColumnProps } from "@/components/VTable/interface";
 import { useHandleData } from "@/hooks/useHandleData";
 import { useDownload } from "@/hooks/useDownload";
-import VTable from "@/components/VTable/index.vue";
 import TreeFilter from "@/components/TreeFilter/index.vue";
 import ImportExcel from "@/components/ImportExcel/index.vue";
 import UserDrawer from "@/views/proTable/components/UserDrawer.vue";

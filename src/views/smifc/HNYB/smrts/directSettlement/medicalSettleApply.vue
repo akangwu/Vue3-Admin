@@ -1,11 +1,11 @@
 <template>
   <div class="table-box">
     <!-- 查询表单 card -->
-    <VSearch @get-data="getData" :form-items="formItems" :formData="formData" />
+    <v-search @get-data="getData" :form-items="formItems" :formData="formData" />
     <el-tabs v-model="activeKey" @tab-click="tabClick">
       <el-tab-pane :label="item.label" :name="item.value" v-for="(item, index) in tabs" :key="index"> </el-tab-pane>
     </el-tabs>
-    <VTable ref="proTable" title="药采结算申请" ifIndex :column="columns" :data="tableData">
+    <v-table ref="proTable" title="药采结算申请" ifIndex :column="columns" :data="tableData">
       <template #tableHeader>
         <el-button v-if="activeKey === '0'" type="primary">新增用户</el-button>
         <el-button v-if="activeKey === '1'" type="primary">退回</el-button>
@@ -16,8 +16,8 @@
       <template #operation>
         <el-button>查看</el-button>
       </template>
-    </VTable>
-    <VPages
+    </v-table>
+    <v-pages
       ref="pages"
       @get-data="getData"
       :total="paginationData.total"
@@ -30,7 +30,6 @@
 <script setup lang="ts" name="medicalSettleApply">
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRaw } from "vue";
 import { useRoute } from "vue-router";
-import VSearch from "@/components/VSearch/index.vue";
 import { MedicalSettleApply } from "../medicalSettleApply";
 const { proxy } = getCurrentInstance();
 const route = useRoute();

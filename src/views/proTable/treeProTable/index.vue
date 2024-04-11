@@ -8,7 +8,7 @@
       @change="changeTreeFilter"
     />
     <div class="table-box">
-      <VTable
+      <v-table
         ref="proTable"
         title="用户列表"
         row-key="id"
@@ -29,7 +29,7 @@
           <el-button type="primary" link :icon="EditPen" @click="openDrawer('编辑', scope.row)">编辑</el-button>
           <el-button type="primary" link :icon="Delete" @click="deleteAccount(scope.row)">删除</el-button>
         </template>
-      </VTable>
+      </v-table>
       <UserDrawer ref="drawerRef" />
       <ImportExcel ref="dialogRef" />
     </div>
@@ -43,7 +43,6 @@ import { User } from "@/axios/interface";
 import { ColumnProps } from "@/components/VTable/interface";
 import { useHandleData } from "@/hooks/useHandleData";
 import { genderType } from "@/utils/serviceDict";
-import VTable from "@/components/VTable/index.vue";
 import TreeFilter from "@/components/TreeFilter/index.vue";
 import ImportExcel from "@/components/ImportExcel/index.vue";
 import UserDrawer from "@/views/proTable/components/UserDrawer.vue";

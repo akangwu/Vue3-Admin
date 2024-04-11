@@ -85,6 +85,20 @@
                   }
                 }
               ]
+            },
+            {
+              "path": "/smifc/HNYB/unitExpensesMake",
+              "name": "unitExpensesMake",
+              "component": "/smifc/HNYB/unitExpensesMake",
+              "meta": {
+                "icon": "Menu",
+                "title": "单位用款申请",
+                "isLink": "",
+                "isHide": false,
+                "isFull": false,
+                "isAffix": false,
+                "isKeepAlive": true
+              }
             }
           ]
         }

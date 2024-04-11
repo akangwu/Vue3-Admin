@@ -1,14 +1,14 @@
 <template>
   <div class="table-box">
-    <VSearch @get-data="getData" :formItems="formItems" :formData="formData"></VSearch>
-    <VTable ref="proTable" title="药采结算申请" ifIndex :column="column" :data="tableData">
+    <v-search @get-data="getData" :formItems="formItems" :formData="formData" />
+    <v-table ref="proTable" title="药采结算申请" ifIndex :column="column" :data="tableData">
       <template #p4="scope">
         <el-button type="primary" link @click="ElMessage.success('我是通过作用域插槽渲染的内容')">
           {{ scope.row.p4 }}
         </el-button>
-      </template></VTable
+      </template></v-table
     >
-    <VPages
+    <v-pages
       ref="pages"
       @get-data="getData"
       :total="paginationData.total"

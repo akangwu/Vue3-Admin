@@ -1,6 +1,6 @@
 <template>
   <div class="table-box">
-    <VTable
+    <v-table
       ref="proTable"
       title="菜单列表"
       row-key="path"
@@ -25,7 +25,7 @@
         <el-button type="primary" link :icon="EditPen">编辑</el-button>
         <el-button type="primary" link :icon="Delete" @click="deleteMenu(scope.row)">删除</el-button>
       </template>
-    </VTable>
+    </v-table>
   </div>
 </template>
 
@@ -35,7 +35,6 @@ import { ColumnProps } from "@/components/VTable/interface";
 import { getAuthMenuListApi } from "@/axios/modules/login";
 import { Delete, EditPen, CirclePlus } from "@element-plus/icons-vue";
 import { useHandleData } from "@/hooks/useHandleData";
-import VTable from "@/components/VTable/index.vue";
 
 const proTable = ref();
 
