@@ -7,12 +7,12 @@
           :key="item.prop"
           v-bind="getResponsive(item)"
           :index="index"
-          :hide="item.hide"
+          :hide="item?.search?.hide"
         >
-          <el-form-item :label="`${item.label} :`" :prop="item.ruleId" v-if="!item.hide">
+          <el-form-item :label="`${item.label} :`" :prop="item.ruleId" v-if="!item?.search?.hide">
             <!--输入框-->
             <el-input
-              v-if="item.htmlType === 'input' && !item.hide"
+              v-if="item.htmlType === 'input' && !item?.search?.hide"
               v-model="formData[item.ruleId]"
               :clearable="item?.search?.clear"
               :disabled="item?.search?.disabled"
@@ -20,7 +20,7 @@
             />
             <!--年、月、日、多个日期的选择-->
             <el-date-picker
-              v-if="item.htmlType === 'date' && !item.hide"
+              v-if="item.htmlType === 'date' && !item?.search?.hide"
               v-model="formData[item.ruleId]"
               :clearable="item?.search?.clear"
               :disabled="item?.search?.disabled"
@@ -31,7 +31,7 @@
             />
             <!--日期范围-->
             <el-date-picker
-              v-if="item.htmlType === 'dateRange' && !item.hide"
+              v-if="item.htmlType === 'dateRange' && !item?.search?.hide"
               v-model="formData[item.ruleId]"
               :clearable="item?.search?.clear"
               :disabled="item?.search?.disabled"
@@ -61,7 +61,7 @@
 
             <!--下拉列表-->
             <el-select
-              v-if="item.htmlType === 'select' && !item.hide"
+              v-if="item.htmlType === 'select' && !item?.search?.hide"
               v-model="formData[item.ruleId]"
               :placeholder="`请选择${item.label}`"
               :clearable="item?.search?.clear"
@@ -80,7 +80,7 @@
 
             <!--单选框-->
             <el-radio-group
-              v-if="item.htmlType === 'radioGroup' && !item.hide"
+              v-if="item.htmlType === 'radioGroup' && !item?.search?.hide"
               v-model="formData[item.ruleId]"
               :disabled="item?.search?.disabled"
             >
@@ -90,7 +90,7 @@
             </el-radio-group>
 
             <!--金额范围-->
-            <span v-if="item.htmlType === 'moneyRange' && !item.hide" style="display: flex">
+            <span v-if="item.htmlType === 'moneyRange' && !item?.search?.hide" style="display: flex">
               <el-input
                 v-model="formData[item.ruleId][0]"
                 :clearable="item?.search?.clear"
@@ -130,7 +130,7 @@
 <script setup lang="ts" name="VSearch">
 import { getCurrentInstance, ref, watch } from "vue";
 
-import { SearchColumnProps } from "@/components/VSearch/interface";
+import { SearchColumnProps } from "@/components/VSearch/index";
 import { BreakPoint } from "@/components/Grid/interface";
 import { ArrowDown, ArrowUp } from "@element-plus/icons-vue";
 import type { FormInstance } from "element-plus";
@@ -142,7 +142,6 @@ interface SearchFormProps {
   formData: { [key: string]: any }; // 搜索参数
   searchCol?: number | Record<BreakPoint, number>; // 表格搜索项 每列占比配置 ==> 非必传 { xs: 1, sm: 2, md: 2, lg: 3, xl: 4 }
   showMore?: boolean; //是否隐藏展开 收起按钮
-  hide?: boolean; //是否隐藏
 }
 
 // 默认值
@@ -150,8 +149,7 @@ const props = withDefaults(defineProps<SearchFormProps>(), {
   formItems: () => [],
   formData: () => ({}),
   searchCol: 3,
-  showMore: true,
-  hide: true
+  showMore: true
 });
 
 // 获取响应式设置
