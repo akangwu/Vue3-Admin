@@ -25,7 +25,8 @@
       <!--单选-->
       <el-table-column label="" align="center" width="50" v-if="ifRadio" fixed="left">
         <template #default="scope">
-          <el-radio label="" v-model="templateRadio" @change="getCurrentRow(scope.row)"> </el-radio>
+          <el-radio :label="scope.$index" v-model="templateRadio" @click.stop.prevent="getCurrentRow(scope.row, scope.$index)">
+          </el-radio>
         </template>
       </el-table-column>
       <!--序号-->
@@ -96,6 +97,7 @@ interface VTableProps extends Partial<Omit<TableProps<any>, "data">> {
   border?: boolean; // 是否带有纵向边框 ==> 非必传（默认为true）
   rowKey?: string; // 行数据的 Key，用来优化 Table 的渲染，当表格数据多选时，所指定的 id ==> 非必传（默认为 id）
 }
+const emit = defineEmits(["singleSelect"]); // 涉及到el-dialog的表格选择项不能使用hooks方式获取，只能通过父子组件传递方法进行获取
 
 // 接受父组件参数，配置默认值
 const props = withDefaults(defineProps<VTableProps>(), {
@@ -114,9 +116,6 @@ const props = withDefaults(defineProps<VTableProps>(), {
   rowKey: "id",
   formatter: () => {} //列formatter函数
 });
-
-// 单选
-const templateRadio = ref(false);
 
 // 表格 DOM 元素
 const tableRef = ref<InstanceType<typeof ElTable>>();
@@ -161,11 +160,18 @@ const flatColumnsFunc = (column: ColumnProps[], flatArr: ColumnProps[] = []) => 
 const flatColumns = ref<ColumnProps[]>();
 flatColumns.value = flatColumnsFunc(tableColumns.value);
 
-const getCurrentRow = row => {
-  console.log(JSON.parse(JSON.stringify(row)), "1111");
-  //单选事件
-  //this.selectionData = [row.row];
-  this.$emit("singleSelect", row.row, row.$index);
+/*单选*/
+const templateRadio = ref();
+const getCurrentRow = (row, index) => {
+  let data = [];
+  if (templateRadio.value === index) {
+    templateRadio.value = 9999;
+    data = [];
+  } else {
+    templateRadio.value = index;
+    data = JSON.parse(JSON.stringify(row));
+  }
+  emit("singleSelect", data);
 };
 
 // 暴露给父组件的参数和方法(外部需要什么，都可以从这里暴露出去)
@@ -182,6 +188,7 @@ defineExpose({
 :deep(.el-table) {
   .el-radio__label {
     padding: 0;
+    display: none;
   }
 }
 </style>
