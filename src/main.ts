@@ -34,11 +34,20 @@ import http from "@/axios";
 import { createApp } from "vue";
 import App from "./App.vue";
 
+/*全局注册组件*/
+import VSearch from "@/components/VSearch/index.vue";
+import VTable from "@/components/VTable/index.vue";
+import VPages from "@/components/VTable/components/VPages.vue";
+
 const app = createApp(App);
 app.config.globalProperties.$funcs = funcs;
 app.config.globalProperties.$axios = http;
 app.config.globalProperties.$ElMessage = ElMessage;
 app.config.globalProperties.$ElMessageBox = ElMessageBox;
+
+app.component("VSearch", VSearch);
+app.component("VTable", VTable);
+app.component("VPages", VPages);
 
 // register the element Icons component
 Object.keys(Icons).forEach(key => {

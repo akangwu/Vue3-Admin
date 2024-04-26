@@ -65,6 +65,10 @@ class RequestHttp {
         const userStore = useUserStore();
         tryHideFullScreenLoading();
         // 登陆失效
+        if (data === "登录超时") {
+          return ElMessage.error(data);
+        }
+
         if (data.code == ResultEnum.OVERDUE) {
           userStore.setToken("");
           router.replace(LOGIN_URL);
