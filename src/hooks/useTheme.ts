@@ -11,13 +11,12 @@ import { asideTheme, AsideThemeType } from "@/styles/theme/aside";
  * */
 export const useTheme = () => {
   const globalStore = useGlobalStore();
-  const { primary, isDark, isGrey, isWeak, asideInverted, layout } = storeToRefs(globalStore);
+  const { primary, isGrey, isWeak, asideInverted, layout } = storeToRefs(globalStore);
 
   // 切换暗黑模式 ==> 并带修改主题颜色、侧边栏颜色
   const switchDark = () => {
     const body = document.documentElement as HTMLElement;
-    if (isDark.value) body.setAttribute("class", "dark");
-    else body.setAttribute("class", "");
+    body.setAttribute("class", "");
     changePrimary(primary.value);
     setAsideTheme();
   };
@@ -30,12 +29,9 @@ export const useTheme = () => {
     }
     // 计算主题颜色变化
     document.documentElement.style.setProperty("--el-color-primary", val);
-    document.documentElement.style.setProperty(
-      "--el-color-primary-dark-2",
-      isDark.value ? `${getLightColor(val, 0.2)}` : `${getDarkColor(val, 0.3)}`
-    );
+    document.documentElement.style.setProperty("--el-color-primary-dark-2", `${getDarkColor(val, 0.3)}`);
     for (let i = 1; i <= 9; i++) {
-      const primaryColor = isDark.value ? `${getDarkColor(val, i / 10)}` : `${getLightColor(val, i / 10)}`;
+      const primaryColor = `${getLightColor(val, i / 10)}`;
       document.documentElement.style.setProperty(`--el-color-primary-light-${i}`, primaryColor);
     }
     globalStore.setGlobalState("primary", val);
@@ -62,8 +58,6 @@ export const useTheme = () => {
     if (layout.value == "transverse") type = "inverted";
     // 侧边栏反转色目前只支持在 vertical 布局模式下生效
     if (layout.value == "vertical" && asideInverted.value) type = "inverted";
-    // 侧边栏 dark 模式
-    if (isDark.value) type = "dark";
     const theme = asideTheme[type!];
     for (const [key, value] of Object.entries(theme)) {
       document.documentElement.style.setProperty(key, value);

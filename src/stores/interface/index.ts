@@ -11,7 +11,6 @@ export interface GlobalState {
   language: LanguageType;
   maximize: boolean;
   primary: string;
-  isDark: boolean;
   isGrey: boolean;
   isWeak: boolean;
   asideInverted: boolean;

@@ -37,7 +37,7 @@ const funcs = {
   },
 
   /*表格内的金额格式化*/
-  format(row, column, cellValue) {
+  format(row: any, column: any, cellValue: any) {
     return funcs.thousandPoint(cellValue);
   },
 
