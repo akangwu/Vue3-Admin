@@ -121,7 +121,7 @@ $blue: #0066ff; // 主色调（蓝色）
     }
   }
   .dialog-form {
-    padding: 0 16px;
+    padding: 0;
   }
 
   // 表格 header 样式
@@ -143,11 +143,11 @@ $blue: #0066ff; // 主色调（蓝色）
 
     // 修复 safari 浏览器表格错位 https://github.com/HalseySpicy/Geeker-Admin/issues/83
     table {
-      width: 100%;
+      width: 100% !important;
     }
     .el-table__header th {
       height: 45px;
-      font-size: 15px;
+      font-size: 16px;
       font-weight: bold;
       color: var(--el-text-color-primary) !important;
       background: var(--el-fill-color-light) !important;
@@ -262,34 +262,39 @@ $blue: #0066ff; // 主色调（蓝色）
 
 /* 模态框内的样式 */
 .el-overlay {
+  height: 100%;
   display: flex;
   align-items: center;
-  height: 100%;
-  overflow: hidden !important;
+  overflow: hidden;
   .el-overlay-dialog {
-    position: relative;
+    margin: 0 auto !important;
+    border-radius: 6px;
+    max-height: 90%;
     display: flex;
     flex-direction: column;
-    width: 100%;
-    max-height: 95%;
-    margin: 0 auto !important;
-    border-radius: 2px;
     .el-dialog {
-      max-height: calc(100vh - 200px); /* 举例：减去头部和底部高度，以适应视口 */
-      margin: 0 auto;
-      overflow: hidden auto; /* 隐藏水平滚动条 */ /* 只允许垂直滚动 */
+      max-height: 80%;
+      display: flex;
+      flex-direction: column;
       .el-dialog__header {
-        padding: 14px 10px;
-        margin-bottom: 10px;
-        border-bottom: 1px solid var(--el-border-color-lighter);
+        flex-shrink: 0;
+        border-radius: 6px;
+        background: #f3f3f3;
+        padding: 12px;
+        box-sizing: border-box;
         .el-dialog__title {
-          font-size: 16px;
-          font-weight: 700;
+          user-select: none;
+          -webkit-user-seletct: none;
+          -moz-user-seletct: none;
+          font-size: 14px;
+          line-height: 14px;
         }
       }
       .el-dialog__body {
-        box-sizing: border-box;
+        flex-grow: 1;
         overflow-y: auto;
+        padding: 15px;
+        box-sizing: border-box;
         .el-input--suffix .el-input__inner {
           box-sizing: border-box;
           padding-right: 15px;
@@ -298,10 +303,10 @@ $blue: #0066ff; // 主色调（蓝色）
 
       /* 弹框底部按钮Box */
       .el-dialog__footer {
-        z-index: 100;
+        flex-shrink: 0;
+        border: none;
         box-sizing: border-box;
-        padding: 12px 24px;
-        border-top: 1px solid #ebebeb;
+        padding: 10px 20px;
       }
     }
   }

@@ -33,11 +33,15 @@ import http from "@/axios";
 import { msg } from "@/utils/resetMessage";
 import { ElMessageBox } from "element-plus";
 import { createApp } from "vue";
+// @ts-expect-error
 import App from "./App.vue";
 
 /*全局注册组件*/
+// @ts-expect-error
 import VSearch from "@/components/VSearch/index.vue";
+// @ts-expect-error
 import VTable from "@/components/VTable/index.vue";
+// @ts-expect-error
 import VPages from "@/components/VTable/components/VPages.vue";
 
 const app = createApp(App);
