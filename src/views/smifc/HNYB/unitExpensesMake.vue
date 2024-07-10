@@ -438,7 +438,7 @@ const getData = async () => {
   } else {
     tableData.value = [];
     paginationData.total = 0;
-    proxy.msg({ type: "error", msg });
+    proxy.msg({ type: "error", message: msg });
   }
 };
 const tabClick = val => {

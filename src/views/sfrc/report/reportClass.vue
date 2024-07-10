@@ -4,14 +4,14 @@
 
     <v-table ref="table" if-index :column="column" :data="tableData">
       <template #tableHeader>
-        <el-button type="primary" @click="addData">新增</el-button>
+        <el-button type="primary" @click="addData('add')">新增</el-button>
       </template>
       <template #acctCode="scope">
         {{ proxy.funcs.transferName(scope.row.acctCode, acctCodeList) }}
       </template>
       <template #operation="scope">
-        <span class="btn-table">查看明细</span>
-        <span class="btn-table">编辑</span>
+        <span class="btn-table" @click="watchMx(scope.row, 'watch')">查看明细</span>
+        <span class="btn-table" @click="watchMx(scope.row, 'edit')">编辑</span>
         <span class="btn-table" @click="delData(scope.row)">删除</span>
       </template>
     </v-table>
@@ -25,16 +25,16 @@
 
     <!--新增-->
     <el-dialog v-model="visibleAdd" title="新增基金申请单" width="80%" class="dialog-form" v-if="visibleAdd">
-      <el-form ref="formRef" :model="formDataAdd" :rules="rules" label-width="150px">
+      <el-form ref="refFormAdd" :model="formDataAdd" :rules="rules" label-width="150px">
         <Grid ref="gridRef" :gap="[20, 0]" :cols="3">
           <GridItem>
             <el-form-item label="报表项目编码：" prop="itemCode">
-              <span>{{ formDataAdd.itemCode }}</span>
+              <span>{{ formDataAdd.itemCode ? formDataAdd.itemCode : "系统自动生成" }}</span>
             </el-form-item>
           </GridItem>
           <GridItem>
             <el-form-item label="报表项目名称：" prop="itemName">
-              <el-input v-model="formDataAdd.itemName" placeholder="请填写报表项目名称"></el-input>
+              <el-input v-model="formDataAdd.itemName" placeholder="请填写报表项目名称" @blur="getCodeByName"></el-input>
             </el-form-item>
           </GridItem>
           <GridItem>
@@ -142,8 +142,9 @@
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <!--<el-button type="primary" @click="save">保存</el-button>-->
-          <el-button @click="visibleAdd = false">取消</el-button>
+          <el-button type="primary" v-if="saveType !== 'watch'" @click="saveData('saveAndAdd')">保存并新增</el-button>
+          <el-button v-if="saveType !== 'watch'" @click="saveData('save')">保存</el-button>
+          <el-button @click="visibleAdd = false">{{ saveType !== "watch" ? "取消" : "关闭" }}</el-button>
         </span>
       </template>
     </el-dialog>
@@ -154,10 +155,12 @@
 import GridItem from "@/components/Grid/components/GridItem.vue";
 import Grid from "@/components/Grid/index.vue";
 import VSearch from "@/components/VSearch/index.vue";
+import type { FormInstance, FormRules } from "element-plus";
 
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRaw } from "vue";
 // import { useRoute } from "vue-router";
 const { proxy } = getCurrentInstance();
+
 import { reportClass } from "./reportClass";
 // const route = useRoute();
 onMounted(() => {
@@ -177,7 +180,7 @@ const getAcctCodeList = async () => {
     acctCodeList.value = data;
   } else {
     acctCodeList.value = [];
-    proxy.msg({ type: "error", msg });
+    proxy.msg({ type: "error", message: msg });
   }
 };
 
@@ -299,7 +302,7 @@ const getData = async () => {
     paginationData.total = data.total;
   } else {
     paginationData.total = 0;
-    proxy.msg({ type: "error", msg });
+    proxy.msg({ type: "error", message: msg });
   }
 };
 
@@ -321,7 +324,7 @@ let formDataAdd = ref({
   businessModule: "REPORT",
   accessType: "DIRECT_QUERY"
 });
-const rules = reactive({
+const rules = reactive<FormRules<typeof formDataAdd>>({
   itemCode: [
     {
       required: true,
@@ -386,13 +389,15 @@ const rules = reactive({
     }
   ]
 });
+const refFormAdd = ref<FormInstance>();
 let saveType = ref("add");
 let accessModeList = ref([]);
 let apiVersionList = ref([]);
 let accessExchangePlanFlagList = ref([]);
 let reportCategoryCodeList = ref([]);
-const addData = () => {
+const addData = (type: string) => {
   visibleAdd.value = true;
+  saveType.value = type;
   formDataAdd.value = {
     itemCode: "",
     itemName: "",
@@ -409,8 +414,27 @@ const addData = () => {
     businessModule: "REPORT",
     accessType: "DIRECT_QUERY"
   };
+  setTimeout(() => {
+    refFormAdd.value.clearValidate();
+  }, 0);
 };
 
+const getCodeByName = async () => {
+  if (formDataAdd.value.itemName) {
+    const params = {
+      businessModule: "REPORT",
+      type: "",
+      chineseName: formDataAdd.value.itemName
+    };
+    const { code, data, msg } = await proxy.axios.post("/sfrc/common/getCodeByName", params);
+    if (code === 0) {
+      formDataAdd.value.itemCode = data.code;
+    } else {
+      formDataAdd.value.itemCode = "";
+      proxy.msg({ type: "error", message: msg });
+    }
+  }
+};
 /* 接入方式 */
 const getAccessModeList = async () => {
   const { code, data, msg } = await proxy.axios.get("/sfrc/dict/list/AccessMode");
@@ -418,7 +442,7 @@ const getAccessModeList = async () => {
     accessModeList.value = data;
   } else {
     accessModeList.value = [];
-    proxy.msg({ type: "error", msg });
+    proxy.msg({ type: "error", message: msg });
   }
 };
 const accessModeChange = val => {
@@ -444,9 +468,9 @@ const accessModeChange = val => {
       trigger: "change"
     }
   ];
-  /* setTimeout(() => {
-    $refs.formDataAdd.clearValidate()
-  }, 0) */
+  setTimeout(() => {
+    refFormAdd.value.clearValidate();
+  }, 0);
 };
 /* 接口版本 */
 const getApiVersionList = async () => {
@@ -455,7 +479,7 @@ const getApiVersionList = async () => {
     apiVersionList.value = data;
   } else {
     apiVersionList.value = [];
-    proxy.msg({ type: "error", msg });
+    proxy.msg({ type: "error", message: msg });
   }
 };
 /* 接入版本 */
@@ -465,18 +489,21 @@ const getAccessExchangePlanFlagList = async () => {
     accessExchangePlanFlagList.value = data;
   } else {
     accessExchangePlanFlagList.value = [];
-    proxy.msg({ type: "error", msg });
+    proxy.msg({ type: "error", message: msg });
   }
 };
 
 /* 分类 */
 const getReportCategoryCodeList = async () => {
-  const { code, data, msg } = await proxy.axios.get("/sfrc/api/reportCategory/list");
+  const params = {
+    businessModule: "REPORT"
+  };
+  const { code, data, msg } = await proxy.axios.post("/sfrc/api/reportCategory/list", params);
   if (code === 0) {
     reportCategoryCodeList.value = data;
   } else {
     reportCategoryCodeList.value = [];
-    proxy.msg({ type: "error", msg });
+    proxy.msg({ type: "error", message: msg });
   }
 };
 const reportCategoryCodeChange = reportCategoryCode => {
@@ -491,6 +518,68 @@ const reportCategoryCodeChange = reportCategoryCode => {
     formDataAdd.value.reportCode = "";
   }
 };
+
+const saveData = async (type: string) => {
+  refFormAdd.value.validate(async valid => {
+    if (!valid) return;
+    const params = JSON.parse(JSON.stringify(toRaw(formDataAdd.value)));
+    delete params.detailCode;
+    delete params.detailName;
+    if (saveType.value === "add") {
+      params.comparisonItemDetailList = [
+        {
+          detailCode: formDataAdd.value.detailCode,
+          detailName: formDataAdd.value.detailName
+        }
+      ];
+    }
+    const { code, msg } = await proxy.axios.post("/sfrc/api/comparisonItem/save", params);
+    proxy.msg({ type: code === 0 ? "success" : "error", message: msg });
+    if (code === 0) {
+      await getData();
+    }
+    if (type === "save") {
+      visibleAdd.value = false;
+    } else {
+      formDataAdd.value = {
+        itemCode: "",
+        itemName: "",
+        acctCode: "",
+        accessMode: "",
+        apiVersion: "",
+        accessExchangePlanFlag: "",
+        reportCategoryCode: "",
+        remark: "",
+        taskCode: "",
+        reportCode: "",
+        detailCode: "",
+        detailName: "",
+        businessModule: "REPORT",
+        accessType: "DIRECT_QUERY"
+      };
+      setTimeout(() => {
+        refFormAdd.value.clearValidate();
+      }, 0);
+    }
+  });
+};
+const watchMx = async (row, type: string) => {
+  visibleAdd.value = true;
+  saveType.value = type;
+  const { code, data, msg } = await proxy.axios.get(`/sfrc/api/comparisonItem/getOneById/${row.id}`);
+  if (code === 0) {
+    formDataAdd.value = {
+      ...data,
+      detailCode: data.comparisonItemDetailList[0].detailCode,
+      detailName: data.comparisonItemDetailList[0].detailName
+    };
+  } else {
+    proxy.msg({ type: "error", message: msg });
+  }
+  setTimeout(() => {
+    refFormAdd.value.clearValidate();
+  }, 0);
+};
 /* 删除 */
 const delData = row => {
   proxy.msgConfirm
@@ -503,9 +592,9 @@ const delData = row => {
       const { code, msg } = await proxy.axios.get(`/sfrc/api/comparisonItem/deleteById/${row.id}`);
       if (code === 0) {
         await getData();
-        proxy.msg({ type: "success", msg });
+        proxy.msg({ type: "success", message: msg });
       } else {
-        proxy.msg({ type: "error", msg });
+        proxy.msg({ type: "error", message: msg });
       }
     })
     .catch(() => {});
