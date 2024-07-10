@@ -31,6 +31,7 @@ const RenderTableColumn = (item: ColumnProps) => {
       {item.isShow && (
         <el-table-column
           {...item}
+          fit
           align={item.align ?? "left"}
           headerAlign={item.headerAlign ?? "center"}
           showOverflowTooltip={item.showOverflowTooltip ?? item.prop !== "operation"}

@@ -3,7 +3,7 @@
     <v-search @get-data="getData" :formItems="formItems" :formData="formData" />
     <v-table ref="proTable" title="药采结算申请" ifIndex :column="column" :data="tableData">
       <template #p4="scope">
-        <el-button type="primary" link @click="ElMessage.success('我是通过作用域插槽渲染的内容')">
+        <el-button type="primary" link @click="proxy.msg({ type: 'success', message: '我是通过作用域插槽渲染的内容' })">
           {{ scope.row.p4 }}
         </el-button>
       </template></v-table
@@ -19,7 +19,6 @@
 </template>
 
 <script setup lang="ts" name="medicalSettleApply2">
-import { ElMessage } from "element-plus";
 import { computed, ref, reactive, getCurrentInstance, toRaw } from "vue";
 import { medicalInsPaymentPlanQuery } from "../medicalInsPaymentPlanQuery";
 import { ColumnProps } from "@/components/VTable/interface";
@@ -123,7 +122,7 @@ const column: ColumnProps<medicalInsPaymentPlanQuery.columnList>[] = [
     prop: "p13",
     width: 150,
     align: "right",
-    formatter: proxy.$funcs.format
+    formatter: proxy.funcs.format
   },
   { label: "业务批次号", prop: "p4", width: 200 },
   {
@@ -133,7 +132,7 @@ const column: ColumnProps<medicalInsPaymentPlanQuery.columnList>[] = [
   },
   { label: "凭证号", prop: "vouNo", width: 150 },
   { label: "凭证日期", prop: "vouDate", width: 150, align: "center" },
-  { label: "审核状态", prop: "operateState", width: 150, formatter: proxy.$funcs.formatOperateState }
+  { label: "审核状态", prop: "operateState", width: 150, formatter: proxy.funcs.formatOperateState }
 ];
 const paginationData = reactive({
   total: 0,
@@ -144,14 +143,14 @@ const getData = async () => {
   const params = JSON.parse(JSON.stringify(toRaw(formData)));
   params.pageSize = paginationData.pageSize;
   params.pageNum = paginationData.pageNum;
-  const { code, data, msg } = await proxy.$axios.post("/smrts/api/payPlan/pageList", params);
+  const { code, data, msg } = await proxy.axios.post("/smrts/api/payPlan/pageList", params);
   if (code === 0) {
     tableData.value = data.rows;
     paginationData.total = data.total;
   } else {
     tableData.value = [];
     paginationData.total = 0;
-    proxy.$ElMessage.error(msg);
+    proxy.msg({ type: "error", message: msg });
   }
 };
 
@@ -165,19 +164,19 @@ onMounted(() => {
 /*获取枚举*/
 let agencyList = ref([]);
 const getAgencyList = async () => {
-  const { data } = await proxy.$axios.get("/smc/api/agency/treeData");
+  const { data } = await proxy.axios.get("/smc/api/agency/treeData");
   agencyList.value = data;
 };
 
 let businessTypeList = ref([]);
 const getBusinessTypeList = async () => {
-  const { data } = await proxy.$axios.post("/api/smc/businessType/list", { enabled: "1", typeCodes: [] });
+  const { data } = await proxy.axios.post("/api/smc/businessType/list", { enabled: "1", typeCodes: [] });
   businessTypeList.value = data;
 };
 
 let insuranceList = ref([]);
 const getInsuranceListList = async () => {
-  const { data } = await proxy.$axios.get("/api/smc/platFormBasicData/list", { eleCode: "XZ" });
+  const { data } = await proxy.axios.get("/api/smc/platFormBasicData/list", { eleCode: "XZ" });
   insuranceList.value = data;
 };
 </script>

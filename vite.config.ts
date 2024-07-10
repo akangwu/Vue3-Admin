@@ -49,8 +49,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       // Load proxy configuration from .env.development
       proxy: {
         "/apis": {
-          target: "http://10.16.23.71:9089/",
-          //target: "http://10.16.23.10:9085",
+          target: "http://10.16.23.92:9998/", //mysql测试环境
           changeOrigin: true,
           ws: true,
           rewrite: path => path.replace(/^\/apis/, "")

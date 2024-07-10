@@ -113,7 +113,13 @@
         </GridItem>
         <GridItem suffix>
           <div class="operation">
-            <el-button v-if="formItems.length > 2 && showMore" type="primary" link class="search-isOpen" @click="setCollapsed">
+            <el-button
+              v-if="formItems.length >= searchCol && showMore"
+              type="primary"
+              link
+              class="search-isOpen"
+              @click="setCollapsed"
+            >
               {{ collapsed ? "展开" : "收起" }}
               <el-icon class="el-icon--right">
                 <component :is="collapsed ? ArrowDown : ArrowUp" />
@@ -216,15 +222,15 @@ const { proxy } = getCurrentInstance();
 const setMinMoney = (item: any, e: string, type: string) => {
   if (e === "focus") {
     if (type === "min") {
-      props.formData[item.ruleId][0] = proxy.$funcs.moneyTransferNum(props.formData[item.ruleId][0]);
+      props.formData[item.ruleId][0] = proxy.funcs.moneyTransferNum(props.formData[item.ruleId][0]);
     } else {
-      props.formData[item.ruleId][1] = proxy.$funcs.moneyTransferNum(props.formData[item.ruleId][1]);
+      props.formData[item.ruleId][1] = proxy.funcs.moneyTransferNum(props.formData[item.ruleId][1]);
     }
   } else {
     if (type === "min") {
-      props.formData[item.ruleId][0] = proxy.$funcs.thousandPoint(props.formData[item.ruleId][0]);
+      props.formData[item.ruleId][0] = proxy.funcs.thousandPoint(props.formData[item.ruleId][0]);
     } else {
-      props.formData[item.ruleId][1] = proxy.$funcs.thousandPoint(props.formData[item.ruleId][1]);
+      props.formData[item.ruleId][1] = proxy.funcs.thousandPoint(props.formData[item.ruleId][1]);
     }
   }
 };

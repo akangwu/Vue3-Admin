@@ -47,4 +47,23 @@ export namespace unitExpensesMake {
     createName: string;
     operation: string;
   }
+  export interface columnAdd {
+    businessItemCode: string;
+    accountName: string;
+    accountNo: string;
+    accountBank: string;
+    monthPayAmount: string;
+    prePeriodUseAmount: string;
+    prePeriodRequestAmount: string;
+    coefficient: string;
+    budgetAmount: string;
+    monthAmount: string;
+    afterRequestBalAmount: string;
+    remark: string;
+  }
+
+  export interface columnComputed {
+    name: string;
+    key: number;
+  }
 }

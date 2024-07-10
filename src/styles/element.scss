@@ -1,7 +1,9 @@
+$blue: #0066ff; // 主色调（蓝色）
+
 /* 设置 notification、message 层级在 loading 之上 */
 .el-message,
 .el-notification {
-  z-index: 2058 !important;
+  z-index: 99999999999999 !important;
 }
 
 /* el-alert */
@@ -119,7 +121,7 @@
     }
   }
   .dialog-form {
-    padding: 0 16px 16px;
+    padding: 0 16px;
   }
 
   // 表格 header 样式
@@ -147,8 +149,8 @@
       height: 45px;
       font-size: 15px;
       font-weight: bold;
-      color: var(--el-text-color-primary);
-      background: var(--el-fill-color-light);
+      color: var(--el-text-color-primary) !important;
+      background: var(--el-fill-color-light) !important;
     }
     .el-table__row {
       height: 32px;
@@ -193,9 +195,9 @@
   .el-pagination {
     display: flex;
     justify-content: flex-end;
-    border-radius: 0 0 6px 6px;
     padding: 0 10px 10px 0;
     background-color: var(--el-bg-color);
+    border-radius: 0 0 6px 6px;
   }
 }
 .table-main {
@@ -258,16 +260,75 @@
   }
 }
 
-/* el-dialog */
-.el-dialog {
-  .el-dialog__header {
-    padding: 14px 10px;
-    margin-bottom: 10px;
-    border-bottom: 1px solid var(--el-border-color-lighter);
-    .el-dialog__title {
-      font-size: 16px;
-      font-weight: 700;
+/* 模态框内的样式 */
+.el-overlay {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  overflow: hidden !important;
+  .el-overlay-dialog {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: 95%;
+    margin: 0 auto !important;
+    border-radius: 2px;
+    .el-dialog {
+      max-height: calc(100vh - 200px); /* 举例：减去头部和底部高度，以适应视口 */
+      margin: 0 auto;
+      overflow: hidden auto; /* 隐藏水平滚动条 */ /* 只允许垂直滚动 */
+      .el-dialog__header {
+        padding: 14px 10px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid var(--el-border-color-lighter);
+        .el-dialog__title {
+          font-size: 16px;
+          font-weight: 700;
+        }
+      }
+      .el-dialog__body {
+        box-sizing: border-box;
+        overflow-y: auto;
+        .el-input--suffix .el-input__inner {
+          box-sizing: border-box;
+          padding-right: 15px;
+        }
+      }
+
+      /* 弹框底部按钮Box */
+      .el-dialog__footer {
+        z-index: 100;
+        box-sizing: border-box;
+        padding: 12px 24px;
+        border-top: 1px solid #ebebeb;
+      }
     }
+  }
+}
+.el-overlay.sm {
+  .el-dialog {
+    width: 400px;
+  }
+}
+.el-overlay.cg {
+  .el-dialog {
+    width: 480px;
+  }
+}
+.el-overlay.lg {
+  .el-dialog {
+    width: 600px;
+  }
+}
+.el-overlay.xlg {
+  .el-dialog {
+    width: 800px;
+  }
+}
+.el-overlay.md {
+  .el-dialog {
+    width: 1100px;
   }
 }
 .el-tabs {
@@ -276,5 +337,20 @@
     margin: 0;
     background-color: var(--el-bg-color);
     border-radius: 6px 6px 0 0;
+  }
+}
+
+/* 按钮样式 */
+.btn-table {
+  padding: 3px;
+  font-size: 14px;
+  color: $blue;
+  cursor: pointer;
+  &:hover {
+    background: rgb(0 102 255 / 20%);
+  }
+  &:active {
+    color: #ffffff;
+    background: $blue;
   }
 }

@@ -56,6 +56,20 @@ const funcs = {
       : status === "7"
       ? "退回"
       : "审批中";
+  },
+
+  transferName(
+    key: string,
+    list: array<[]>,
+    codeKey = {
+      code: "code",
+      name: "name"
+    },
+    showCode: boolean = true
+  ) {
+    let { code, name } = codeKey;
+    let f = list.filter(i => i[code] === key);
+    return f.length ? (showCode ? `[${key}]${f[0][name]}` : f[0][name]) : "";
   }
 };
 export default funcs;

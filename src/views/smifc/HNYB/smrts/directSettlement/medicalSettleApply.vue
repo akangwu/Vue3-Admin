@@ -128,15 +128,14 @@ const getData = async () => {
   }
   params.cancelPayIs = activeKey.value === "3";
   let url = `/henan/smrts/api/deductPlan/${activeKey.value === "0" || activeKey.value === "3" ? "pageList" : "taskPageList"}`;
-  const { code, data, msg } = await proxy.$axios.post(url, params);
+  const { code, data, msg } = await proxy.axios.post(url, params);
   if (code === 0) {
     tableData.value = data.rows;
     paginationData.total = data.total;
-    //proxy.$ElMessage.success(msg);
   } else {
     tableData.value = [];
     paginationData.total = 0;
-    proxy.$ElMessage.error(msg);
+    proxy.msg({ type: "error", message: msg });
   }
 };
 const tabClick = val => {
@@ -145,7 +144,7 @@ const tabClick = val => {
 };
 const getInsuranceList = async () => {
   let insuranceLint = [];
-  const { data } = await proxy.$axios.get("/api/smc/platFormBasicData/list?eleCode=XZ");
+  const { data } = await proxy.axios.get("/api/smc/platFormBasicData/list?eleCode=XZ");
   insuranceLint = data;
   console.log(insuranceLint, "323223");
 };

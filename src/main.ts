@@ -21,7 +21,6 @@ import "@/styles/reset.scss";
 import * as Icons from "@element-plus/icons-vue";
 // element plus
 import ElementPlus from "element-plus";
-import { ElMessage, ElMessageBox } from "element-plus";
 // element css
 import "element-plus/dist/index.css";
 // element dark css
@@ -31,6 +30,8 @@ import "virtual:svg-icons-register";
 
 import funcs from "@/utils/funcs";
 import http from "@/axios";
+import { msg } from "@/utils/resetMessage";
+import { ElMessageBox } from "element-plus";
 import { createApp } from "vue";
 import App from "./App.vue";
 
@@ -40,15 +41,14 @@ import VTable from "@/components/VTable/index.vue";
 import VPages from "@/components/VTable/components/VPages.vue";
 
 const app = createApp(App);
-app.config.globalProperties.$funcs = funcs;
-app.config.globalProperties.$axios = http;
-app.config.globalProperties.$ElMessage = ElMessage;
-app.config.globalProperties.$ElMessageBox = ElMessageBox;
+app.config.globalProperties.funcs = funcs;
+app.config.globalProperties.axios = http;
+app.config.globalProperties.msg = msg;
+app.config.globalProperties.msgConfirm = ElMessageBox;
 
 app.component("VSearch", VSearch);
 app.component("VTable", VTable);
 app.component("VPages", VPages);
-
 // register the element Icons component
 Object.keys(Icons).forEach(key => {
   app.component(key, Icons[key as keyof typeof Icons]);

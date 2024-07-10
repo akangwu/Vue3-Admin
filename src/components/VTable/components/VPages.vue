@@ -46,3 +46,25 @@ const handleCurrentChange = (val: number) => {
   emit("getData", paginationData);
 };
 </script>
+<style lang="scss" scoped>
+.el-pagination {
+  font-weight: 400;
+  color: #333;
+}
+.el-pagination .el-input__inner {
+  border: 1px solid #888888;
+}
+.el-pagination.is-background .el-pager li,
+.el-pagination.is-background .btn-next,
+.el-pagination.is-background .btn-prev {
+  margin: 0;
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #888888;
+  border-radius: 0;
+}
+.el-pagination.is-background .el-pager li,
+.el-pagination.is-background .btn-prev {
+  border-right: 0;
+}
+</style>
