@@ -142,7 +142,7 @@
                 "isHide": false,
                 "isFull": false,
                 "isAffix": false,
-                "isKeepAlive": true
+                "isKeepAlive": false
               }
             }
           ]
