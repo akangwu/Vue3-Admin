@@ -9,6 +9,12 @@
       <template #acctCode="scope">
         {{ proxy.funcs.transferName(scope.row.acctCode, acctCodeList) }}
       </template>
+      <template #accessMode="scope">
+        {{ proxy.funcs.transferName(scope.row.accessMode, accessModeList, false) }}
+      </template>
+      <template #apiVersion="scope">
+        {{ proxy.funcs.transferName(scope.row.apiVersion, apiVersionList, false) }}
+      </template>
       <template #operation="scope">
         <span class="btn-table" @click="watchMx(scope.row, 'watch')">查看明细</span>
         <span class="btn-table" @click="watchMx(scope.row, 'edit')">编辑</span>
@@ -161,7 +167,6 @@ import { computed, getCurrentInstance, onMounted, reactive, ref, toRaw } from "v
 // import { useRoute } from "vue-router";
 const { proxy } = getCurrentInstance();
 
-import { reportClass } from "./reportClass";
 // const route = useRoute();
 onMounted(() => {
   getAcctCodeList();
@@ -201,7 +206,10 @@ const formItems = computed(() => {
         ? acctCodeList.value.map(item => {
             return { label: item.name, value: item.code };
           })
-        : []
+        : [],
+      search: {
+        code: true
+      }
     },
     {
       htmlType: "input",
@@ -221,7 +229,7 @@ const formItems = computed(() => {
 });
 
 /* 表格 */
-const column: ColumnProps<reportClass.column>[] = [
+const column = [
   {
     label: "报表分类",
     prop: "reportCategoryCode",
@@ -255,14 +263,12 @@ const column: ColumnProps<reportClass.column>[] = [
   {
     label: "接入方式",
     prop: "accessMode",
-    width: 150,
-    operate: true
+    width: 150
   },
   {
     label: "版本/方案",
     prop: "apiVersion",
-    width: 300,
-    operate: true
+    width: 150
   },
   {
     label: "备注",
@@ -280,8 +286,7 @@ const column: ColumnProps<reportClass.column>[] = [
     prop: "operation",
     width: 200,
     align: "center",
-    fixed: "right",
-    operate: true
+    fixed: "right"
   }
 ];
 const tableData = ref([]);
