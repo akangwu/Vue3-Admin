@@ -72,7 +72,7 @@
               <el-option
                 v-for="(item1, index1) in item.list"
                 :key="index1"
-                :label="item1.label"
+                :label="item?.search?.code ? `[${item1.value}]${item1.label}` : item1.label"
                 :value="item1.value"
                 :disabled="item1?.disabled"
               ></el-option>
