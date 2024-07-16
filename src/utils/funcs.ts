@@ -51,11 +51,11 @@ const funcs = {
   transferName(
     key: string,
     list: Array<{ [x: string]: string }>,
+    showCode: boolean = true,
     codeKey: { code: string; name: string } = {
       code: "code",
       name: "name"
-    },
-    showCode: boolean = true
+    }
   ): string {
     let { code, name } = codeKey;
     let f = list.filter((i: { [x: string]: string }) => i[code] === key);
