@@ -10,7 +10,7 @@
           :hide="item?.search?.hide"
         >
           <el-form-item :label="`${item.label} :`" :prop="item.ruleId" v-if="!item?.search?.hide">
-            <!--输入框-->
+            <!-- 输入框 -->
             <el-input
               v-if="item.htmlType === 'input' && !item?.search?.hide"
               v-model="formData[item.ruleId]"
@@ -18,7 +18,7 @@
               :disabled="item?.search?.disabled"
               :placeholder="`请输入${item.label}`"
             />
-            <!--年、月、日、多个日期的选择-->
+            <!-- 年、月、日、多个日期的选择 -->
             <el-date-picker
               v-if="item.htmlType === 'date' && !item?.search?.hide"
               v-model="formData[item.ruleId]"
@@ -29,7 +29,7 @@
               :format="item.format"
               :value-format="item.valueFormat"
             />
-            <!--日期范围-->
+            <!-- 日期范围 -->
             <el-date-picker
               v-if="item.htmlType === 'dateRange' && !item?.search?.hide"
               v-model="formData[item.ruleId]"
@@ -59,7 +59,7 @@
               "
             />
 
-            <!--下拉列表-->
+            <!-- 下拉列表 -->
             <el-select
               v-if="item.htmlType === 'select' && !item?.search?.hide"
               v-model="formData[item.ruleId]"
@@ -78,18 +78,18 @@
               ></el-option>
             </el-select>
 
-            <!--单选框-->
+            <!-- 单选框 -->
             <el-radio-group
               v-if="item.htmlType === 'radioGroup' && !item?.search?.hide"
               v-model="formData[item.ruleId]"
               :disabled="item?.search?.disabled"
             >
-              <el-radio-button v-for="(val, i) in item.list" :value="val.value" :key="i" :disabled="val?.disabled">{{
-                val.label
-              }}</el-radio-button>
+              <el-radio-button v-for="(val, i) in item.list" :value="val.value" :key="i" :disabled="val?.disabled">
+                {{ val.label }}
+              </el-radio-button>
             </el-radio-group>
 
-            <!--金额范围-->
+            <!-- 金额范围 -->
             <span v-if="item.htmlType === 'moneyRange' && !item?.search?.hide" style="display: flex">
               <el-input
                 v-model="formData[item.ruleId][0]"
@@ -172,7 +172,6 @@ const getResponsive = (item: ColumnProps) => {
 };
 
 // 是否默认折叠搜索项
-
 const collapsed = ref(false);
 const setCollapsed = () => {
   if (props.showMore) {
@@ -182,17 +181,18 @@ const setCollapsed = () => {
   }
 };
 setCollapsed();
+
 // 获取响应式断点
 const gridRef = ref();
 
-// 查询方法
+/*查询按钮*/
 const emit = defineEmits(["formData", "getData", "resetChange"]);
 const search = () => {
   emit("getData", props.formData);
 };
 
+/*重置按钮的操作*/
 const formRef = ref<FormInstance>();
-
 const reset = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   nextTick(() => {
@@ -218,6 +218,7 @@ watch(
   }
 );
 
+/*对金额千分位的处理*/
 const { proxy } = getCurrentInstance();
 const setMinMoney = (item: any, e: string, type: string) => {
   if (e === "focus") {

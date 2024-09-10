@@ -144,6 +144,20 @@
                 "isAffix": false,
                 "isKeepAlive": false
               }
+            },
+            {
+              "path": "/sfrc/report/reportClassConfig",
+              "name": "reportClassConfig",
+              "component": "/sfrc/report/reportClassConfig",
+              "meta": {
+                "icon": "Menu",
+                "title": "报表项目设置",
+                "isLink": "",
+                "isHide": false,
+                "isFull": false,
+                "isAffix": false,
+                "isKeepAlive": false
+              }
             }
           ]
         }

@@ -170,7 +170,7 @@ const { proxy } = getCurrentInstance();
 // const route = useRoute();
 onMounted(() => {
   getAcctCodeList();
-  getData();
+  //getData();
   getAccessModeList();
   getReportCategoryCodeList();
   getApiVersionList();
@@ -180,6 +180,7 @@ onMounted(() => {
 /* 搜索条件 */
 let acctCodeList = ref([]);
 const getAcctCodeList = async () => {
+  return;
   const { code, data, msg } = await proxy.axios.get("/sfrc/dict/list/SFRC_ACCS");
   if (code === 0) {
     acctCodeList.value = data;
@@ -442,6 +443,7 @@ const getCodeByName = async () => {
 };
 /* 接入方式 */
 const getAccessModeList = async () => {
+  return;
   const { code, data, msg } = await proxy.axios.get("/sfrc/dict/list/AccessMode");
   if (code === 0) {
     accessModeList.value = data;
@@ -479,6 +481,7 @@ const accessModeChange = val => {
 };
 /* 接口版本 */
 const getApiVersionList = async () => {
+  return;
   const { code, data, msg } = await proxy.axios.get("/sfrc/dict/list/ApiVersion");
   if (code === 0) {
     apiVersionList.value = data;
@@ -489,6 +492,7 @@ const getApiVersionList = async () => {
 };
 /* 接入版本 */
 const getAccessExchangePlanFlagList = async () => {
+  return;
   const { code, data, msg } = await proxy.axios.get("/smda/api/exchange/queryAllPlan");
   if (code === 0) {
     accessExchangePlanFlagList.value = data;
@@ -500,6 +504,7 @@ const getAccessExchangePlanFlagList = async () => {
 
 /* 分类 */
 const getReportCategoryCodeList = async () => {
+  return;
   const params = {
     businessModule: "REPORT"
   };
