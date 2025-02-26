@@ -9,7 +9,13 @@
           :index="index"
           :hide="item?.search?.hide"
         >
-          <el-form-item :label="`${item.label} :`" :prop="item.ruleId" v-if="!item?.search?.hide">
+          <el-form-item
+            :label="`${item.label} :`"
+            :prop="item.ruleId"
+            :label-width="item.search?.labelWidth || 80"
+            label-position="right"
+            v-if="!item?.search?.hide"
+          >
             <!-- 输入框 -->
             <el-input
               v-if="item.htmlType === 'input' && !item?.search?.hide"

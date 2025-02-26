@@ -97,8 +97,8 @@ interface VTableProps extends Partial<Omit<TableProps<any>, "data">> {
   border?: boolean; // 是否带有纵向边框 ==> 非必传（默认为true）
   rowKey?: string; // 行数据的 Key，用来优化 Table 的渲染，当表格数据多选时，所指定的 id ==> 非必传（默认为 id）
 }
-const emit = defineEmits(["singleSelect"]); // 涉及到el-dialog的表格选择项不能使用hooks方式获取，只能通过父子组件传递方法进行获取
 
+const emit = defineEmits(["singleSelect"]); // 涉及到el-dialog的表格选择项不能使用hooks方式获取，只能通过父子组件传递方法进行获取
 // 接受父组件参数，配置默认值
 const props = withDefaults(defineProps<VTableProps>(), {
   requestAuto: true,
@@ -129,6 +129,28 @@ const clearSelection = () => tableRef.value!.clearSelection();
 // 接收 column 并设置为响应式
 const tableColumns = ref<ColumnProps[]>(props.column);
 
+// 监听 column 属性的变化，来更新el-table的表头
+/*
+如果不使用watch监听column，会导致表格表头不更新。但是可以单独在引用时增加key属性，来达到更新表格表头的目的。
+<v-table
+  ref="proTable"
+  if-index
+    if-select
+      :column="
+  activeKey === '0' || activeKey === '2' ? column1 : activeKey === '1' ? column2 : activeKey === '5' ? column4 : column3
+  "
+  :data="tableData"
+  :key="activeKey"
+  >*/
+watch(
+  () => props.column,
+  newColumns => {
+    tableColumns.value = newColumns;
+    flatColumns.value = flatColumnsFunc(newColumns);
+  },
+  { deep: true }
+);
+console.log(tableColumns, "tableColumnstableColumns");
 // 定义 enumMap 存储 enum 值（避免异步请求无法格式化单元格内容 || 无法填充搜索下拉选择）
 const enumMap = ref(new Map<string, { [key: string]: any }[]>());
 provide("enumMap", enumMap);

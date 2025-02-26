@@ -3,20 +3,14 @@
     <!-- 查询表单 card -->
     <v-search @get-data="getData" :form-items="formItems" :formData="formData" />
     <el-tabs v-model="activeKey" @tab-click="tabClick">
-      <el-tab-pane :label="item.label" :name="item.value" v-for="(item, index) in tabs" :key="index"> </el-tab-pane>
+      <el-tab-pane :label="item.label" :name="item.value" v-for="(item, index) in tabs" :key="index"></el-tab-pane>
     </el-tabs>
     <v-table
       ref="proTable"
       if-index
       if-select
       :column="
-        activeKey === '0' || activeKey === '2'
-          ? column1
-          : activeKey === '1' || activeKey === '1'
-          ? column2
-          : activeKey === '5'
-          ? column4
-          : column3
+        activeKey === '0' || activeKey === '2' ? column1 : activeKey === '1' ? column2 : activeKey === '5' ? column4 : column3
       "
       :data="tableData"
     >
@@ -42,7 +36,7 @@
     />
 
     <!--新增-->
-    <el-dialog v-model="visibleAdd" title="新增基金申请单" width="1200px" class="dialog-form" v-if="visibleAdd">
+    <el-dialog v-model="visibleAdd" title="新增基金申请单" class="dialog-form w-1200" v-if="visibleAdd">
       <el-form ref="formRef" :model="formDataAdd">
         <Grid ref="gridRef" :gap="[20, 0]" :cols="3">
           <GridItem>
@@ -122,7 +116,7 @@
           </GridItem>
         </Grid>
       </el-form>
-      <v-table ref="proTable" ifIndex if-select :column="columnAdd" :data="tableDataAdd" isDialogTable height="250px">
+      <v-table ref="proTable" ifIndex if-select :column="columnAdd" :data="tableDataAdd" isDialogTable height="650px">
         <template #tableHeader="scope">
           <el-button type="primary" @click="addRow">增行</el-button>
           <el-button @click="delRow">删行</el-button>
@@ -233,6 +227,7 @@ import Grid from "@/components/Grid/index.vue";
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRaw } from "vue";
 import { useRoute } from "vue-router";
 import { unitExpensesMake } from "./unitExpensesMake";
+
 const { proxy } = getCurrentInstance();
 const route = useRoute();
 const column1: ColumnProps<unitExpensesMake.column1>[] = [
@@ -307,7 +302,23 @@ const column3: ColumnProps<unitExpensesMake.column3>[] = [
   {
     label: "审批状态",
     prop: "operateState",
-    width: 200
+    _children: [
+      {
+        label: "审批状态1",
+        prop: "operateState1",
+        width: 200
+      },
+      {
+        label: "审批状态2",
+        prop: "operateState2",
+        width: 200
+      },
+      {
+        label: "审批状态3",
+        prop: "operateState3",
+        width: 200
+      }
+    ]
   },
   {
     label: "上报状态",
@@ -401,7 +412,7 @@ const columnAdd: ColumnProps<unitExpensesMake.columnAdd>[] = [
   { label: "申请后账户余额", prop: "afterRequestBalAmount", width: 200, align: "right", formatter: proxy.funcs.format },
   { label: "备注", prop: "remark", width: 200, align: "right" }
 ];
-let tableData = ref([]);
+const tableData = ref([]);
 const activeKey = ref("-1");
 const tabs = [
   { label: "全部", value: "-1" },
@@ -443,17 +454,17 @@ const getData = async () => {
 };
 const tabClick = val => {
   activeKey.value = val.paneName;
-  getData();
+  // getData();
 };
-let agencyList = ref([]);
-let insuranceList = ref([]);
+const agencyList = ref([]);
+const insuranceList = ref([]);
 const getInsuranceList = async () => {
-  const { data } = await proxy.axios.get("/api/smc/platFormBasicData/list?eleCode=XZ");
-  insuranceList.value = data;
+  /*const { data } = await proxy.axios.get("/api/smc/platFormBasicData/list?eleCode=XZ");
+  insuranceList.value = data;*/
 };
 const getAgencyList = async () => {
-  const { data } = await proxy.axios.get("/api/smc/platFormBasicData/agencyList");
-  agencyList.value = data;
+  /*const { data } = await proxy.axios.get("/api/smc/platFormBasicData/agencyList");
+  agencyList.value = data;*/
 };
 
 const formData = reactive({
@@ -463,7 +474,7 @@ const formData = reactive({
   agencyCode: [],
   insuranceCode: ""
 });
-let dateTypeList = ref([
+const dateTypeList = ref([
   {
     label: "季度请款",
     value: "0"
@@ -489,7 +500,10 @@ const formItems = computed(() => {
       htmlType: "select",
       label: "请款类型",
       ruleId: "dateType",
-      list: dateTypeList.value
+      list: dateTypeList.value,
+      search: {
+        clear: true
+      }
     },
     {
       htmlType: "date",
@@ -546,8 +560,8 @@ const formItems = computed(() => {
 });
 
 /*新增*/
-let visibleAdd = ref(false);
-let formDataAdd = ref({
+const visibleAdd = ref(false);
+const formDataAdd = ref({
   agencyCode: "",
   agencyName: "",
   applyDate: "",
@@ -569,10 +583,10 @@ let formDataAdd = ref({
   monthAmount: "0",
   monthPayAmount: "0"
 });
-let tableDataAdd = ref([]);
-let selectRowsAdd = ref([]);
-let costItemList = ref([]);
-let accountList = ref([]);
+const tableDataAdd = ref([]);
+const selectRowsAdd = ref([]);
+const costItemList = ref([]);
+const accountList = ref([]);
 const add = () => {
   visibleAdd.value = true;
   formDataAdd.value = {
@@ -607,9 +621,9 @@ const changeInsuranceCode = () => {
 };
 
 const addRow = () => {
-  if (formDataAdd.value.dateType === "" || !formDataAdd.value.useDate || !formDataAdd.value.insuranceCode) {
+  /*if (formDataAdd.value.dateType === "" || !formDataAdd.value.useDate || !formDataAdd.value.insuranceCode) {
     return proxy.msg({ type: "warning", message: "请款类型，用款期间，险种不能为空" });
-  }
+  }*/
   tableDataAdd.value.push({
     businessItemCode: "",
     accountName: "",
@@ -630,12 +644,12 @@ const delRow = index => {
   tableDataAdd.value.splice(index, 1);
 };
 const getCostItemList = async () => {
-  const { data } = await proxy.axios.get("/api/smc/platFormBasicData/list?eleCode=JJZFLX");
-  costItemList.value = data;
+  /*const { data } = await proxy.axios.get("/api/smc/platFormBasicData/list?eleCode=JJZFLX");
+  costItemList.value = data;*/
 };
 
 /*测算相关*/
-let visibleComputed: Ref<boolean> = ref(false);
+const visibleComputed: Ref<boolean> = ref(false);
 let selectedRowsComputed = reactive({});
 const tableDataComputed = reactive([
   { key: 1, name: "上期请款数" },
@@ -836,8 +850,8 @@ const handleFocus = (row, field) => {
 };
 const handleBlur = (row, field) => {
   console.log(row, field);
-  let patrn = /^([1-9]\d*|bai0)(\.\d*[1-9])?$/;
-  if (!patrn.exec(row[field])) {
+  const patron = /^([1-9]\d*|bai0)(\.\d*[1-9])?$/;
+  if (!patron.exec(row[field])) {
     // this.$message({showClose: true, message: '申请总金额不能小于等于0,且不能为非数字!', type: 'error'})
     return;
   } else {
@@ -851,6 +865,6 @@ const save = () => {
 onMounted(() => {
   getInsuranceList();
   getAgencyList();
-  getData();
+  // getData();
 });
 </script>
