@@ -22,10 +22,6 @@
         <el-button :type="activeKey === '1' ? 'primary' : ''">导出</el-button>
       </template>
 
-      <template #operateState1="scope">
-        <el-input v-model="scope.row.operateState1" placeholder="请输入1"></el-input>
-      </template>
-
       <template #operation>
         <el-button>查看</el-button>
       </template>

@@ -39,7 +39,7 @@
         </template>
       </el-table-column>
 
-      <template v-for="item in tableColumns" :key="item.prop">
+      <template v-for="item in flatColumns" :key="item.prop">
         <!-- expand 支持 tsx 语法 && 作用域插槽 (tsx > slot) -->
         <el-table-column v-bind="item" :align="item.align ?? 'center'" v-if="item.type === 'expand'">
           <template #default="scope">

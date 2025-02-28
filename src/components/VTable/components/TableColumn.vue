@@ -12,7 +12,15 @@
     <template #default="scope">
       <!-- 如果列有子列，则递归渲染子列 -->
       <template v-if="column._children">
-        <TableColumn v-for="child in column._children" :key="child.prop" :column="child" />
+        <TableColumn v-for="child in column._children" :key="child.prop" :column="child">
+          <template v-if="$slots[child.prop]" #[child.prop]="childScope">
+            <slot :name="child.prop" v-bind="childScope" />
+          </template>
+          <!-- 如果子列没有插槽，则显示数据 -->
+          <template v-if="!$slots[child.prop]">
+            {{ childScope.row[child.prop] }}
+          </template>
+        </TableColumn>
       </template>
       <!-- 如果列有自定义渲染函数，则使用该函数渲染内容 -->
       <template v-else-if="column.render">

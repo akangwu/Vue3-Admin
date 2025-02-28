@@ -87,9 +87,9 @@
               ]
             },
             {
-              "path": "/smifc/HNYB/unitExpensesMake1",
-              "name": "unitExpensesMake1",
-              "component": "/smifc/HNYB/unitExpensesMake1",
+              "path": "/smifc/HNYB/unitExpensesMake",
+              "name": "unitExpensesMake",
+              "component": "/smifc/HNYB/unitExpensesMake",
               "meta": {
                 "icon": "Menu",
                 "title": "单位用款申请",
