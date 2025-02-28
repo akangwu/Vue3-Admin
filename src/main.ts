@@ -36,23 +36,12 @@ import { createApp } from "vue";
 // @ts-expect-error
 import App from "./App.vue";
 
-/*全局注册组件*/
-// @ts-expect-error
-import VSearch from "@/components/VSearch/index.vue";
-// @ts-expect-error
-import VTable from "@/components/VTable/index.vue";
-// @ts-expect-error
-import VPages from "@/components/VTable/components/VPages.vue";
-
 const app = createApp(App);
 app.config.globalProperties.funcs = funcs;
 app.config.globalProperties.axios = http;
 app.config.globalProperties.msg = msg;
 app.config.globalProperties.msgConfirm = ElMessageBox;
 
-app.component("VSearch", VSearch);
-app.component("VTable", VTable);
-app.component("VPages", VPages);
 // register the element Icons component
 Object.keys(Icons).forEach(key => {
   app.component(key, Icons[key as keyof typeof Icons]);

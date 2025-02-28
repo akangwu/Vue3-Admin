@@ -13,16 +13,19 @@
         activeKey === '0' || activeKey === '2' ? column1 : activeKey === '1' ? column2 : activeKey === '5' ? column4 : column3
       "
       :data="tableData"
+      @selection-change="selectionChange"
     >
       <template #tableHeader>
-        <el-button v-if="activeKey === '-1' || activeKey === '0'" type="primary" @click="add">新增</el-button>
+        <el-button v-if="activeKey === '-1' || activeKey === '0'" type="primary" @click="btnAdd">新增</el-button>
         <el-button v-if="activeKey !== '1'" :type="activeKey === '2' ? 'primary' : ''">提交</el-button>
         <el-button v-if="activeKey !== '1'">删除</el-button>
         <el-button :type="activeKey === '1' ? 'primary' : ''">导出</el-button>
       </template>
-      <template #p7="scope">
-        {{ `[${scope.row.p6}]${scope.row.p7}` }}
+
+      <template #operateState1="scope">
+        <el-input v-model="scope.row.operateState1" placeholder="请输入1"></el-input>
       </template>
+
       <template #operation>
         <el-button>查看</el-button>
       </template>
@@ -116,13 +119,13 @@
           </GridItem>
         </Grid>
       </el-form>
-      <v-table ref="proTable" ifIndex if-select :column="columnAdd" :data="tableDataAdd" isDialogTable height="650px">
+      <v-table ref="proTable1" ifIndex if-select :column="columnAdd" :data="tableDataAdd" isDialogTable height="650px">
         <template #tableHeader="scope">
           <el-button type="primary" @click="addRow">增行</el-button>
           <el-button @click="delRow">删行</el-button>
-          <el-button @click="add">更新余额</el-button>
+          <el-button @click="btnAdd">更新余额</el-button>
           <el-button @click="clickVisibleComputed(scope.selectedRows)">测算</el-button>
-          <el-button @click="add">参照支付计划</el-button>
+          <el-button @click="btnAdd">参照支付计划</el-button>
         </template>
         <!--基金支付类型-->
         <template #businessItemCode="scope">
@@ -378,7 +381,7 @@ const column4: ColumnProps<unitExpensesMake.column4>[] = [
   { label: "操作", prop: "operation", width: 180, align: "center" }
 ];
 const columnAdd: ColumnProps<unitExpensesMake.columnAdd>[] = [
-  { label: "基金支付类型", prop: "businessItemCode", width: 250 },
+  { label: "基金支付类型", prop: "businessItemCode", width: 250, operate: true },
   { label: "户名", prop: "accountName", width: 250, align: "center" },
   { label: "账号", prop: "accountNo", width: 200, align: "center" },
   { label: "开户行", prop: "accountBank", width: 200 },
@@ -412,7 +415,17 @@ const columnAdd: ColumnProps<unitExpensesMake.columnAdd>[] = [
   { label: "申请后账户余额", prop: "afterRequestBalAmount", width: 200, align: "right", formatter: proxy.funcs.format },
   { label: "备注", prop: "remark", width: 200, align: "right" }
 ];
-const tableData = ref([]);
+
+const proTable = ref<InstanceType<typeof VTable>>();
+const tableData = ref([
+  { id: 1, docNum: "Alice" },
+  { id: 2, docNum: "Bob" },
+  { id: 3, docNum: "Charlie" },
+
+  { id: 5, operateState1: "Charlie51", operateState2: "Charlie521", operateState3: "Charlie5211" },
+  { id: 5, operateState1: "Charlie52", operateState2: "Charlie522", operateState3: "Charlie5212" },
+  { id: 5, operateState1: "Charlie53", operateState2: "Charlie523", operateState3: "Charlie5213" }
+]);
 const activeKey = ref("-1");
 const tabs = [
   { label: "全部", value: "-1" },
@@ -420,6 +433,11 @@ const tabs = [
   { label: "已提交", value: "1" },
   { label: "驳回", value: "2" }
 ];
+
+const selectionChange = (row: any) => {
+  console.log("选择行:", row);
+};
+
 const paginationData = reactive({
   total: 0,
   pageSize: 50,
@@ -454,6 +472,13 @@ const getData = async () => {
 };
 const tabClick = val => {
   activeKey.value = val.paneName;
+  tableData.value = [
+    { id: 1, docNum: 0 },
+    { id: 2, docNum: "Bob" },
+    { id: 3, docNum: "Charlie" },
+    { id: 5, docNum: "Charlie5" },
+    { id: 4, docNum: "Charlie4" }
+  ];
   // getData();
 };
 const agencyList = ref([]);
@@ -587,7 +612,7 @@ const tableDataAdd = ref([]);
 const selectRowsAdd = ref([]);
 const costItemList = ref([]);
 const accountList = ref([]);
-const add = () => {
+const btnAdd = () => {
   visibleAdd.value = true;
   formDataAdd.value = {
     agencyCode: "1100",
@@ -611,7 +636,7 @@ const add = () => {
     monthAmount: "0",
     monthPayAmount: "0"
   };
-  getCostItemList();
+  // getCostItemList();
 };
 const changeDateType = val => {
   formDataAdd.value.dateType = val;
@@ -643,10 +668,10 @@ const addRow = () => {
 const delRow = index => {
   tableDataAdd.value.splice(index, 1);
 };
-const getCostItemList = async () => {
-  /*const { data } = await proxy.axios.get("/api/smc/platFormBasicData/list?eleCode=JJZFLX");
-  costItemList.value = data;*/
-};
+/*const getCostItemList = async () => {
+  /!*const { data } = await proxy.axios.get("/api/smc/platFormBasicData/list?eleCode=JJZFLX");
+  costItemList.value = data;*!/
+};*/
 
 /*测算相关*/
 const visibleComputed: Ref<boolean> = ref(false);
@@ -720,6 +745,7 @@ const getAccountList = async () => {
   accountList.value = data;
 };
 const handleBusinessItemChange = row => {
+  return;
   let data = costItemList.value.filter(val => {
     return val.chrCode == row.businessItemCode;
   });
