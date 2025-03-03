@@ -18,8 +18,7 @@
     "lint:stylelint": "stylelint --cache --fix \"**/*.{vue,less,postcss,css,scss}\" --cache --cache-location node_modules/.cache/stylelint/",
     "lint:lint-staged": "lint-staged",
     "prepare": "husky install",
-    "release": "standard-version",
-    "commit": "git add -A && czg && git push"
+    "release": "standard-version"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
@@ -46,8 +45,6 @@
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.4.4",
-    "@commitlint/config-conventional": "^17.4.4",
     "@types/js-md5": "^0.7.0",
     "@types/nprogress": "^0.2.0",
     "@types/qs": "^6.9.7",
@@ -105,10 +102,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "config": {
-    "commitizen": {
-      "path": "node_modules/cz-git"
-    }
   }
 }
