@@ -19,7 +19,7 @@ import NProgress from '@/config/nprogress'
  * @param meta.isLink ==> 是否外链
  * @param meta.isHide ==> 是否隐藏
  * @param meta.isFull ==> 是否全屏(示例：数据大屏页面)
- * @param meta.isAffix ==> 是否固定在 tabs nav
+ * @param meta.isAffix ==> 是否固定在 useTabs nav
  * @param meta.isKeepAlive ==> 是否缓存
  * */
 const router = createRouter({

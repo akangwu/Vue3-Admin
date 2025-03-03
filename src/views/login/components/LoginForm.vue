@@ -67,7 +67,7 @@ const login = (formEl: FormInstance | undefined) => {
 			// 2.添加动态路由
 			await initDynamicRouter()
 
-			// 3.清空 tabs、keepAlive 数据
+			// 3.清空 useTabs、keepAlive 数据
 			await tabsStore.closeMultipleTab()
 			await keepAliveStore.setKeepAliveName()
 

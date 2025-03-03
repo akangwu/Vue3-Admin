@@ -47,7 +47,7 @@ onMounted(() => {
 	getTreeFilter()
 	ElNotification({
 		title: '温馨提示',
-		message: '该页面 VTable 数据不会自动请求，需等待 treeFilter 数据请求完成之后，才会触发表格请求。',
+		message: '该页面 VTable 数据不会自动请求，需等待 useProTableTreeFilter 数据请求完成之后，才会触发表格请求。',
 		type: 'info',
 		duration: 10000
 	})
@@ -67,8 +67,8 @@ const proTable = ref()
 // 如果表格需要初始化请求参数，直接定义传给 VTable(之后每次请求都会自动带上该参数，此参数更改之后也会一直带上，改变此参数会自动刷新表格数据)
 const initParam = reactive({ departmentId: '' })
 
-// 获取 treeFilter 数据
-// 当 proTable 的 requestAuto 属性为 false，不会自动请求表格数据，等待 treeFilter 数据回来之后，更改 initParam.departmentId 的值，才会触发请求 proTable 数据
+// 获取 useProTableTreeFilter 数据
+// 当 proTable 的 requestAuto 属性为 false，不会自动请求表格数据，等待 useProTableTreeFilter 数据回来之后，更改 initParam.departmentId 的值，才会触发请求 proTable 数据
 const treeFilterData = ref<any>([])
 const getTreeFilter = async () => {
 	const { data } = await getUserDepartment()

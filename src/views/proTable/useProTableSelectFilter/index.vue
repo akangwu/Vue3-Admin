@@ -56,7 +56,7 @@ const columns: ColumnProps[] = [
 	{ prop: 'operation', label: '操作', width: 330, fixed: 'right' }
 ]
 
-// selectFilter 数据（用户角色为后台数据）
+// useProTableSelectFilter 数据（用户角色为后台数据）
 const selectFilterData = reactive([
 	{
 		title: '用户状态(单)',
@@ -108,7 +108,7 @@ const getUserRoleDict = async () => {
 	selectFilterData[1].options = data as any
 }
 
-// 默认 selectFilter 参数
+// 默认 useProTableSelectFilter 参数
 const selectFilterValues = ref({ userStatus: '2', userRole: ['1', '3'] })
 const changeSelectFilter = (value: typeof selectFilterValues.value) => {
 	ElMessage.success('请注意查看请求参数变化 🤔')
@@ -116,7 +116,7 @@ const changeSelectFilter = (value: typeof selectFilterValues.value) => {
 	selectFilterValues.value = value
 }
 
-// 默认 treeFilter 参数
+// 默认 useProTableTreeFilter 参数
 const treeFilterValues = reactive({ departmentId: ['11'] })
 const changeTreeFilter = (val: string[]) => {
 	ElMessage.success('请注意查看请求参数变化 🤔')

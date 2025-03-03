@@ -41,7 +41,7 @@ const router = useRouter()
 
 // 跳转详情页
 const toDetail = () => {
-	router.push(`/proTable/useTreeFilter/detail/123456?params=detail-page`)
+	router.push(`/proTable/useTreeFilter/treeFilterDetail/123456?params=detail-page`)
 }
 
 // 获取 VTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）

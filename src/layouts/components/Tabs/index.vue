@@ -17,43 +17,43 @@
 										<el-icon>
 											<Refresh />
 										</el-icon>
-										{{ $t('tabs.refresh') }}
+										{{ $t('useTabs.refresh') }}
 									</el-dropdown-item>
 									<el-dropdown-item @click="maximize" v-if="item.name === route.name">
 										<el-icon>
 											<FullScreen />
 										</el-icon>
-										{{ $t('tabs.maximize') }}
+										{{ $t('useTabs.maximize') }}
 									</el-dropdown-item>
 									<el-dropdown-item :divided="item.name === route.name" @click="closeOnSide('left')" v-if="tabsMenuList.length > 1 && item.close && index !== 1">
 										<el-icon>
 											<DArrowLeft />
 										</el-icon>
-										{{ $t('tabs.closeLeft') }}
+										{{ $t('useTabs.closeLeft') }}
 									</el-dropdown-item>
 									<el-dropdown-item @click="closeOnSide('right')" v-if="tabsMenuList.length > 1 && item.close && tabsMenuList.length - 1 !== index">
 										<el-icon>
 											<DArrowRight />
 										</el-icon>
-										{{ $t('tabs.closeRight') }}
+										{{ $t('useTabs.closeRight') }}
 									</el-dropdown-item>
 									<el-dropdown-item divided @click="closeCurrentTab" v-if="tabsMenuList.length > 1 && item.name === route.name && item.close">
 										<el-icon>
 											<Remove />
 										</el-icon>
-										{{ $t('tabs.closeCurrent') }}
+										{{ $t('useTabs.closeCurrent') }}
 									</el-dropdown-item>
 									<el-dropdown-item @click="closeOtherTab" v-if="(tabsMenuList.length > 1 && index !== 0) || (tabsMenuList.length > 1 && index === 0)">
 										<el-icon>
 											<CircleClose />
 										</el-icon>
-										{{ $t('tabs.closeOther') }}
+										{{ $t('useTabs.closeOther') }}
 									</el-dropdown-item>
 									<el-dropdown-item @click="closeAllTab" v-if="tabsMenuList.length > 1 && item.close">
 										<el-icon>
 											<FolderDelete />
 										</el-icon>
-										{{ $t('tabs.closeAll') }}
+										{{ $t('useTabs.closeAll') }}
 									</el-dropdown-item>
 								</el-dropdown-menu>
 							</template>
@@ -111,7 +111,7 @@ watch(
 	{ immediate: true }
 )
 
-// tabs 拖拽排序
+// useTabs 拖拽排序
 const tabsDrop = () => {
 	Sortable.create(document.querySelector('.el-tabs__nav') as HTMLElement, {
 		draggable: '.el-tabs__item',
@@ -125,7 +125,7 @@ const tabsDrop = () => {
 	})
 }
 
-// 初始化需要固定的 tabs
+// 初始化需要固定的 useTabs
 const initTabs = () => {
 	authStore.flatMenuListGet.forEach(item => {
 		if (item.meta.isAffix && !item.meta.isHide && !item.meta.isFull) {

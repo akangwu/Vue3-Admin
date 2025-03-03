@@ -62,13 +62,13 @@ $blue: #0066ff; // 主色调（蓝色）
 	}
 }
 
-/* main-box (树形表格 treeFilter 页面会使用，左右布局 flex) */
+/* main-box (树形表格 useProTableTreeFilter 页面会使用，左右布局 flex) */
 .main-box {
 	display: flex;
 	width: 100%;
 	height: 100%;
 	.table-box {
-		// 这里减去的 230px 是 treeFilter 组件宽度
+		// 这里减去的 230px 是 useProTableTreeFilter 组件宽度
 		width: calc(100% - 230px);
 	}
 }

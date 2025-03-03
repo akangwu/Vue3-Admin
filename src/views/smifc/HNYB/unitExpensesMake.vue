@@ -21,7 +21,7 @@
 			</template>
 
 			<template #operation>
-				<el-button>查看</el-button>
+				<el-button>查看2</el-button>
 			</template>
 		</v-table>
 		<v-pages ref="pages" @get-data="getData" :total="paginationData.total" v-model:pageNum="paginationData.pageNum" v-model:pageSize="paginationData.pageSize" />

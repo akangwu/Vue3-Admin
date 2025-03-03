@@ -1,25 +1,25 @@
 <template>
 	<el-dropdown trigger="click" :teleported="false">
 		<el-button size="small" type="primary">
-			<span>{{ $t('tabs.more') }}</span>
+			<span>{{ $t('useTabs.more') }}</span>
 			<el-icon class="el-icon--right"><arrow-down /></el-icon>
 		</el-button>
 		<template #dropdown>
 			<el-dropdown-menu>
 				<el-dropdown-item @click="refresh">
-					<el-icon><Refresh /></el-icon>{{ $t('tabs.refresh') }}
+					<el-icon><Refresh /></el-icon>{{ $t('useTabs.refresh') }}
 				</el-dropdown-item>
 				<el-dropdown-item @click="maximize">
-					<el-icon><FullScreen /></el-icon>{{ $t('tabs.maximize') }}
+					<el-icon><FullScreen /></el-icon>{{ $t('useTabs.maximize') }}
 				</el-dropdown-item>
 				<el-dropdown-item divided @click="closeCurrentTab">
-					<el-icon><Remove /></el-icon>{{ $t('tabs.closeCurrent') }}
+					<el-icon><Remove /></el-icon>{{ $t('useTabs.closeCurrent') }}
 				</el-dropdown-item>
 				<el-dropdown-item @click="closeOtherTab">
-					<el-icon><CircleClose /></el-icon>{{ $t('tabs.closeOther') }}
+					<el-icon><CircleClose /></el-icon>{{ $t('useTabs.closeOther') }}
 				</el-dropdown-item>
 				<el-dropdown-item @click="closeAllTab">
-					<el-icon><FolderDelete /></el-icon>{{ $t('tabs.closeAll') }}
+					<el-icon><FolderDelete /></el-icon>{{ $t('useTabs.closeAll') }}
 				</el-dropdown-item>
 			</el-dropdown-menu>
 		</template>
