@@ -21,7 +21,7 @@
 			</template>
 
 			<template #operation>
-				<el-button>查看2</el-button>
+				<el-button>查看</el-button>
 			</template>
 		</v-table>
 		<v-pages ref="pages" @get-data="getData" :total="paginationData.total" v-model:pageNum="paginationData.pageNum" v-model:pageSize="paginationData.pageSize" />
@@ -410,7 +410,7 @@ const getData = async () => {
 		proxy.msg({ type: 'error', message: msg })
 	}
 }
-const tabClick = val => {
+/*const tabClick = val => {
 	activeKey.value = val.paneName
 	tableData.value = [
 		{ id: 1, docNum: 0 },
@@ -420,7 +420,7 @@ const tabClick = val => {
 		{ id: 4, docNum: 'Charlie4' }
 	]
 	// getData();
-}
+}*/
 const agencyList = ref([])
 const insuranceList = ref([])
 const getInsuranceList = async () => {
