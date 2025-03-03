@@ -19,7 +19,7 @@
 - 使用 VueRouter 进行路由权限拦截、页面按钮权限配置、路由懒加载
 - 使用 KeepAlive 对页面进行缓存，支持多级嵌套页面缓存
 - 常用自定义指令开发（权限、复制、水印、拖拽、节流、防抖、长按…）
-- 使用 Prettier 统一格式化代码，集成 Eslint、Stylelint 代码校验规范
+- 使用 Prettier 统一格式化代码，集成 Eslint 代码校验规范
 
 ### 安装使用步骤 📔
 
@@ -55,7 +55,7 @@ pnpm build:dev
 pnpm build:test
 
 # 生产环境
-pnpm build:pro
+pnpm build
 ```
 
 - **Lint：**
@@ -67,8 +67,6 @@ pnpm lint:eslint
 # prettier 格式化代码
 pnpm lint:prettier
 
-# stylelint 格式化样式
-pnpm lint:stylelint
 ```
 
 - **commit：**
@@ -113,8 +111,6 @@ Geeker-Admin
 ├─ .gitignore             # 忽略 git 提交
 ├─ .prettierignore        # 忽略 Prettier 格式化
 ├─ .prettierrc.cjs        # Prettier 格式化配置
-├─ .stylelintignore       # 忽略 stylelint 格式化
-├─ .stylelintrc.cjs       # stylelint 样式格式化配置
 ├─ index.html             # 入口 html
 ├─ LICENSE                # 开源协议文件
 ├─ lint-staged.config.cjs # lint-staged 配置文件

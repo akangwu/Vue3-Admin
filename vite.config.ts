@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
+import progress from 'vite-plugin-progress'; // 引入 vite-plugin-progress 插件
 
 const { dependencies, devDependencies, name, version } = pkg;
 const __APP_INFO__ = {
@@ -66,7 +67,8 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       Components({
         dirs: ["src"], // 配置需要默认导入的自定义组件文件夹，该文件夹下的所有组件都会自动 import
         resolvers: [ElementPlusResolver({ importStyle: false, resolveIcons: true })]
-      })
+      }),
+      progress()
     ],
     esbuild: {
       pure: viteEnv.VITE_DROP_CONSOLE ? ["console.log", "debugger"] : []

@@ -7,11 +7,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite",
-    "build:dev": "vue-tsc && vite build --mode development",
-    "build:test": "vue-tsc && vite build --mode test",
-    "build:pro": "vue-tsc && vite build --mode production",
-    "type:check": "vue-tsc --noEmit --skipLibCheck",
-    "preview": "npm run build:dev && vite preview",
+    "build": "vite build --mode production",
     "lint:eslint": "eslint --fix --ext .js,.ts,.vue ./src",
     "lint:prettier": "prettier --write \"src/**/*.{js,ts,json,tsx,css,less,scss,vue,html,md}\"",
     "release": "standard-version"
@@ -64,7 +60,7 @@
     "rollup-plugin-visualizer": "^5.9.0",
     "sass": "^1.62.0",
     "standard-version": "^9.5.0",
-    "typescript": "^5.0.4",
+    "typescript": "^5.3.3",
     "unplugin-auto-import": "^0.15.3",
     "unplugin-vue-components": "^0.24.1",
     "unplugin-vue-setup-extend-plus": "^1.0.0",
@@ -72,8 +68,9 @@
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-html": "^3.2.0",
+    "vite-plugin-progress": "^0.0.7",
     "vite-plugin-svg-icons": "^2.0.1",
-    "vue-tsc": "^1.2.0"
+    "vue-tsc": "^1.8.0"
   },
   "engines": {
     "node": ">=16.0.0"
