@@ -10,5 +10,4 @@ dist
 /docs
 .local
 /bin
-/src/mock/*
 stats.html

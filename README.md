@@ -133,11 +133,6 @@ Geeker-Admin
 
 ### 项目后台接口 🧩
 
-项目后台接口完全采用 Mock 数据，感谢以下 Mock 平台支持：
-
-- FastMock： https://www.fastmock.site
-- EasyMock：https://mock.mengxuegu.com
-
 
 // 中文版
 // { value: "feat", name: "特性:   🚀  新增功能", emoji: "🚀" },

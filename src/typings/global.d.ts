@@ -41,7 +41,6 @@ declare interface ViteEnv {
 	VITE_DROP_CONSOLE: boolean
 	VITE_PUBLIC_PATH: string
 	VITE_API_URL: string
-	VITE_PROXY: [string, string][]
 }
 
 interface ImportMetaEnv extends ViteEnv {
