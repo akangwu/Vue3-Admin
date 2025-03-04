@@ -4,4 +4,4 @@
 	</div>
 </template>
 
-<script setup lang="ts" name="dictManage"></script>
+<script setup name="dictManage"></script>

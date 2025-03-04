@@ -4,7 +4,7 @@
 	</div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import mittBus from '@/utils/mittBus'
 const openDrawer = () => {
 	mittBus.emit('openThemeDrawer')

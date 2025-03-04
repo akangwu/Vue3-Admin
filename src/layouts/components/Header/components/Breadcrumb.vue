@@ -15,7 +15,7 @@
 	</div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { computed } from 'vue'
 import { HOME_URL } from '@/config'
 import { useRoute, useRouter } from 'vue-router'
@@ -29,17 +29,17 @@ const authStore = useAuthStore()
 const globalStore = useGlobalStore()
 
 const breadcrumbList = computed(() => {
-	let breadcrumbData = authStore.breadcrumbListGet[route.matched[route.matched.length - 1].path] ?? []
-	// 🙅‍♀️不需要首页面包屑可删除以下判断
+	let breadcrumbData = authStore.breadcrumbListGet[route.matched[route.matched.length - 1].path] || []
 	if (breadcrumbData[0].path !== HOME_URL) {
 		breadcrumbData = [{ path: HOME_URL, meta: { icon: 'HomeFilled', title: '首页' } }, ...breadcrumbData]
 	}
 	return breadcrumbData
 })
 
-// Click Breadcrumb
-const onBreadcrumbClick = (item: Menu.MenuOptions, index: number) => {
-	if (index !== breadcrumbList.value.length - 1) router.push(item.path)
+const onBreadcrumbClick = (item, index) => {
+	if (index !== breadcrumbList.value.length - 1) {
+		router.push(item.path)
+	}
 }
 </script>
 
@@ -50,23 +50,29 @@ const onBreadcrumbClick = (item: Menu.MenuOptions, index: number) => {
 	padding-right: 50px;
 	overflow: hidden;
 	mask-image: linear-gradient(90deg, #000000 0%, #000000 calc(100% - 50px), transparent);
+
 	.el-breadcrumb {
 		white-space: nowrap;
+
 		.el-breadcrumb__item {
 			position: relative;
 			display: inline-block;
 			float: none;
+
 			.el-breadcrumb__inner {
 				display: inline-flex;
+
 				.breadcrumb-icon {
 					margin-top: 2px;
 					margin-right: 6px;
 					font-size: 16px;
 				}
+
 				.breadcrumb-title {
 					margin-top: 3px;
 				}
 			}
+
 			:deep(.el-breadcrumb__separator) {
 				position: relative;
 				top: -1px;
@@ -74,10 +80,12 @@ const onBreadcrumbClick = (item: Menu.MenuOptions, index: number) => {
 		}
 	}
 }
+
 .no-icon {
 	.el-breadcrumb {
 		.el-breadcrumb__item {
 			top: -2px;
+
 			:deep(.el-breadcrumb__separator) {
 				top: 2px;
 			}

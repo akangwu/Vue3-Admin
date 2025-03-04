@@ -9,9 +9,10 @@
 	</div>
 </template>
 
-<script setup lang="ts" name="404">
+<script setup name="404">
 import { HOME_URL } from '@/config'
 import { useRouter } from 'vue-router'
+
 const router = useRouter()
 </script>
 

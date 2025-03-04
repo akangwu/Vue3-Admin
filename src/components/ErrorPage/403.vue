@@ -9,9 +9,10 @@
 	</div>
 </template>
 
-<script setup lang="ts" name="403">
+<script setup name="403">
 import { HOME_URL } from '@/config'
 import { useRouter } from 'vue-router'
+
 const router = useRouter()
 </script>
 

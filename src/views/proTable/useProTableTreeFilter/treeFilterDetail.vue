@@ -6,7 +6,7 @@
 	</div>
 </template>
 
-<script setup lang="ts" name="useTreeFilter">
+<script setup name="useTreeFilter">
 import { useRoute } from 'vue-router'
 const route = useRoute()
 </script>

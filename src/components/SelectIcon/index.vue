@@ -20,41 +20,45 @@
 	</div>
 </template>
 
-<script setup lang="ts" name="SelectIcon">
+<script setup>
 import { ref, computed } from 'vue'
 import * as Icons from '@element-plus/icons-vue'
 
-interface SelectIconProps {
-	iconValue: string
-	title?: string
-	clearable?: boolean
-	placeholder?: string
-}
-
-const props = withDefaults(defineProps<SelectIconProps>(), {
-	iconValue: '',
-	title: '请选择图标',
-	clearable: true,
-	placeholder: '请选择图标'
+const props = defineProps({
+	iconValue: {
+		type: String,
+		default: ''
+	},
+	title: {
+		type: String,
+		default: '请选择图标'
+	},
+	clearable: {
+		type: Boolean,
+		default: true
+	},
+	placeholder: {
+		type: String,
+		default: '请选择图标'
+	}
 })
 
-// 重新接收一下，防止打包后 clearable 报错
 const valueIcon = ref(props.iconValue)
-
-// open Dialog
 const dialogVisible = ref(false)
-const openDialog = () => (dialogVisible.value = true)
 
-// 选择图标(触发更新父组件数据)
+const openDialog = () => {
+	dialogVisible.value = true
+}
+
 const emit = defineEmits(['update:iconValue'])
-const selectIcon = (item: any) => {
+
+const selectIcon = item => {
 	dialogVisible.value = false
 	valueIcon.value = item.name
 	emit('update:iconValue', item.name)
 	setTimeout(() => inputRef.value.blur(), 0)
 }
 
-// 清空图标
 const inputRef = ref()
 const clearIcon = () => {
 	valueIcon.value = ''
@@ -62,12 +66,11 @@ const clearIcon = () => {
 	setTimeout(() => inputRef.value.blur(), 0)
 }
 
-// 监听搜索框值
 const inputValue = ref('')
-const customIcons: { [key: string]: any } = Icons
-const iconsList = computed((): { [key: string]: any } => {
+const customIcons = Icons
+const iconsList = computed(() => {
 	if (!inputValue.value) return Icons
-	let result: { [key: string]: any } = {}
+	let result = {}
 	for (const key in customIcons) {
 		if (key.toLowerCase().indexOf(inputValue.value.toLowerCase()) > -1) result[key] = customIcons[key]
 	}

@@ -7,7 +7,7 @@
 	</div>
 </template>
 
-<script setup lang="ts" name="gitee"></script>
+<script setup name="gitee"></script>
 
 <style scoped lang="scss">
 @import './index.scss';

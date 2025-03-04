@@ -5,7 +5,7 @@
 	</div>
 </template>
 
-<script setup lang="ts" name="dragDirect"></script>
+<script setup name="dragDirect"></script>
 
 <style scoped lang="scss">
 @import './index.scss';

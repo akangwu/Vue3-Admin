@@ -4,7 +4,7 @@
 	</el-icon>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { useGlobalStore } from '@/stores/modules/global'
 
 const globalStore = useGlobalStore()

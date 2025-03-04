@@ -17,7 +17,7 @@
 </template>
 
 
-<script setup lang="ts">
+<script setup>
 let message: string = '我是message'
 
 const changeMsg = () => {

@@ -1,7 +1,7 @@
 <template>
 	<div class="table-box">
 		<!-- 查询表单 card -->
-		<v-search @get-data="getData" :form-items="formItems" :formData="formData" />
+		<v-search @get-data="getData" :form-items="formItems" :formData="formData" :searchCol="4" />
 		<el-tabs v-model="activeKey" @tab-click="tabClick">
 			<el-tab-pane :label="item.label" :name="item.value" v-for="(item, index) in tabs" :key="index"></el-tab-pane>
 		</el-tabs>
@@ -164,16 +164,15 @@
 	</div>
 </template>
 
-<script setup lang="ts" name="medicalSettleApply">
-import GridItem from '@/components/Grid/components/GridItem.vue'
+<script setup name="medicalSettleApply">
+import GridItem from '@/components/Grid/GridItem.vue'
 import Grid from '@/components/Grid/index.vue'
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRaw } from 'vue'
 import { useRoute } from 'vue-router'
-import { unitExpensesMake } from './unitExpensesMake'
 
 const { proxy } = getCurrentInstance()
 const route = useRoute()
-const column1: ColumnProps<unitExpensesMake.column1>[] = [
+const column1 = [
 	{ label: '单据号', prop: 'docNum', width: 200 },
 	{
 		label: '审批状态',
@@ -202,7 +201,7 @@ const column1: ColumnProps<unitExpensesMake.column1>[] = [
 	{ label: '制单人', prop: 'createName', width: 150 },
 	{ label: '操作', prop: 'operation', width: 180, align: 'center' }
 ]
-const column2: ColumnProps<unitExpensesMake.column2>[] = [
+const column2 = [
 	{ label: '单据号', prop: 'docNum', width: 200 },
 	{
 		label: '审批状态',
@@ -240,7 +239,7 @@ const column2: ColumnProps<unitExpensesMake.column2>[] = [
 	{ label: '退回原因', prop: 'backReason', width: 150 },
 	{ label: '操作', prop: 'operation', width: 180, align: 'center' }
 ]
-const column3: ColumnProps<unitExpensesMake.column3>[] = [
+const column3 = [
 	{ label: '单据号', prop: 'docNum', width: 200 },
 	{
 		label: '审批状态',
@@ -288,7 +287,7 @@ const column3: ColumnProps<unitExpensesMake.column3>[] = [
 	{ label: '制单人', prop: 'createName', width: 150 },
 	{ label: '操作', prop: 'operation', width: 180, align: 'center' }
 ]
-const column4: ColumnProps<unitExpensesMake.column4>[] = [
+const column4 = [
 	{ label: '单据号', prop: 'docNum', width: 200 },
 	{
 		label: '审批状态',
@@ -320,7 +319,7 @@ const column4: ColumnProps<unitExpensesMake.column4>[] = [
 	{ label: '制单人', prop: 'createName', width: 150 },
 	{ label: '操作', prop: 'operation', width: 180, align: 'center' }
 ]
-const columnAdd: ColumnProps<unitExpensesMake.columnAdd>[] = [
+const columnAdd = [
 	{ label: '基金支付类型', prop: 'businessItemCode', width: 250, operate: true },
 	{ label: '户名', prop: 'accountName', width: 250, align: 'center' },
 	{ label: '账号', prop: 'accountNo', width: 200, align: 'center' },
@@ -356,7 +355,7 @@ const columnAdd: ColumnProps<unitExpensesMake.columnAdd>[] = [
 	{ label: '备注', prop: 'remark', width: 200, align: 'right' }
 ]
 
-const proTable = ref<InstanceType<typeof VTable>>()
+const proTable = ref()
 const tableData = ref([
 	{ id: 1, docNum: 'Alice' },
 	{ id: 2, docNum: 'Bob' },
@@ -374,7 +373,7 @@ const tabs = [
 	{ label: '驳回', value: '2' }
 ]
 
-const selectionChange = (row: any) => {
+const selectionChange = row => {
 	console.log('选择行:', row)
 }
 
@@ -410,7 +409,7 @@ const getData = async () => {
 		proxy.msg({ type: 'error', message: msg })
 	}
 }
-/*const tabClick = val => {
+const tabClick = val => {
 	activeKey.value = val.paneName
 	tableData.value = [
 		{ id: 1, docNum: 0 },
@@ -420,7 +419,7 @@ const getData = async () => {
 		{ id: 4, docNum: 'Charlie4' }
 	]
 	// getData();
-}*/
+}
 const agencyList = ref([])
 const insuranceList = ref([])
 const getInsuranceList = async () => {
@@ -576,7 +575,6 @@ const btnAdd = () => {
 		monthAmount: '0',
 		monthPayAmount: '0'
 	}
-	// getCostItemList();
 }
 const changeDateType = val => {
 	formDataAdd.value.dateType = val
@@ -614,16 +612,16 @@ const delRow = index => {
 };*/
 
 /*测算相关*/
-const visibleComputed: Ref<boolean> = ref(false)
+const visibleComputed = ref(false)
 let selectedRowsComputed = reactive({})
 const tableDataComputed = reactive([
 	{ key: 1, name: '上期请款数' },
 	{ key: 3, name: '前三期平均数' },
 	{ key: 6, name: '前六期平均数' }
 ])
-const columnComputed: ColumnProps<unitExpensesMake.columnComputed>[] = [{ label: '方案名称', prop: 'name', align: 'center' }]
+const columnComputed = [{ label: '方案名称', prop: 'name', align: 'center' }]
 let selectRowsComputed = ref([])
-const clickVisibleComputed = (selectedRows: any[]) => {
+const clickVisibleComputed = selectedRows => {
 	selectRowsAdd.value = selectedRows
 	if (!selectRowsAdd.value.length) {
 		return proxy.msg({ type: 'warning', message: '请选择数据' })

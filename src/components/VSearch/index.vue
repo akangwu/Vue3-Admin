@@ -34,7 +34,7 @@
 							:value-format="item.valueFormat"
 							range-separator="至"
 							:start-placeholder="item.type === 'daterange' ? '开始日期' : item.type === 'monthrange' ? '开始月份' : item.type === 'datetimerange' ? '开始时间' : ''"
-							:end-placeholder="item.type === 'daterange' ? '结束日期' : item.type === 'monthrange' ? '结束月份' : item.type === 'datetimerange' ? '开始时间' : ''"
+							:end-placeholder="item.type === 'daterange' ? '结束日期' : item.type === 'monthrange' ? '结束月份' : item.type === 'datetimerange' ? '结束时间' : ''"
 						/>
 
 						<!-- 下拉列表 -->
@@ -101,33 +101,34 @@
 		</el-form>
 	</div>
 </template>
-<script setup lang="ts" name="VSearch">
-import { getCurrentInstance, ref, watch } from 'vue'
 
-import { SearchColumnProps } from '@/components/VSearch/index'
-import { BreakPoint } from '@/components/Grid/interface'
+<script setup name="VSearch">
+import { ref, watch, nextTick } from 'vue'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
-import type { FormInstance } from 'element-plus'
-import Grid from '@/components/Grid/index.vue'
-import GridItem from '@/components/Grid/components/GridItem.vue'
 
-interface SearchFormProps {
-	formItems: SearchColumnProps[] // 搜索配置列
-	formData: { [key: string]: any } // 搜索参数
-	searchCol?: number | Record<BreakPoint, number> // 表格搜索项 每列占比配置 ==> 非必传 { xs: 1, sm: 2, md: 2, lg: 3, xl: 4 }
-	showMore?: boolean //是否隐藏展开 收起按钮
-}
-
-// 默认值
-const props = withDefaults(defineProps<SearchFormProps>(), {
-	formItems: () => [],
-	formData: () => ({}),
-	searchCol: 3,
-	showMore: true
+// 定义组件的 props
+const props = defineProps({
+	formItems: {
+		type: Array,
+		default: () => []
+	},
+	formData: {
+		type: Object,
+		default: () => ({})
+	},
+	searchCol: {
+		type: [Number, Object],
+		default: 3
+	},
+	showMore: {
+		type: Boolean,
+		default: true
+	}
 })
-
-// 获取响应式设置
-const getResponsive = (item: ColumnProps) => {
+// 获取当前组件实例的 proxy 对象
+const { proxy } = getCurrentInstance()
+// 根据 item 的搜索配置获取响应式布局属性
+const getResponsive = item => {
 	return {
 		span: item.search?.span,
 		offset: item.search?.offset ?? 0,
@@ -139,7 +140,7 @@ const getResponsive = (item: ColumnProps) => {
 	}
 }
 
-// 是否默认折叠搜索项
+// 控制搜索表单的折叠状态
 const collapsed = ref(false)
 const setCollapsed = () => {
 	if (props.showMore) {
@@ -150,18 +151,23 @@ const setCollapsed = () => {
 }
 setCollapsed()
 
-// 获取响应式断点
+// 引用 Grid 组件实例
 const gridRef = ref()
 
-/*查询按钮*/
+// 定义组件的 emits
 const emit = defineEmits(['formData', 'getData', 'resetChange'])
+
+// 查询按钮点击事件处理函数
 const search = () => {
+	console.log('search', props.formData)
 	emit('getData', props.formData)
 }
 
-/*重置按钮的操作*/
-const formRef = ref<FormInstance>()
-const reset = (formEl: FormInstance | undefined) => {
+// 引用表单组件实例
+const formRef = ref(null)
+
+// 重置按钮点击事件处理函数
+const reset = formEl => {
 	if (!formEl) return
 	nextTick(() => {
 		formEl.resetFields()
@@ -169,7 +175,7 @@ const reset = (formEl: FormInstance | undefined) => {
 	emit('resetChange', props.formData)
 }
 
-//对formData数据进行监听，当数据是日期的参数，element-plus的clearable清空数据后日期参数会变成null，这里判断一下，给""
+// 监听 formData 的变化，处理日期类型的数据
 watch(
 	props.formData,
 	() => {
@@ -186,9 +192,8 @@ watch(
 	}
 )
 
-/*对金额千分位的处理*/
-const { proxy } = getCurrentInstance()
-const setMinMoney = (item: any, e: string, type: string) => {
+// 处理金额范围输入框的焦点和失焦事件
+const setMinMoney = (item, e, type) => {
 	if (e === 'focus') {
 		if (type === 'min') {
 			props.formData[item.ruleId][0] = proxy.funcs.moneyTransferNum(props.formData[item.ruleId][0])

@@ -10,7 +10,7 @@
 	</div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { computed } from 'vue'
 import { useUserStore } from '@/stores/modules/user'
 import Language from './components/Language.vue'

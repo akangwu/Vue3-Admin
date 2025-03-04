@@ -5,9 +5,9 @@
 	</div>
 </template>
 
-<script setup lang="ts" name="menu221">
+<script setup name="menu221">
 import { ref } from 'vue'
-const value = ref<string>('')
+const value = ref('')
 </script>
 
 <style scoped lang="scss">

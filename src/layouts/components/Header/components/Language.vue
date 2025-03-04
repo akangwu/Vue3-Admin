@@ -11,7 +11,7 @@
 	</el-dropdown>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { useI18n } from 'vue-i18n'
 import { computed } from 'vue'
 import { useGlobalStore } from '@/stores/modules/global'
@@ -25,7 +25,7 @@ const languageList = [
 	{ label: 'English', value: 'en' }
 ]
 
-const changeLanguage = (lang: string) => {
+const changeLanguage = lang => {
 	i18n.locale.value = lang
 	globalStore.setGlobalState('language', lang)
 }

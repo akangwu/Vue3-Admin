@@ -1,3 +1,4 @@
+<!--
 <template>
 	<div>
 		<div class="card mb10">
@@ -51,7 +52,7 @@
 	</div>
 </template>
 
-<script setup lang="ts" name="about">
+<script setup name="about">
 const { pkg, lastBuildTime } = __APP_INFO__
 const { dependencies, devDependencies, version } = pkg
 </script>
@@ -62,15 +63,16 @@ const { dependencies, devDependencies, version } = pkg
 		margin: 0 0 15px;
 		font-size: 17px;
 		font-weight: bold;
-		color: var(--el-text-color-primary);
+		color: var(&#45;&#45;el-text-color-primary);
 	}
 	.text {
 		font-size: 15px;
 		line-height: 25px;
-		color: var(--el-text-color-regular);
+		color: var(&#45;&#45;el-text-color-regular);
 		.el-link {
 			font-size: 15px;
 		}
 	}
 }
 </style>
+-->

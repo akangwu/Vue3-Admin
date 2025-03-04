@@ -65,7 +65,7 @@
 	</div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import Sortable from 'sortablejs'
 import { HOME_URL } from '@/config'
 import { ref, computed, watch, onMounted, inject, nextTick } from 'vue'

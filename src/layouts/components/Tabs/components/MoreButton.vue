@@ -26,7 +26,7 @@
 	</el-dropdown>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { inject, nextTick } from 'vue'
 import { HOME_URL } from '@/config'
 import { useTabsStore } from '@/stores/modules/tabs'
@@ -41,13 +41,13 @@ const globalStore = useGlobalStore()
 const keepAliveStore = useKeepAliveStore()
 
 // refresh current page
-const refreshCurrentPage: Function = inject('refresh') as Function
+const refreshCurrentPage = inject('refresh')
 const refresh = () => {
 	setTimeout(() => {
-		keepAliveStore.removeKeepAliveName(route.name as string)
+		keepAliveStore.removeKeepAliveName(route.name)
 		refreshCurrentPage(false)
 		nextTick(() => {
-			keepAliveStore.addKeepAliveName(route.name as string)
+			keepAliveStore.addKeepAliveName(route.name)
 			refreshCurrentPage(true)
 		})
 	}, 0)
@@ -62,13 +62,13 @@ const maximize = () => {
 const closeCurrentTab = () => {
 	if (route.meta.isAffix) return
 	tabStore.removeTabs(route.fullPath)
-	keepAliveStore.removeKeepAliveName(route.name as string)
+	keepAliveStore.removeKeepAliveName(route.name)
 }
 
 //关闭其他
 const closeOtherTab = () => {
 	tabStore.closeMultipleTab(route.fullPath)
-	keepAliveStore.setKeepAliveName([route.name] as string[])
+	keepAliveStore.setKeepAliveName([route.name])
 }
 
 //关闭所有

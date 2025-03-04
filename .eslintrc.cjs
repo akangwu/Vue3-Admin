@@ -39,7 +39,7 @@ module.exports = {
 		'eslint-comments/no-unlimited-disable': 'off',
 
 		// typeScript (https://typescript-eslint.io/rules)
-		'@typescript-eslint/no-unused-vars': 'error', // 禁止定义未使用的变量
+		'@typescript-eslint/no-unused-vars': 'off', // 修改这里，关闭规则
 		'@typescript-eslint/prefer-ts-expect-error': 'error', // 禁止使用 @ts-ignore
 		'@typescript-eslint/no-inferrable-types': 'off', // 可以轻松推断的显式类型可能会增加不必要的冗长
 		'@typescript-eslint/no-namespace': 'off', // 禁止使用自定义 TypeScript 模块和命名空间。

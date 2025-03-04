@@ -4,4 +4,4 @@
 	</div>
 </template>
 
-<script setup lang="ts" name="departmentManage"></script>
+<script setup name="departmentManage"></script>

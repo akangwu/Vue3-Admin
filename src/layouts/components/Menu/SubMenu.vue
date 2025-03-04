@@ -20,13 +20,15 @@
 	</template>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { useRouter } from 'vue-router'
 
-defineProps<{ menuList: Menu.MenuOptions[] }>()
+const props = defineProps({
+	menuList: Array
+})
 
 const router = useRouter()
-const handleClickMenu = (subItem: Menu.MenuOptions) => {
+const handleClickMenu = subItem => {
 	if (subItem.meta.isLink) return window.open(subItem.meta.isLink, '_blank')
 	router.push(subItem.path)
 }

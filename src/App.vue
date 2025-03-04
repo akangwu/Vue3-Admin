@@ -4,7 +4,7 @@
 	</el-config-provider>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { onMounted, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { getBrowserLang } from '@/utils'

@@ -1,4 +1,3 @@
-<!-- 经典布局 -->
 <template>
 	<el-container class="layout">
 		<el-header>
@@ -30,7 +29,7 @@
 	</el-container>
 </template>
 
-<script setup lang="ts" name="layoutClassic">
+<script setup name="layoutClassic">
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/modules/auth'
@@ -43,9 +42,10 @@ import ToolBarRight from '@/layouts/components/Header/ToolBarRight.vue'
 const route = useRoute()
 const authStore = useAuthStore()
 const globalStore = useGlobalStore()
+
 const isCollapse = computed(() => globalStore.isCollapse)
 const menuList = computed(() => authStore.showMenuListGet)
-const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : route.path) as string)
+const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : route.path))
 </script>
 
 <style scoped lang="scss">

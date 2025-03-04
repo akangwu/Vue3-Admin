@@ -1,4 +1,3 @@
-<!-- 分栏布局 -->
 <template>
 	<el-container class="layout">
 		<div class="aside-split">
@@ -42,49 +41,54 @@
 	</el-container>
 </template>
 
-<script setup lang="ts" name="layoutColumns">
+<script setup>
+import { computed, ref, watch } from 'vue'
+import { useAuthStore } from '@/stores/modules/auth'
+import { useGlobalStore } from '@/stores/modules/global'
+import { useRoute, useRouter } from 'vue-router'
 import ToolBarLeft from '@/layouts/components/Header/ToolBarLeft.vue'
 import ToolBarRight from '@/layouts/components/Header/ToolBarRight.vue'
 import Main from '@/layouts/components/Main/index.vue'
 import SubMenu from '@/layouts/components/Menu/SubMenu.vue'
-import { useAuthStore } from '@/stores/modules/auth'
-import { useGlobalStore } from '@/stores/modules/global'
-import { computed, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
 const globalStore = useGlobalStore()
+
 const isCollapse = computed(() => globalStore.isCollapse)
 const menuList = computed(() => authStore.showMenuListGet)
-const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : route.path) as string)
+const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : route.path))
 
-const subMenuList = ref<Menu.MenuOptions[]>([])
+const subMenuList = ref([])
 const splitActive = ref('')
+
 watch(
-	() => [menuList, route],
+	() => [menuList.value, route.path],
 	() => {
-		// 当前菜单没有数据直接 return
 		if (!menuList.value.length) return
+
 		splitActive.value = route.path
-		const menuItem = menuList.value.filter((item: Menu.MenuOptions) => {
+		const menuItem = menuList.value.find(item => {
 			return route.path === item.path || `/${route.path.split('/')[1]}` === item.path
 		})
-		if (menuItem[0].children?.length) return (subMenuList.value = menuItem[0].children)
-		subMenuList.value = []
+
+		if (menuItem && menuItem.children?.length) {
+			subMenuList.value = menuItem.children
+		} else {
+			subMenuList.value = []
+		}
 	},
-	{
-		deep: true,
-		immediate: true
-	}
+	{ immediate: true }
 )
 
-// change SubMenu
-const changeSubMenu = (item: Menu.MenuOptions) => {
+const changeSubMenu = item => {
 	splitActive.value = item.path
-	if (item.children?.length) return (subMenuList.value = item.children)
-	subMenuList.value = []
+	if (item.children?.length) {
+		subMenuList.value = item.children
+	} else {
+		subMenuList.value = []
+	}
 	router.push(item.path)
 }
 </script>

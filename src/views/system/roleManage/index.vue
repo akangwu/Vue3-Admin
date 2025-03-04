@@ -4,4 +4,4 @@
 	</div>
 </template>
 
-<script setup lang="ts" name="roleManage"></script>
+<script setup name="roleManage"></script>

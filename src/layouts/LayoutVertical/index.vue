@@ -24,7 +24,7 @@
 	</el-container>
 </template>
 
-<script setup lang="ts" name="layoutVertical">
+<script setup name="layoutVertical">
 //import ToolBarLeft from "@/layouts/components/Header/ToolBarLeft.vue";
 //import ToolBarRight from "@/layouts/components/Header/ToolBarRight.vue";
 import Main from '@/layouts/components/Main/index.vue'
@@ -39,7 +39,7 @@ const authStore = useAuthStore()
 const globalStore = useGlobalStore()
 const isCollapse = computed(() => globalStore.isCollapse)
 const menuList = computed(() => authStore.showMenuListGet)
-const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : route.path) as string)
+const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : route.path))
 </script>
 
 <style scoped lang="scss">

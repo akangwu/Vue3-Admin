@@ -10,7 +10,7 @@
 	</el-dialog>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue'
 
 const dialogVisible = ref(false)

@@ -5,7 +5,7 @@
 	</div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { useGlobalStore } from '@/stores/modules/global'
 import CollapseIcon from './components/CollapseIcon.vue'
 import Breadcrumb from './components/Breadcrumb.vue'

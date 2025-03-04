@@ -1,3 +1,4 @@
+<!--
 <template>
 	<div class="card content-box">
 		<span class="text">批量添加数据 🍓🍇🍈🍉</span>
@@ -16,7 +17,7 @@
 	</div>
 </template>
 
-<script setup lang="ts" name="batchImport">
+<script setup name="batchImport">
 import { ref } from 'vue'
 import { exportUserInfo, BatchAddUser } from '@/axios/modules/user'
 import { Upload } from '@element-plus/icons-vue'
@@ -36,3 +37,4 @@ const batchAdd = () => {
 <style scoped lang="scss">
 @import './index.scss';
 </style>
+-->

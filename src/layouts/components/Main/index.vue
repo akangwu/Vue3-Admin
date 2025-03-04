@@ -11,7 +11,7 @@
 	</el-main>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, onBeforeUnmount, provide, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useDebounceFn } from '@vueuse/core'
@@ -27,14 +27,14 @@ const { keepAliveName } = storeToRefs(keepAliveStore)
 
 // 注入刷新页面方法
 const isRouterShow = ref(true)
-const refreshCurrentPage = (val: boolean) => (isRouterShow.value = val)
+const refreshCurrentPage = val => (isRouterShow.value = val)
 provide('refresh', refreshCurrentPage)
 
 // 监听当前页面是否最大化，动态添加 class
 watch(
 	() => maximize.value,
 	() => {
-		const app = document.getElementById('app') as HTMLElement
+		const app = document.getElementById('app')
 		if (maximize.value) app.classList.add('main-maximize')
 		else app.classList.remove('main-maximize')
 	},
@@ -45,7 +45,7 @@ watch(
 watch(
 	() => layout.value,
 	() => {
-		const body = document.body as HTMLElement
+		const body = document.body
 		body.setAttribute('class', layout.value)
 	},
 	{ immediate: true }

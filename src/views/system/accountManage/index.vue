@@ -4,4 +4,4 @@
 	</div>
 </template>
 
-<script setup lang="ts" name="accountManage"></script>
+<script setup name="accountManage"></script>

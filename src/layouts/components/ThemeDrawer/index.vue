@@ -70,10 +70,9 @@
 	</el-drawer>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { DEFAULT_PRIMARY } from '@/config'
 import { useTheme } from '@/hooks/useTheme'
-import { LayoutType } from '@/stores/interface'
 import { useGlobalStore } from '@/stores/modules/global'
 import mittBus from '@/utils/mittBus'
 import { storeToRefs } from 'pinia'
@@ -88,7 +87,7 @@ const { layout, primary, breadcrumb, breadcrumbIcon, tabs, tabsIcon } = storeToR
 const colorList = [DEFAULT_PRIMARY, '#e1251b', '#e63e44', '#ea3224', '#ee2223', '#f73131', '#a30030', '#ee722e', '#18ae66', '#0028aa', '#1b55d1']
 
 // 设置布局方式
-const setLayout = (val: LayoutType) => {
+const setLayout = val => {
 	globalStore.setGlobalState('layout', val)
 	setAsideTheme()
 }

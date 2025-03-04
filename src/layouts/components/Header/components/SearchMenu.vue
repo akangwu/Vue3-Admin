@@ -27,24 +27,25 @@
 	</div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed, nextTick } from 'vue'
 import { Search } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/modules/auth'
+
 const router = useRouter()
 const authStore = useAuthStore()
 const menuList = computed(() => authStore.flatMenuListGet.filter(item => !item.meta.isHide))
 
-const searchMenuList = (queryString: string, cb: Function) => {
+const searchMenuList = (queryString, cb) => {
 	const results = queryString ? menuList.value.filter(filterNodeMethod(queryString)) : menuList.value
 	cb(results)
 }
 
-// 打开搜索框
 const isShowSearch = ref(false)
 const menuInputRef = ref()
 const searchMenu = ref('')
+
 const handleOpen = () => {
 	isShowSearch.value = true
 	nextTick(() => {
@@ -54,20 +55,17 @@ const handleOpen = () => {
 	})
 }
 
-// 搜索窗关闭
 const closeSearch = () => {
 	isShowSearch.value = false
 }
 
-// 筛选菜单
-const filterNodeMethod = (queryString: string) => {
-	return (restaurant: Menu.MenuOptions) => {
+const filterNodeMethod = queryString => {
+	return restaurant => {
 		return restaurant.path.toLowerCase().indexOf(queryString.toLowerCase()) > -1 || restaurant.meta.title.toLowerCase().indexOf(queryString.toLowerCase()) > -1
 	}
 }
 
-// 点击菜单跳转
-const handleClickMenu = (menuItem: Menu.MenuOptions | Record<string, any>) => {
+const handleClickMenu = menuItem => {
 	searchMenu.value = ''
 	if (menuItem.meta.isLink) window.open(menuItem.meta.isLink, '_blank')
 	else router.push(menuItem.path)
@@ -81,27 +79,32 @@ const handleClickMenu = (menuItem: Menu.MenuOptions | Record<string, any>) => {
 		background-color: rgb(0 0 0 / 50%);
 		border-radius: 0 !important;
 		box-shadow: unset !important;
+
 		.el-dialog__header {
 			border-bottom: none !important;
 		}
 	}
+
 	:deep(.el-autocomplete) {
 		position: absolute;
 		top: 100px;
 		left: 50%;
 		width: 550px;
 		transform: translateX(-50%);
+
 		.el-input__wrapper {
 			background-color: var(--el-bg-color);
 		}
 	}
 }
+
 .el-autocomplete__popper {
 	.el-icon {
 		position: relative;
 		top: 2px;
 		font-size: 16px;
 	}
+
 	span {
 		margin: 0 0 0 10px;
 		font-size: 14px;

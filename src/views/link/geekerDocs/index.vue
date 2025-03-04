@@ -4,7 +4,7 @@
 	</div>
 </template>
 
-<script setup lang="ts" name="geekerDocs"></script>
+<script setup name="geekerDocs"></script>
 
 <style scoped lang="scss">
 @import './index.scss';
