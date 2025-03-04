@@ -4,7 +4,6 @@ const { createHtmlPlugin } = require("vite-plugin-html");
 const { createSvgIconsPlugin } = require("vite-plugin-svg-icons");
 const vue = require("@vitejs/plugin-vue");
 const vueJsx = require("@vitejs/plugin-vue-jsx");
-const eslintPlugin = require("vite-plugin-eslint").default; // 修改这里，确保导入的是函数
 const viteCompression = require("vite-plugin-compression");
 const vueSetupExtend = require("unplugin-vue-setup-extend-plus/vite").default; // 修改这里，确保导入的是函数
 
@@ -17,8 +16,6 @@ const createVitePlugins = (viteEnv) => {
     vue(),
     // vue 可以使用 jsx/tsx 语法
     vueJsx(),
-    // esLint 报错信息显示在浏览器界面上
-    eslintPlugin(),
     // name 可以写在 script 标签上
     vueSetupExtend(),
     // 创建打包压缩配置

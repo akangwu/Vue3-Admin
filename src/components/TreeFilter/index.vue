@@ -40,8 +40,8 @@ const props = defineProps({
 	requestApi: null,
 	data: null,
 	title: null,
-	id: id,
-	label: label,
+	id: '',
+	label: '',
 	multiple: false,
 	defaultValue: null
 })

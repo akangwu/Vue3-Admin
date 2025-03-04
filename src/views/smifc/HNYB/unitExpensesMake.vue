@@ -100,7 +100,7 @@
 					</GridItem>
 				</Grid>
 			</el-form>
-			<v-table ref="proTable1" ifIndex if-select :column="columnAdd" :data="tableDataAdd" isDialogTable height="650px">
+			<v-table ref="proTable1" ifIndex if-select :column="columnAdd" :data="tableDataAdd" isDialogTable height="450px">
 				<template #tableHeader="scope">
 					<el-button type="primary" @click="addRow">增行</el-button>
 					<el-button @click="delRow">删行</el-button>
@@ -178,9 +178,7 @@
 	</div>
 </template>
 
-<script setup name="medicalSettleApply">
-import GridItem from '@/components/Grid/GridItem.vue'
-import Grid from '@/components/Grid/index.vue'
+<script setup name="unitExpensesMake">
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRaw } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -370,14 +368,7 @@ const columnAdd = [
 ]
 
 const proTable = ref()
-const tableData = ref([
-	{ id: 1, docNum: 'Alice' },
-	{ id: 2, docNum: 'Bob' },
-	{ id: 3, docNum: 'Charlie' },
-	{ id: 5, operateState1: 'Charlie51', operateState2: 'Charlie521', operateState3: 'Charlie5211' },
-	{ id: 6, operateState1: 'Charlie52', operateState2: 'Charlie522', operateState3: 'Charlie5212' },
-	{ id: 7, operateState1: 'Charlie53', operateState2: 'Charlie523', operateState3: 'Charlie5213' }
-])
+const tableData = ref([])
 const activeKey = ref('-1')
 const tabs = [
 	{ label: '全部', value: '-1' },
