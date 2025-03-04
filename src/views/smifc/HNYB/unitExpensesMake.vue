@@ -1,7 +1,7 @@
 <template>
 	<div class="table-box">
 		<!-- 查询表单 card -->
-		<v-search @get-data="getData" :form-items="formItems" :formData="formData" :searchCol="4" />
+		<v-search @get-data="getData" :form-items="formItems" :formData="formData" :searchCol="3" />
 		<el-tabs v-model="activeKey" @tab-click="tabClick">
 			<el-tab-pane :label="item.label" :name="item.value" v-for="(item, index) in tabs" :key="index"></el-tab-pane>
 		</el-tabs>
@@ -22,6 +22,20 @@
 
 			<template #operation>
 				<el-button>查看</el-button>
+			</template>
+			<!-- 自定义列 -->
+			<template #operateState="scope">
+				<el-input v-model="scope.row.operateState" />
+			</template>
+			<!-- 自定义列 -->
+			<template #operateState1="scope">
+				<el-input v-model="scope.row.operateState1" />
+			</template>
+			<template #operateState2="scope">
+				<el-input v-model="scope.row.operateState2" />
+			</template>
+			<template #operateState3="scope">
+				<el-input v-model="scope.row.operateState3" />
 			</template>
 		</v-table>
 		<v-pages ref="pages" @get-data="getData" :total="paginationData.total" v-model:pageNum="paginationData.pageNum" v-model:pageSize="paginationData.pageSize" />
@@ -54,12 +68,12 @@
 					</GridItem>
 					<GridItem>
 						<el-form-item label="用款期间：" prop="useDate">
-							<el-date-picker v-model="formDataAdd.useDate" type="month" format="YYYY-MM" value-format="YYYY-MM" placeholder="请选择用款期间"> </el-date-picker>
+							<el-date-picker v-model="formDataAdd.useDate" type="month" format="YYYY-MM" value-format="YYYY-MM" placeholder="请选择用款期间"></el-date-picker>
 						</el-form-item>
 					</GridItem>
 					<GridItem v-if="formDataAdd.dateType === '2'">
 						<el-form-item label="用款期间：" prop="useDate">
-							<el-date-picker v-model="formDataAdd.useDate" type="date" format="yyyy-MM-dd" value-format="yyyy-MM-dd" placeholder="请选择"> </el-date-picker>
+							<el-date-picker v-model="formDataAdd.useDate" type="date" format="yyyy-MM-dd" value-format="yyyy-MM-dd" placeholder="请选择"></el-date-picker>
 						</el-form-item>
 					</GridItem>
 					<GridItem>
@@ -153,7 +167,7 @@
 		<!--更新余额-->
 
 		<el-dialog v-model="visibleComputed" title="选择" width="800px" class="dialog-form" v-if="visibleComputed">
-			<v-table ref="tableComputed" ifIndex if-radio :column="columnComputed" :data="tableDataComputed" @single-select="selectedChange"> </v-table>
+			<v-table ref="tableComputed" ifIndex if-radio :column="columnComputed" :data="tableDataComputed" @single-select="selectedChange"></v-table>
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button type="primary" @click="saveComputed">保存</el-button>
@@ -360,10 +374,9 @@ const tableData = ref([
 	{ id: 1, docNum: 'Alice' },
 	{ id: 2, docNum: 'Bob' },
 	{ id: 3, docNum: 'Charlie' },
-
 	{ id: 5, operateState1: 'Charlie51', operateState2: 'Charlie521', operateState3: 'Charlie5211' },
-	{ id: 5, operateState1: 'Charlie52', operateState2: 'Charlie522', operateState3: 'Charlie5212' },
-	{ id: 5, operateState1: 'Charlie53', operateState2: 'Charlie523', operateState3: 'Charlie5213' }
+	{ id: 6, operateState1: 'Charlie52', operateState2: 'Charlie522', operateState3: 'Charlie5212' },
+	{ id: 7, operateState1: 'Charlie53', operateState2: 'Charlie523', operateState3: 'Charlie5213' }
 ])
 const activeKey = ref('-1')
 const tabs = [
@@ -411,13 +424,24 @@ const getData = async () => {
 }
 const tabClick = val => {
 	activeKey.value = val.paneName
-	tableData.value = [
-		{ id: 1, docNum: 0 },
+	let data = [
+		{ id: 1, docNum: 'Alice' },
 		{ id: 2, docNum: 'Bob' },
 		{ id: 3, docNum: 'Charlie' },
-		{ id: 5, docNum: 'Charlie5' },
-		{ id: 4, docNum: 'Charlie4' }
+		{ id: 5, operateState1: 'Charlie51', operateState2: 'Charlie521', operateState3: 'Charlie5211' },
+		{ id: 6, operateState1: 'Charlie52', operateState2: 'Charlie522', operateState3: 'Charlie5212' },
+		{ id: 7, operateState1: 'Charlie53', operateState2: 'Charlie523', operateState3: 'Charlie5213' }
 	]
+	tableData.value =
+		activeKey.value === '-1'
+			? data
+			: [
+					{ id: 1, docNum: 0 },
+					{ id: 2, docNum: 'Bob' },
+					{ id: 3, docNum: 'Charlie' },
+					{ id: 5, docNum: 'Charlie5' },
+					{ id: 4, docNum: 'Charlie4' }
+			  ]
 	// getData();
 }
 const agencyList = ref([])

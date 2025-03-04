@@ -26,25 +26,58 @@
 				</template>
 			</el-table-column>
 
-			<template v-for="item in flatColumns" :key="item.prop">
-				<!-- expand 支持 tsx 语法 && 作用域插槽 (tsx > slot) -->
-				<el-table-column v-bind="item" :align="item.align ?? 'center'" v-if="item.type === 'expand'">
+			<template v-for="item in tableColumns" :key="item.prop">
+				<!-- 渲染多级表头 -->
+				<el-table-column
+					v-bind="item"
+					:align="item.align ?? 'center'"
+					:header-align="item.headerAlign ?? 'center'"
+					:show-overflow-tooltip="item.showOverflowTooltip ?? item.prop !== 'operation'"
+				>
 					<template #default="scope">
-						<!-- expand -->
-						<template v-if="item.type === 'expand'">
-							<component :is="item.render" v-bind="scope" v-if="item.render" />
-							<slot v-else :name="item.type" v-bind="scope" />
+						<!-- 如果列有子列，则递归渲染子列 -->
+						<template v-if="item._children && item._children.length">
+							<TableColumn v-for="child in item._children" :key="child.prop" :column="child">
+								<template #[child.prop]="childScope">
+									<slot :name="child.prop" v-bind="childScope" />
+								</template>
+							</TableColumn>
+						</template>
+						<!-- 如果列有自定义渲染函数，则使用该函数渲染内容 -->
+						<template v-else-if="item.render">
+							{{ item.render(scope) }}
+						</template>
+						<!-- 如果列有作用域插槽，则使用该插槽渲染内容 -->
+						<template v-else-if="$slots[item.prop]">
+							<slot :name="item.prop" v-bind="scope" />
+						</template>
+						<!-- 如果列有 formatter 属性，则直接使用该属性的值 -->
+						<template v-else-if="item.formatter">
+							{{ item.formatter(scope.row) }}
+						</template>
+						<!-- 默认情况下，渲染单元格数据 -->
+						<template v-else>
+							{{ scope.row[item.prop] }}
+						</template>
+					</template>
+					<!-- 表头插槽内容 -->
+					<template #header>
+						<!-- 如果列有自定义表头渲染函数，则使用该函数渲染表头 -->
+						<template v-if="item.headerRender">
+							{{ item.headerRender(item) }}
+						</template>
+						<!-- 如果列有作用域插槽，则使用该插槽渲染表头 -->
+						<template v-else-if="$slots[`${item.prop}Header`]">
+							<slot :name="`${item.prop}Header`" :row="item"></slot>
+						</template>
+						<!-- 默认情况下，渲染列的标签 -->
+						<template v-else>
+							{{ item.label }}
 						</template>
 					</template>
 				</el-table-column>
-				<!-- 其他列 -->
-				<TableColumn v-if="!item.type && item.prop && item.isShow" :column="item">
-					<!-- 传递特定插槽 -->
-					<template v-if="$slots[item.prop]" #[item.prop]="scope">
-						<slot :name="item.prop" v-bind="scope" />
-					</template>
-				</TableColumn>
 			</template>
+
 			<!-- 插入表格最后一行之后的插槽 -->
 			<template #append>
 				<slot name="append" />
@@ -62,7 +95,7 @@
 	</div>
 </template>
 
-<script setup>
+<script setup name="VTable">
 import { ref, watch } from 'vue'
 import TableColumn from './TableColumn.vue'
 
