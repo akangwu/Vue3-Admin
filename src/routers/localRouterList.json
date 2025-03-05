@@ -92,7 +92,21 @@
 							"component": "/smifc/HNYB/unitExpensesMake",
 							"meta": {
 								"icon": "Menu",
-								"title": "单位用款申请",
+								"title": "VxeTable单位用款申请",
+								"isLink": "",
+								"isHide": false,
+								"isFull": false,
+								"isAffix": false,
+								"isKeepAlive": true
+							}
+						},
+						{
+							"path": "/smifc/HNYB/unitExpensesMake1",
+							"name": "unitExpensesMake1",
+							"component": "/smifc/HNYB/unitExpensesMake1",
+							"meta": {
+								"icon": "Menu",
+								"title": "VTable单位用款申请",
 								"isLink": "",
 								"isHide": false,
 								"isFull": false,
@@ -214,7 +228,7 @@
 					"component": "/proTable/useProTableTreeFilter/index",
 					"meta": {
 						"icon": "Menu",
-						"title": "使用 TreeFilter",
+						"title": "使用 TreeFilter11",
 						"isLink": "",
 						"isHide": false,
 						"isFull": false,
@@ -258,20 +272,6 @@
 					"meta": {
 						"icon": "Menu",
 						"title": "树形 VTable",
-						"isLink": "",
-						"isHide": false,
-						"isFull": false,
-						"isAffix": false,
-						"isKeepAlive": true
-					}
-				},
-				{
-					"path": "/proTable/complexProTable",
-					"name": "complexProTable",
-					"component": "/proTable/complexProTable/index",
-					"meta": {
-						"icon": "Menu",
-						"title": "复杂 VTable",
 						"isLink": "",
 						"isHide": false,
 						"isFull": false,
@@ -342,7 +342,7 @@
 		{
 			"path": "/assembly",
 			"name": "assembly",
-			"redirect": "/assembly/guide",
+			"redirect": "/assembly/useTabs",
 			"meta": {
 				"icon": "Briefcase",
 				"title": "常用组件",
@@ -353,20 +353,6 @@
 				"isKeepAlive": true
 			},
 			"children": [
-				{
-					"path": "/assembly/guide",
-					"name": "guide",
-					"component": "/assembly/guide/index",
-					"meta": {
-						"icon": "Menu",
-						"title": "引导页",
-						"isLink": "",
-						"isHide": false,
-						"isFull": false,
-						"isAffix": false,
-						"isKeepAlive": true
-					}
-				},
 				{
 					"path": "/assembly/useTabs",
 					"name": "useTabs",
@@ -428,7 +414,7 @@
 				},
 				{
 					"path": "/assembly/useProTableTreeFilter",
-					"name": "useProTableTreeFilter",
+					"name": "useProTableTreeFilterAssembly",
 					"component": "/assembly/useProTableTreeFilter/index",
 					"meta": {
 						"icon": "Menu",
@@ -447,34 +433,6 @@
 					"meta": {
 						"icon": "Menu",
 						"title": "SVG 图标",
-						"isLink": "",
-						"isHide": false,
-						"isFull": false,
-						"isAffix": false,
-						"isKeepAlive": true
-					}
-				},
-				{
-					"path": "/assembly/uploadFile",
-					"name": "uploadFile",
-					"component": "/assembly/uploadFile/index",
-					"meta": {
-						"icon": "Menu",
-						"title": "文件上传",
-						"isLink": "",
-						"isHide": false,
-						"isFull": false,
-						"isAffix": false,
-						"isKeepAlive": true
-					}
-				},
-				{
-					"path": "/assembly/batchImport",
-					"name": "batchImport",
-					"component": "/assembly/batchImport/index",
-					"meta": {
-						"icon": "Menu",
-						"title": "批量添加数据",
 						"isLink": "",
 						"isHide": false,
 						"isFull": false,
@@ -629,6 +587,106 @@
 			]
 		},
 		{
+			"path": "/echarts",
+			"name": "echarts",
+			"redirect": "/echarts/waterChart",
+			"meta": {
+				"icon": "TrendCharts",
+				"title": "Echarts",
+				"isLink": "",
+				"isHide": false,
+				"isFull": false,
+				"isAffix": false,
+				"isKeepAlive": true
+			},
+			"children": [
+				{
+					"path": "/echarts/waterChart",
+					"name": "waterChart",
+					"component": "/echarts/waterChart/index",
+					"meta": {
+						"icon": "Menu",
+						"title": "水型图",
+						"isLink": "",
+						"isHide": false,
+						"isFull": false,
+						"isAffix": false,
+						"isKeepAlive": true
+					}
+				},
+				{
+					"path": "/echarts/columnChart",
+					"name": "columnChart",
+					"component": "/echarts/columnChart/index",
+					"meta": {
+						"icon": "Menu",
+						"title": "柱状图",
+						"isLink": "",
+						"isHide": false,
+						"isFull": false,
+						"isAffix": false,
+						"isKeepAlive": true
+					}
+				},
+				{
+					"path": "/echarts/lineChart",
+					"name": "lineChart",
+					"component": "/echarts/lineChart/index",
+					"meta": {
+						"icon": "Menu",
+						"title": "折线图",
+						"isLink": "",
+						"isHide": false,
+						"isFull": false,
+						"isAffix": false,
+						"isKeepAlive": true
+					}
+				},
+				{
+					"path": "/echarts/pieChart",
+					"name": "pieChart",
+					"component": "/echarts/pieChart/index",
+					"meta": {
+						"icon": "Menu",
+						"title": "饼图",
+						"isLink": "",
+						"isHide": false,
+						"isFull": false,
+						"isAffix": false,
+						"isKeepAlive": true
+					}
+				},
+				{
+					"path": "/echarts/radarChart",
+					"name": "radarChart",
+					"component": "/echarts/radarChart/index",
+					"meta": {
+						"icon": "Menu",
+						"title": "雷达图",
+						"isLink": "",
+						"isHide": false,
+						"isFull": false,
+						"isAffix": false,
+						"isKeepAlive": true
+					}
+				},
+				{
+					"path": "/echarts/nestedChart",
+					"name": "nestedChart",
+					"component": "/echarts/nestedChart/index",
+					"meta": {
+						"icon": "Menu",
+						"title": "嵌套环形图",
+						"isLink": "",
+						"isHide": false,
+						"isFull": false,
+						"isAffix": false,
+						"isKeepAlive": true
+					}
+				}
+			]
+		},
+		{
 			"path": "/directives",
 			"name": "directives",
 			"redirect": "/directives/copyDirect",
@@ -691,20 +749,6 @@
 					"meta": {
 						"icon": "Menu",
 						"title": "防抖指令",
-						"isLink": "",
-						"isHide": false,
-						"isFull": false,
-						"isAffix": false,
-						"isKeepAlive": true
-					}
-				},
-				{
-					"path": "/directives/throttleDirect",
-					"name": "throttleDirect",
-					"component": "/directives/throttleDirect/index",
-					"meta": {
-						"icon": "Menu",
-						"title": "节流指令",
 						"isLink": "",
 						"isHide": false,
 						"isFull": false,
@@ -863,7 +907,7 @@
 		{
 			"path": "/system",
 			"name": "system",
-			"redirect": "/system/accountManage",
+			"redirect": "/system/menuMange",
 			"meta": {
 				"icon": "Tools",
 				"title": "系统管理",

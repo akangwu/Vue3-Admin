@@ -3,7 +3,7 @@
 /**
  *  @rule 手机号
  */
-const checkPhoneNumber = (rule, value, callback)=> {
+export const checkPhoneNumber = (rule, value, callback)=> {
 	const regexp = /^(((13[0-9]{1})|(15[0-9]{1})|(16[0-9]{1})|(17[3-8]{1})|(18[0-9]{1})|(19[0-9]{1})|(14[5-7]{1}))+\d{8})$/
 	if (value === '') callback('请输入手机号码')
 	if (!regexp.test(value)) {
@@ -12,4 +12,3 @@ const checkPhoneNumber = (rule, value, callback)=> {
 		return callback()
 	}
 }
-export default checkPhoneNumber

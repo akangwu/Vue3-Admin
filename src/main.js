@@ -28,6 +28,11 @@ import 'element-plus/theme-chalk/dark/css-vars.css'
 // svg icons
 import 'virtual:svg-icons-register'
 
+import VxeUIAll from 'vxe-pc-ui'
+import 'vxe-pc-ui/lib/style.css'
+import VxeUITable from 'vxe-table'
+import 'vxe-table/lib/style.css'
+
 import funcs from '@/utils/funcs'
 import http from '@/axios'
 import { msg } from '@/utils/resetMessage'
@@ -47,6 +52,8 @@ Object.keys(Icons).forEach(key => {
 })
 
 app.use(ElementPlus)
+app.use(VxeUIAll)
+app.use(VxeUITable)
 app.use(directives)
 app.use(router)
 app.use(I18n)

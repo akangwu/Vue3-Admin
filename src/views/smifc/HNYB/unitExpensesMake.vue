@@ -5,11 +5,11 @@
 		<el-tabs v-model="activeKey" @tab-click="tabClick">
 			<el-tab-pane :label="item.label" :name="item.value" v-for="(item, index) in tabs" :key="index"></el-tab-pane>
 		</el-tabs>
-		<v-table
+		<v-table-vxe
 			ref="proTable"
 			if-index
 			if-select
-			:column="activeKey === '0' || activeKey === '2' ? column1 : activeKey === '1' ? column2 : activeKey === '5' ? column4 : column3"
+			:column="columns"
 			:data="tableData"
 			@selection-change="selectionChange"
 		>
@@ -19,7 +19,9 @@
 				<el-button v-if="activeKey !== '1'">删除</el-button>
 				<el-button :type="activeKey === '1' ? 'primary' : ''">导出</el-button>
 			</template>
-
+			<template #status="{ row }">
+				{{ row.status ? '启用' : '停用' }}
+			</template>
 			<template #operation>
 				<el-button>查看</el-button>
 			</template>
@@ -37,144 +39,8 @@
 			<template #operateState3="scope">
 				<el-input v-model="scope.row.operateState3" />
 			</template>
-		</v-table>
+		</v-table-vxe>
 		<v-pages ref="pages" @get-data="getData" :total="paginationData.total" v-model:pageNum="paginationData.pageNum" v-model:pageSize="paginationData.pageSize" />
-
-		<!--新增-->
-		<el-dialog v-model="visibleAdd" title="新增基金申请单" class="dialog-form w-1200" v-if="visibleAdd">
-			<el-form ref="formRef" :model="formDataAdd">
-				<Grid ref="gridRef" :gap="[20, 0]" :cols="3">
-					<GridItem>
-						<el-form-item label="单据编号：" prop="docNum">
-							<span>{{ formDataAdd.docNum }}</span>
-						</el-form-item>
-					</GridItem>
-					<GridItem>
-						<el-form-item label="请款日期：" prop="applyDate">
-							<span>{{ formDataAdd.applyDate }}</span>
-						</el-form-item>
-					</GridItem>
-					<GridItem>
-						<el-form-item label="申请单位：" prop="agencyName">
-							<span>{{ formDataAdd.agencyName }}</span>
-						</el-form-item>
-					</GridItem>
-					<GridItem>
-						<el-form-item label="请款类型：" prop="dateType">
-							<el-select v-model="formDataAdd.dateType" placeholder="请选择请款类型" @change="changeDateType">
-								<el-option v-for="val in dateTypeList" :label="val.label" :value="val.value" :key="val.value"></el-option>
-							</el-select>
-						</el-form-item>
-					</GridItem>
-					<GridItem>
-						<el-form-item label="用款期间：" prop="useDate">
-							<el-date-picker v-model="formDataAdd.useDate" type="month" format="YYYY-MM" value-format="YYYY-MM" placeholder="请选择用款期间"></el-date-picker>
-						</el-form-item>
-					</GridItem>
-					<GridItem v-if="formDataAdd.dateType === '2'">
-						<el-form-item label="用款期间：" prop="useDate">
-							<el-date-picker v-model="formDataAdd.useDate" type="date" format="yyyy-MM-dd" value-format="yyyy-MM-dd" placeholder="请选择"></el-date-picker>
-						</el-form-item>
-					</GridItem>
-					<GridItem>
-						<el-form-item label="险种：" prop="insuranceCode">
-							<el-select v-model="formDataAdd.insuranceCode" placeholder="请选择险种" @change="changeInsuranceCode">
-								<el-option v-for="val in insuranceList" :label="'[' + val.chrCode + ']' + val.chrName" :value="val.chrCode" :key="val.id"></el-option>
-							</el-select>
-						</el-form-item>
-					</GridItem>
-					<GridItem>
-						<el-form-item label="合计金额（万元）：" prop="totalAmount">
-							<span> {{ proxy.funcs.thousandPoint(formDataAdd.totalAmount) }} </span>
-						</el-form-item>
-					</GridItem>
-					<GridItem>
-						<el-form-item label="申请后账户余额（万元）：" prop="afterRequestTotalAmount">
-							<span>{{ proxy.funcs.thousandPoint(formDataAdd.afterRequestTotalAmount ? formDataAdd.afterRequestTotalAmount : 0) }}</span>
-						</el-form-item>
-					</GridItem>
-					<GridItem>
-						<el-form-item label="摘要：" prop="summary">
-							<el-input v-model="formDataAdd.summary"></el-input>
-						</el-form-item>
-					</GridItem>
-				</Grid>
-			</el-form>
-			<v-table ref="proTable1" ifIndex if-select :column="columnAdd" :data="tableDataAdd" isDialogTable height="450px">
-				<template #tableHeader="scope">
-					<el-button type="primary" @click="addRow">增行</el-button>
-					<el-button @click="delRow">删行</el-button>
-					<el-button @click="btnAdd">更新余额</el-button>
-					<el-button @click="clickVisibleComputed(scope.selectedRows)">测算</el-button>
-					<el-button @click="btnAdd">参照支付计划</el-button>
-				</template>
-				<!--基金支付类型-->
-				<template #businessItemCode="scope">
-					<el-select style="width: 100%" v-model="scope.row.businessItemCode" placeholder="请选择基金支付类型" @change="handleBusinessItemChange(scope.row)">
-						<el-option v-for="val in costItemList" :label="val.chrName" :value="val.chrCode" :key="val.chrCode"></el-option>
-					</el-select>
-				</template>
-				<!-- // 户名 -->
-				<template #accountName="scope">
-					<el-select style="width: 100%" v-model="scope.row.accountNo" placeholder="请选择户名" @change="handleAccountNameChange(scope.row)">
-						<el-option v-for="val in accountList" :label="`[${val.subAccountNo}]${val.subAccountName}`" :value="val.subAccountNo" :key="val.subAccountNo"></el-option>
-					</el-select>
-				</template>
-				<!-- 支出户余额 -->
-				<template #monthPayAmount="scope">
-					<el-popover trigger="hover" placement="top" v-if="scope.row.monthPayAmount == -1">
-						<p>查询余额失败，请检查接入银行配置！</p>
-					</el-popover>
-					<span v-else-if="scope.row.monthPayAmount != -1">{{ proxy.funcs.thousandPoint(scope.row.monthPayAmount) }}</span>
-					<span v-else>{{ scope.row.monthPayAmount }}</span>
-				</template>
-				<!--本次申请资金-->
-				<template #monthAmount="scope">
-					<el-input
-						v-model="scope.row.monthAmount"
-						placeholder="请填写本次申请资金（万元）"
-						@input="handleTotalAmount(scope.row)"
-						@blur="handleBlur(scope.row, 'monthAmount')"
-						@focus="handleFocus(scope.row, 'monthAmount')"
-					></el-input>
-				</template>
-				<!--本次申请资金-->
-				<template #prePeriodUseAmount="scope">
-					<el-input
-						v-model="scope.row.prePeriodUseAmount"
-						placeholder="请填写上期使用情况（万元）"
-						@input="handleTotalAmount(scope.row)"
-						@blur="handleBlur(scope.row, 'prePeriodUseAmount')"
-						@focus="handleFocus(scope.row, 'prePeriodUseAmount')"
-					></el-input>
-				</template>
-				<template #coefficient="scope">
-					<el-input v-model="scope.row.coefficient" placeholder="请填写系数" @blur="coefficientChangeHandle(scope.row)"></el-input>
-				</template>
-
-				<template #remark="scope">
-					<el-input v-model="scope.row.remark" placeholder="请填写备注"></el-input>
-				</template>
-			</v-table>
-			<template #footer>
-				<span class="dialog-footer">
-					<el-button type="primary" @click="save">保存</el-button>
-					<el-button @click="visibleAdd = false">取消</el-button>
-				</span>
-			</template>
-		</el-dialog>
-
-		<!--更新余额-->
-
-		<el-dialog v-model="visibleComputed" title="选择" width="800px" class="dialog-form" v-if="visibleComputed">
-			<v-table ref="tableComputed" ifIndex if-radio :column="columnComputed" :data="tableDataComputed" @single-select="selectedChange"></v-table>
-			<template #footer>
-				<span class="dialog-footer">
-					<el-button type="primary" @click="saveComputed">保存</el-button>
-					<el-button @click="visibleComputed = false">取消</el-button>
-				</span>
-			</template>
-		</el-dialog>
 	</div>
 </template>
 
@@ -185,73 +51,6 @@ import { useRoute } from 'vue-router'
 const { proxy } = getCurrentInstance()
 const route = useRoute()
 const column1 = [
-	{ label: '单据号', prop: 'docNum', width: 200 },
-	{
-		label: '审批状态',
-		prop: 'operateState',
-		width: 200
-	},
-	{ label: '单据日期', prop: 'applyDate', width: 200, align: 'center' },
-	{ label: '险种', prop: 'insuranceName', width: 200 },
-	{
-		label: '用款期间',
-		prop: 'useDate',
-		width: 200,
-		align: 'center'
-	},
-	{
-		label: '请款金额（万元）',
-		prop: 'totalAmount',
-		formatter: proxy.funcs.format,
-		width: 200
-	},
-	{
-		label: '请款单位',
-		prop: 'agencyName',
-		width: 200
-	},
-	{ label: '制单人', prop: 'createName', width: 150 },
-	{ label: '操作', prop: 'operation', width: 180, align: 'center' }
-]
-const column2 = [
-	{ label: '单据号', prop: 'docNum', width: 200 },
-	{
-		label: '审批状态',
-		prop: 'operateState',
-		width: 200
-	},
-	{ label: '单据日期', prop: 'applyDate', width: 200, align: 'center' },
-	{ label: '险种', prop: 'insuranceName', width: 200 },
-	{
-		label: '用款期间',
-		prop: 'useDate',
-		width: 200,
-		align: 'center'
-	},
-	{
-		label: '请款金额（万元）',
-		prop: 'totalAmount',
-		formatter: proxy.funcs.format,
-		width: 200
-	},
-	{
-		label: '请款单位',
-		prop: 'agencyName',
-		width: 200
-	},
-	{ label: '制单人', prop: 'createName', width: 150 },
-	{
-		label: '退回状态',
-		prop: 'backStatus',
-		width: 150,
-		formatter: val => {
-			return val['backStatus'] === '1' ? '已退回' : '未退回'
-		}
-	},
-	{ label: '退回原因', prop: 'backReason', width: 150 },
-	{ label: '操作', prop: 'operation', width: 180, align: 'center' }
-]
-const column3 = [
 	{ label: '单据号', prop: 'docNum', width: 200 },
 	{
 		label: '审批状态',
@@ -282,93 +81,30 @@ const column3 = [
 			return val['collectFlag'] === '0' ? '未处理' : val['collectFlag'] === '1' ? '待上报' : '已上报'
 		}
 	},
-	{ label: '单据日期', prop: 'applyDate', width: 200, align: 'center' },
-	{ label: '用款期间', prop: 'useDate', width: 200, align: 'center' },
-	{
-		label: '请款单位',
-		prop: 'agencyName',
-		width: 200
-	},
-	{ label: '险种', prop: 'insuranceName', width: 200 },
-	{
-		label: '请款金额（万元）',
-		prop: 'totalAmount',
-		formatter: proxy.funcs.format,
-		width: 200
-	},
-	{ label: '制单人', prop: 'createName', width: 150 },
 	{ label: '操作', prop: 'operation', width: 180, align: 'center' }
-]
-const column4 = [
-	{ label: '单据号', prop: 'docNum', width: 200 },
-	{
-		label: '审批状态',
-		prop: 'operateState',
-		width: 200
-	},
-	{
-		label: '下拨状态',
-		prop: 'allocateFlag',
-		width: 200,
-		formatter: val => {
-			return val['allocateFlag'] === '0' ? '未处理' : val['allocateFlag'] === '1' ? '待下拨' : '已下拨'
-		}
-	},
-	{ label: '单据日期', prop: 'applyDate', width: 200, align: 'center' },
-	{ label: '用款期间', prop: 'useDate', width: 200, align: 'center' },
-	{
-		label: '请款单位',
-		prop: 'agencyName',
-		width: 200
-	},
-	{ label: '险种', prop: 'insuranceName', width: 200 },
-	{
-		label: '请款金额（万元）',
-		prop: 'totalAmount',
-		formatter: proxy.funcs.format,
-		width: 200
-	},
-	{ label: '制单人', prop: 'createName', width: 150 },
-	{ label: '操作', prop: 'operation', width: 180, align: 'center' }
-]
-const columnAdd = [
-	{ label: '基金支付类型', prop: 'businessItemCode', width: 250, operate: true },
-	{ label: '户名', prop: 'accountName', width: 250, align: 'center' },
-	{ label: '账号', prop: 'accountNo', width: 200, align: 'center' },
-	{ label: '开户行', prop: 'accountBank', width: 200 },
-	{
-		label: '支出户余额（万元）',
-		prop: 'monthPayAmount',
-		width: 200,
-		align: 'right',
-		formatter: proxy.funcs.format,
-		operate: true
-	},
-	{
-		label: '上期使用情况',
-		prop: 'prePeriodUseAmount',
-		width: 200,
-		align: 'right',
-		formatter: proxy.funcs.format,
-		operate: true
-	},
-	{ label: '上期请款金额', prop: 'prePeriodRequestAmount', width: 200, align: 'right', formatter: proxy.funcs.format },
-	{ label: '系数', prop: 'coefficient', width: 200, align: 'right' },
-	{ label: '测算金额', prop: 'budgetAmount', width: 200, align: 'right', formatter: proxy.funcs.format },
-	{
-		label: '本次申请资金（万元）',
-		prop: 'monthAmount',
-		width: 200,
-		align: 'right',
-		formatter: proxy.funcs.format,
-		operate: true
-	},
-	{ label: '申请后账户余额', prop: 'afterRequestBalAmount', width: 200, align: 'right', formatter: proxy.funcs.format },
-	{ label: '备注', prop: 'remark', width: 200, align: 'right' }
 ]
 
+const columns = [
+	{ prop: 'name', label: '姓名', width: 200 },
+	{
+		prop: 'status',
+		label: '状态',
+		render: ({ row }) => row.status ? '启用' : '停用'
+	},
+	{
+		label: '详细信息',
+		children: [
+			{ prop: 'age', label: '年龄' },
+			{ prop: 'address', label: '地址' }
+		]
+	}
+]
 const proTable = ref()
-const tableData = ref([])
+const tableData = ref([
+	{ id: 1, docNum: 'Alice', operateState1: 'Charlie51', operateState2: 'Charlie521', operateState3: 'Charlie5211' },
+	{ id: 2, docNum: 'Bob', operateState1: 'Charlie52', operateState2: 'Charlie522', operateState3: 'Charlie5212' },
+	{ id: 3, docNum: 'Charlie', operateState1: 'Charlie53', operateState2: 'Charlie523', operateState3: 'Charlie5213' }
+])
 const activeKey = ref('-1')
 const tabs = [
 	{ label: '全部', value: '-1' },

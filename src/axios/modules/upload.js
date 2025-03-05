@@ -1,4 +1,3 @@
-import { Upload } from '@/axios/interface/index'
 import http from '@/axios'
 
 /**

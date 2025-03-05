@@ -7,7 +7,6 @@
 
 <script setup>
 import { nextTick, computed, inject, shallowRef, onBeforeUnmount } from 'vue'
-import { IToolbarConfig, IEditorConfig } from '@wangeditor/editor'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import { uploadImg, uploadVideo } from '@/axios/modules/upload'
 import '@wangeditor/editor/dist/css/style.css'

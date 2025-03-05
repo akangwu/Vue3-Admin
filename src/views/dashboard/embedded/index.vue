@@ -1,11 +1,11 @@
-<!--<template>-->
-<!--	<div class="card content-box">-->
-<!--		<iframe src="https://cn.bing.com/" frameborder="0" class="full-iframe" />-->
-<!--	</div>-->
-<!--</template>-->
+<template>
+	<div class="card content-box">
+		<iframe src="https://www.baidu.com/" frameborder="0" class="full-iframe" />
+	</div>
+</template>
 
-<!--<script setup name="embedded"></script>-->
+<script setup name="embedded"></script>
 
-<!--<style scoped lang="scss">-->
-<!--@import './index.scss';-->
-<!--</style>-->
+<style scoped lang="scss">
+@import './index.scss';
+</style>

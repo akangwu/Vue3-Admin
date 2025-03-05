@@ -3,8 +3,7 @@
 		<v-table ref="proTable" if-index if-select :column="columns" :data="tableData">
 			<!-- 表格 header 按钮 -->
 			<template #tableHeader="scope">
-				<el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')" v-auth="'add'">新增用户</el-button>
-				<el-button type="primary" :icon="Upload" plain @click="batchAdd" v-auth="'batchAdd'">批量添加用户</el-button>
+				<el-button type="primary" :icon="Upload" plain @click="batchDelete" v-auth="'batchAdd'">批量添加用户</el-button>
 				<el-button type="primary" :icon="Download" plain @click="downloadFile" v-auth="'export'">导出用户数据</el-button>
 				<el-button type="primary" plain @click="toDetail">To 子集详情页面</el-button>
 				<el-button type="danger" :icon="Delete" plain @click="batchDelete(scope.selectedIds)" :disabled="!scope.isSelected"> 批量删除用户 </el-button>

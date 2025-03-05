@@ -3,18 +3,13 @@ import auth from './modules/auth'
 import copy from './modules/copy'
 import waterMarker from './modules/waterMarker'
 import draggable from './modules/draggable'
-import debounce from './modules/debounce'
-import throttle from './modules/throttle'
-import longpress from './modules/longpress'
-
+import debounceD from './modules/debounce'
 const directivesList = {
 	auth,
 	copy,
 	waterMarker,
 	draggable,
-	debounce,
-	throttle,
-	longpress
+	debounce: debounceD
 }
 
 const directives = {

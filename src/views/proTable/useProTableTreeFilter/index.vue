@@ -5,15 +5,11 @@
 			<v-table ref="proTable" title="用户列表" :column="columns">
 				<!-- 表格 header 按钮 -->
 				<template #tableHeader>
-					<el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')">新增用户</el-button>
-					<el-button type="primary" :icon="Upload" plain @click="batchAdd">批量添加用户</el-button>
+					<el-button type="primary" :icon="Upload" plain @click="downloadFile">批量添加用户</el-button>
 					<el-button type="primary" :icon="Download" plain @click="downloadFile">导出用户数据</el-button>
-					<el-button type="primary" plain @click="toDetail">To 平级详情页面</el-button>
 				</template>
 				<!-- 表格操作 -->
 				<template #operation="scope">
-					<el-button type="primary" link :icon="View" @click="openDrawer('查看', scope.row)">查看</el-button>
-					<el-button type="primary" link :icon="EditPen" @click="openDrawer('编辑', scope.row)">编辑</el-button>
 					<el-button type="primary" link :icon="Refresh" @click="resetPass(scope.row)">重置密码</el-button>
 					<el-button type="primary" link :icon="Delete" @click="deleteAccount(scope.row)">删除</el-button>
 				</template>
@@ -21,22 +17,17 @@
 		</div>
 	</div>
 </template>
-<script setup name="useTreeFilter">
+<script setup name="useProTableTreeFilter">
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useHandleData } from '@/hooks/useHandleData'
 import { useDownload } from '@/hooks/useDownload'
 import TreeFilter from '@/components/TreeFilter/index.vue'
-import { CirclePlus, Delete, EditPen, Download, Upload, View, Refresh } from '@element-plus/icons-vue'
-import { getUserList, deleteUser, editUser, addUser, resetUserPassWord, exportUserInfo, BatchAddUser, getUserStatus, getUserGender, getUserDepartment } from '@/axios/modules/user'
+import { Delete, Download, Upload, View, Refresh } from '@element-plus/icons-vue'
+import { deleteUser, resetUserPassWord, exportUserInfo } from '@/axios/modules/user'
 
 const router = useRouter()
-
-// 跳转详情页
-const toDetail = () => {
-	router.push(`/proTable/useTreeFilter/treeFilterDetail/123456?params=detail-page`)
-}
 
 // 获取 VTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref()
@@ -45,7 +36,7 @@ const proTable = ref()
 const initParam = reactive({ departmentId: '1' })
 
 // 树形筛选切换
-const changeTreeFilter = (val: string) => {
+const changeTreeFilter = (val) => {
 	ElMessage.success('请注意查看请求参数变化 🤔')
 	pageable.pageNum = 1
 	initParam.departmentId = val

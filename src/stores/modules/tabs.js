@@ -1,5 +1,6 @@
 import router from '@/routers'
 import { defineStore } from 'pinia'
+import { useKeepAliveStore } from '@/stores/modules/keepAlive'
 import piniaPersistConfig from '@/config/piniaPersist'
 const keepAliveStore = useKeepAliveStore()
 

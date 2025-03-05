@@ -113,7 +113,7 @@ watch(
 
 // useTabs 拖拽排序
 const tabsDrop = () => {
-	Sortable.create(document.querySelector('.el-tabs__nav') as HTMLElement, {
+	Sortable.create(document.querySelector('.el-tabs__nav'), {
 		draggable: '.el-tabs__item',
 		animation: 300,
 		onEnd({ newIndex, oldIndex }) {

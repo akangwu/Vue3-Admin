@@ -132,20 +132,6 @@
 					}
 				},
 				{
-					"path": "/proTable/complexProTable",
-					"name": "complexProTable",
-					"component": "/proTable/complexProTable/index",
-					"meta": {
-						"icon": "Menu",
-						"title": "复杂 VTable",
-						"isLink": "",
-						"isHide": false,
-						"isFull": false,
-						"isAffix": false,
-						"isKeepAlive": true
-					}
-				},
-				{
 					"path": "/proTable/document",
 					"name": "proTableDocument",
 					"component": "/proTable/document/index",
@@ -208,7 +194,7 @@
 		{
 			"path": "/assembly",
 			"name": "assembly",
-			"redirect": "/assembly/guide",
+			"redirect": "/assembly/useTabs",
 			"meta": {
 				"icon": "Briefcase",
 				"title": "常用组件",
@@ -219,20 +205,6 @@
 				"isKeepAlive": true
 			},
 			"children": [
-				{
-					"path": "/assembly/guide",
-					"name": "guide",
-					"component": "/assembly/guide/index",
-					"meta": {
-						"icon": "Menu",
-						"title": "引导页",
-						"isLink": "",
-						"isHide": false,
-						"isFull": false,
-						"isAffix": false,
-						"isKeepAlive": true
-					}
-				},
 				{
 					"path": "/assembly/useTabs",
 					"name": "useTabs",
@@ -313,34 +285,6 @@
 					"meta": {
 						"icon": "Menu",
 						"title": "SVG 图标",
-						"isLink": "",
-						"isHide": false,
-						"isFull": false,
-						"isAffix": false,
-						"isKeepAlive": true
-					}
-				},
-				{
-					"path": "/assembly/uploadFile",
-					"name": "uploadFile",
-					"component": "/assembly/uploadFile/index",
-					"meta": {
-						"icon": "Menu",
-						"title": "文件上传",
-						"isLink": "",
-						"isHide": false,
-						"isFull": false,
-						"isAffix": false,
-						"isKeepAlive": true
-					}
-				},
-				{
-					"path": "/assembly/batchImport",
-					"name": "batchImport",
-					"component": "/assembly/batchImport/index",
-					"meta": {
-						"icon": "Menu",
-						"title": "批量添加数据",
 						"isLink": "",
 						"isHide": false,
 						"isFull": false,
@@ -665,20 +609,6 @@
 					}
 				},
 				{
-					"path": "/directives/throttleDirect",
-					"name": "throttleDirect",
-					"component": "/directives/throttleDirect/index",
-					"meta": {
-						"icon": "Menu",
-						"title": "节流指令",
-						"isLink": "",
-						"isHide": false,
-						"isFull": false,
-						"isAffix": false,
-						"isKeepAlive": true
-					}
-				},
-				{
 					"path": "/directives/longpressDirect",
 					"name": "longpressDirect",
 					"component": "/directives/longpressDirect/index",
@@ -829,7 +759,7 @@
 		{
 			"path": "/system",
 			"name": "system",
-			"redirect": "/system/accountManage",
+			"redirect": "/system/menuMange",
 			"meta": {
 				"icon": "Tools",
 				"title": "系统管理",
@@ -841,96 +771,12 @@
 			},
 			"children": [
 				{
-					"path": "/system/accountManage",
-					"name": "accountManage",
-					"component": "/system/accountManage/index",
-					"meta": {
-						"icon": "Menu",
-						"title": "账号管理",
-						"isLink": "",
-						"isHide": false,
-						"isFull": false,
-						"isAffix": false,
-						"isKeepAlive": true
-					}
-				},
-				{
-					"path": "/system/roleManage",
-					"name": "roleManage",
-					"component": "/system/roleManage/index",
-					"meta": {
-						"icon": "Menu",
-						"title": "角色管理",
-						"isLink": "",
-						"isHide": false,
-						"isFull": false,
-						"isAffix": false,
-						"isKeepAlive": true
-					}
-				},
-				{
 					"path": "/system/menuMange",
 					"name": "menuMange",
 					"component": "/system/menuMange/index",
 					"meta": {
 						"icon": "Menu",
 						"title": "菜单管理",
-						"isLink": "",
-						"isHide": false,
-						"isFull": false,
-						"isAffix": false,
-						"isKeepAlive": true
-					}
-				},
-				{
-					"path": "/system/departmentManage",
-					"name": "departmentManage",
-					"component": "/system/departmentManage/index",
-					"meta": {
-						"icon": "Menu",
-						"title": "部门管理",
-						"isLink": "",
-						"isHide": false,
-						"isFull": false,
-						"isAffix": false,
-						"isKeepAlive": true
-					}
-				},
-				{
-					"path": "/system/dictManage",
-					"name": "dictManage",
-					"component": "/system/dictManage/index",
-					"meta": {
-						"icon": "Menu",
-						"title": "字典管理",
-						"isLink": "",
-						"isHide": false,
-						"isFull": false,
-						"isAffix": false,
-						"isKeepAlive": true
-					}
-				},
-				{
-					"path": "/system/timingTask",
-					"name": "timingTask",
-					"component": "/system/timingTask/index",
-					"meta": {
-						"icon": "Menu",
-						"title": "定时任务",
-						"isLink": "",
-						"isHide": false,
-						"isFull": false,
-						"isAffix": false,
-						"isKeepAlive": true
-					}
-				},
-				{
-					"path": "/system/systemLog",
-					"name": "systemLog",
-					"component": "/system/systemLog/index",
-					"meta": {
-						"icon": "Menu",
-						"title": "系统日志",
 						"isLink": "",
 						"isHide": false,
 						"isFull": false,

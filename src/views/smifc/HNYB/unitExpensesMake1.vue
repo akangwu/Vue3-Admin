@@ -8,7 +8,7 @@
 				<el-input v-model="scope.row.docNum" placeholder="请填写本次申请资金（万元）" @input="handleTotalAmount(scope.row)"></el-input>
 			</template>
 			<template #operateState1="scope">
-				<el-input v-model="scope.row.operateState1" placeholder="请3输入1"></el-input>
+				<el-input v-model="scope.row.operateState1" placeholder="请输入1"></el-input>
 			</template>
 			<template #operateState2="scope">
 				<el-input v-model="scope.row.operateState2" placeholder="请输入222"></el-input>

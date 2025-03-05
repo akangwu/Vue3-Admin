@@ -7,6 +7,7 @@ import dayjs from "dayjs";
 
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
+import { lazyImport, VxeResolver } from 'vite-plugin-lazy-import'
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 import progress from 'vite-plugin-progress'; // 引入 vite-plugin-progress 插件
 
@@ -67,6 +68,16 @@ export default defineConfig(({ mode }) => {
         dirs: ["src"], // 配置需要默认导入的自定义组件文件夹，该文件夹下的所有组件都会自动 import
         resolvers: [ElementPlusResolver({ importStyle: false, resolveIcons: true })]
       }),
+			lazyImport({
+				resolvers: [
+					VxeResolver({
+						libraryName: 'vxe-table'
+					}),
+					VxeResolver({
+						libraryName: 'vxe-pc-ui'
+					})
+				]
+			}),
       progress()
     ],
     esbuild: {

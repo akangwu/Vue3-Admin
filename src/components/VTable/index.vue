@@ -97,7 +97,6 @@
 
 <script setup name="VTable">
 import { ref, watch } from 'vue'
-import TableColumn from './TableColumn.vue'
 
 const emit = defineEmits(['singleSelect', 'selectionChange'])
 
